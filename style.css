@@ -1,0 +1,65 @@
+
+
+ body {
+  background-color: #1a1a2e;
+   color: white;
+   font-family: Georgia, Serif;
+   color: #eaeaea;
+   text-align: center;
+   padding: 40px;
+   
+ 
+
+.container {
+  max-width: 600px;
+  margin:0 auto;
+  background-color: #16213e;
+  padding: 40px;
+  border-radius: 12px;
+}
+  h1 {
+    font-size: 48px;
+    color: #e94560;
+    margin-bottom: 0;
+    
+  }
+  .tagline {
+  
+    color: #a8a8b3;
+    font-style: italic;
+    font-size: 18px;
+  }
+  h2 {
+    color: #e94560;
+    margin-top:30px;
+  }
+   .skills {
+     font-size: 20px;
+     line-height: 2;
+     
+   }
+  button {
+    background-color: #e94560;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size:16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top : 10px;
+  }
+  button:hover {
+   background-color: #c73652;
+  }
+  
+  #message {
+  color:#4ecca3;
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+  
+  
+  
+  
+    
