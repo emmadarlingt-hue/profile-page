@@ -9,7 +9,7 @@
 body {
   background-color: var(--mint);
   color: var(--dark-berry);
-  font-family: Georgia, Serif;
+  font-family: Playfair, Serif;
   text-align: center;
   padding: 40px;
 }
