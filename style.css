@@ -9,7 +9,7 @@
 body {
   background-color: var(--mint);
   color: var(--dark-berry);
-  font-family:nixie-one-regular;
+  font-family:playfair, serif;
    font-weight: 400;
   font-style: normal;
 text-align: center;
