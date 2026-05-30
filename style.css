@@ -2,14 +2,14 @@
   --purple:     #623CEA;
   --dark-berry: #442F38;
   --coral:      #EB8258;
-  --sage:       #94C9A9;
+  --sage:       #9 n4C9A9;
   --mint:       #C6ECAE;
 }
 
 body {
   background-color: var(--mint);
   color: var(--dark-berry);
-  font-family: nixie-one-regular;
+  font-family:nixie-one-regular;
    font-weight: 400;
   font-style: normal;
 text-align: center;
