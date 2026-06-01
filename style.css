@@ -2,15 +2,14 @@
   --purple:     #623CEA;
   --dark-berry: #442F38;
   --coral:      #EB8258;
-  --sage:       #9 n4C9A9;
+  --sage:       #94C9A9;
   --mint:       #C6ECAE;
 }
-
 body {
   background-color: var(--mint);
   color: var(--dark-berry);
-  font-family:playfair, serif;
-   font-weight: 400;
+  font-family: "Averia Serif Libre", serif;
+  font-weight: 400;
   font-style: normal;
 text-align: center;
   padding: 40px;
@@ -53,5 +52,34 @@ button {
   border: none;
   padding: 12px 30px;
   font-size: 16px;
-  border-radius: 0%;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: var(--dark-berry);
+}
+
+#message {
+  color: var(--mint);
+  font-size: 20px;
+  margin-top: 15px;
+}
+ 
+
+.social-links {
+  text-align: center;
+  padding: 20px;
+}
+
+.social-links a {
+  font-size: 3rem;
+  color: var(--mint);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: var(--coral);
 }
