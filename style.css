@@ -83,3 +83,37 @@ button:hover {
 .social-links a:hover {
   color: var(--coral);
 }
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+
+.project-card {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  text-decoration: none;
+  color: white;
+  text-align: left;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.project-card:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateX(4px);
+}
+
+.project-card h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: var(--coral);
+}
+
+.project-card p {
+  font-size: 13px;
+  opacity: 0.8;
+  margin: 0;
+}
