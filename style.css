@@ -1,54 +1,79 @@
 :root {
-  --purple:     #623CEA;
-  --dark-berry: #442F38;
-  --coral:      #EB8258;
-  --sage:       #94C9A9;
-  --mint:       #C6ECAE;
+  --cream:      #F5EFE0;
+  --aubergine:  #1C1221;
+  --navy:       #2A3F5F;
+  --sage:       #7A9E8E;
+  --terracotta: #C4855A;
 }
+
 body {
-  background-color: var(--mint);
-  color: var(--dark-berry);
+  background-color: var(--cream);
+  color: var(--aubergine);
   font-family: "Averia Serif Libre", serif;
   font-weight: 400;
   font-style: normal;
-text-align: center;
+  text-align: center;
   padding: 40px;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
 }
 
 .container {
   max-width: 600px;
   margin: 0 auto;
-  background-color: var(--purple);
+  background-color: var(--aubergine);
   padding: 40px;
   border-radius: 12px;
 }
 
+@media (max-width: 600px) {
+  .container {
+    padding: 24px 16px;
+  }
+}
+
 h1 {
   font-size: 48px;
-  color: white;
+  color: var(--cream);
   margin-bottom: 0;
 }
 
+@media (max-width: 600px) {
+  h1 {
+    font-size: 32px;
+  }
+}
+
 .tagline {
-  color: var(--mint);
+  color: var(--sage);
   font-style: italic;
   font-size: 18px;
 }
 
 h2 {
-  color: var(--mint);
+  color: var(--sage);
   margin-top: 30px;
+}
+
+p {
+  color: var(--cream);
+  opacity: 0.85;
 }
 
 .skills {
   font-size: 20px;
   line-height: 2;
-  color: white;
+  color: var(--cream);
+  opacity: 1;
 }
 
 button {
-  background-color: var(--coral);
-  color: white;
+  background-color: var(--terracotta);
+  color: var(--cream);
   border: none;
   padding: 12px 30px;
   font-size: 16px;
@@ -57,16 +82,22 @@ button {
   margin-top: 10px;
 }
 
-button:hover {
-  background-color: var(--dark-berry);
+@media (max-width: 600px) {
+  button {
+    width: 100%;
+  }
 }
 
+button:hover {
+  background-color: #4a2e55;
+}
+
+
 #message {
-  color: var(--mint);
+  color: var(--sage);
   font-size: 20px;
   margin-top: 15px;
 }
- 
 
 .social-links {
   text-align: center;
@@ -75,14 +106,15 @@ button:hover {
 
 .social-links a {
   font-size: 3rem;
-  color: var(--mint);
+  color: var(--sage);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .social-links a:hover {
-  color: var(--coral);
+  color: var(--terracotta);
 }
+
 .projects {
   display: flex;
   flex-direction: column;
@@ -91,29 +123,30 @@ button:hover {
 }
 
 .project-card {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: #3a6b58;
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 12px;
   padding: 16px 20px;
   text-decoration: none;
-  color: white;
+  color: var(--cream);
   text-align: left;
   transition: background 0.2s, transform 0.2s;
 }
 
 .project-card:hover {
-  background: rgba(255,255,255,0.2);
+  background: #447a66;
   transform: translateX(4px);
 }
 
 .project-card h3 {
   font-size: 16px;
   margin-bottom: 4px;
-  color: var(--coral);
+  color: #9fd4c0;
 }
 
 .project-card p {
   font-size: 13px;
-  opacity: 0.8;
+  opacity: 0.9;
   margin: 0;
+  color: var(--cream);
 }
