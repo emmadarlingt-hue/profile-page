@@ -113,8 +113,17 @@ button:hover {
 
 .social-links a:hover {
   color: var(--terracotta);
+  }
+.learning-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  background: var(--accent-color);
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
 }
-
 .projects {
   display: flex;
   flex-direction: column;
