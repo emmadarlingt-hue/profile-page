@@ -151,13 +151,15 @@ button:hover {
   text-decoration: none;
   color: var(--cream);
   text-align: left;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .project-card:hover {
   background: #447a66;
-  transform: translateX(4px);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
+
 
 .project-card h3 {
   font-size: 16px;
