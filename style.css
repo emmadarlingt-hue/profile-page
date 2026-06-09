@@ -65,10 +65,22 @@ p {
 }
 
 .skills {
-  font-size: 20px;
-  line-height: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px auto;
+  max-width: 600px;
+}
+
+.skill-tag {
+  background: transparent;
+  border: 1.5px solid var(--cream);
   color: var(--cream);
-  opacity: 1;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: "Averia Serif Libre", serif;
 }
 
 button {
@@ -171,4 +183,9 @@ button:hover {
 
 .project-card:hover .view-btn {
   opacity: 1;
+}
+.about-text {
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
 }
