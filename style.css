@@ -189,3 +189,18 @@ button:hover {
   max-width: 600px;
   margin: 0 auto;
 }
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.project-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--cream);
+  color: var(--cream);
+  opacity: 0.7;
+}
