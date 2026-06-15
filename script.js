@@ -4,9 +4,12 @@
   document.getElementById("hireBtn").style.backgroundColor = "#4ecca3";
   document.getElementById("hireBtn").style.color = "#1a1a2e";
 }
-/// Skill tag stagger animation
+// Stagger animations
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.skill-tag').forEach((tag, index) => {
     tag.style.animationDelay = `${0.6 + index * 0.08}s`;
+  });
+  document.querySelectorAll('.project-card').forEach((card, index) => {
+    card.style.animationDelay = `${0.8 + index * 0.15}s`;
   });
 });
