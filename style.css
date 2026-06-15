@@ -247,3 +247,9 @@ h1 {
   animation: fadeUp 0.6s ease 0.75s forwards;
   opacity: 0;
 }
+/* === Skill tag animations === */
+
+.skill-tag {
+  animation: fadeUp 0.4s ease forwards;
+  opacity: 0;
+}
