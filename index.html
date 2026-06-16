@@ -17,8 +17,8 @@
 
   <body>
     <div class="container">
-      <h1>Emma Darling</h1>
-<p class="tagline">Frontend developer · Multilingual creative</p>
+      <h1><span id="name-text"></span><span class="cursor" id="name-cursor"></span></h1>
+<p class="tagline" id="tagline"></p>
 <span class="learning-badge">⚡ Currently learning: React & portfolio polish</span>
      <h2>About Me</h2>
 <p class="about-text">I came to coding the long way round. Before I wrote my first line of HTML, I'd run my own event technology business — deploying interactive touchscreen installations at high-profile events — managed everything from the kit to the client, and built something from scratch as a single parent with very little safety net. Now I'm channelling that same instinct into frontend development. In the last two months I've shipped seven projects: a weather app, a notes tool, a trilingual vocabulary trainer, and Verbarium — my personal dictionary of words that probably should exist but don't yet. I'm a quick learner who thrives on making things, and I'm drawn to roles where creativity and technical skill sit in the same room.</p>
@@ -106,3 +106,72 @@
     <i class="fa-brands fa-linkedin-in"></i>
   </a>
 </div>
+<style>
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 0.85em;
+    background: var(--terracotta);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 0.7s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+</style>
+
+<script>
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&';
+  const NAME  = 'Emma Darling';
+  const FIRST = 'Entrepreneur · Event Technology Pioneer';
+  const FINAL = 'Frontend developer · Multilingual creative';
+
+  function rand(n) { return Math.floor(Math.random() * n); }
+
+  function typeText(el, text, speed, done) {
+    let i = 0;
+    el.textContent = '';
+    const iv = setInterval(() => {
+      el.textContent = text.slice(0, i + 1);
+      i++;
+      if (i >= text.length) { clearInterval(iv); if (done) done(); }
+    }, speed);
+  }
+
+  function slotReveal(el, text, done) {
+    let revealed = 0, frame = 0;
+    el.textContent = Array.from(text).map(c => (c===' '||c==='·') ? c : CHARS[rand(CHARS.length)]).join('');
+    const iv = setInterval(() => {
+      frame++;
+      el.textContent = Array.from(text).map((ch, i) => {
+        if (i < revealed) return ch;
+        if (ch===' '||ch==='·') return ch;
+        return CHARS[rand(CHARS.length)];
+      }).join('');
+      if (frame % 3 === 0 && revealed < text.length) {
+        while (revealed < text.length && (text[revealed]===' '||text[revealed]==='·')) revealed++;
+        revealed++;
+      }
+      if (revealed >= text.length) { el.textContent = text; clearInterval(iv); if (done) done(); }
+    }, 45);
+  }
+
+  window.addEventListener('load', () => {
+    const nameEl  = document.getElementById('name-text');
+    const tagEl   = document.getElementById('tagline');
+    const cursor  = document.getElementById('name-cursor');
+
+    typeText(nameEl, NAME, 80, () => {
+      cursor.style.display = 'none';
+      setTimeout(() => {
+        slotReveal(tagEl, FIRST, () => {
+          setTimeout(() => {
+            slotReveal(tagEl, FINAL);
+          }, 1400);
+        });
+      }, 350);
+    });
+  });
+</script>
+
+  </body>
+</html>
