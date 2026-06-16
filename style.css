@@ -75,8 +75,8 @@ p {
 
 .skill-tag {
   background: transparent;
-  border: 1.5px solid var(--cream);
-  color: var(--cream);
+  border: 1.5px solid var(--terracotta);
+  color: var(--terracotta);
   padding: 6px 16px;
   border-radius: 20px;
   font-size: 14px;
