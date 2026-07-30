@@ -257,3 +257,39 @@ h1 {
   animation: fadeUp 0.5s ease forwards;
   opacity: 0;
 }
+/* ---- Promptwrought subscribe block ---- */
+/* ---- Promptwrought subscribe block ---- */
+.subscribe-block {
+  text-align: center;
+  padding: 64px 24px;
+}
+
+.subscribe-mark {
+  width: 44px;
+  height: auto;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.subscribe-wordmark {
+  width: 220px;
+  max-width: 72%;
+  height: auto;
+  display: block;
+  margin: 0 auto 14px;
+}
+
+.subscribe-tagline {
+  color: #F5EFE6;      /* was #2D1B35 — invisible on the dark panel */
+  opacity: 0.8;
+  margin: 0 0 22px;
+}
+
+.subscribe-block iframe {
+  max-width: 100%;
+}
+.social-svg {
+  width: 0.88em;
+  height: 0.88em;
+  vertical-align: -0.05em;
+}
