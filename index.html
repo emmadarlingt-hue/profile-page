@@ -33,18 +33,18 @@
       :root {
         /* --- Palette: the raw paint pots, named by what they look like.
                Only the "role" tokens further down should use these. --- */
-        --ink-navy:      #1A1A2E;                 /* deep navy-black, the dark surface        */
+        --ink:      #1A1A2E;                 /* deep navy-black, the dark surface        */
         --cream:         #F5EDD6;                 /* warm cream, the light surface            */
         --lavender:      #C9B8D8;                 /* soft lavender, muted text on dark        */
-        --plum:          #4A1A4A;                 /* deep plum, muted text on cream           */
-        --moss:          #3A6357;                 /* moss green, small labels on cream        */
+        --aubergine:          #4A1A4A;                 /* deep aubergine, muted text on cream           */
+        --eucalyptus:          #3A6357;                 /* eucalyptus green, small labels on cream        */
         --gold:          #C8922A;                 /* accent gold: max 4 uses, never text on cream */
         --line-on-dark:  rgba(245, 237, 214, 0.18); /* cream hairline at 18% for dark surfaces */
         --line-on-cream: rgba(26, 26, 46, 0.18);    /* navy hairline at 18% for cream surfaces */
 
         /* --- Colour roles: what each colour DOES. These are the ones
                that flip when the light theme is switched on. --- */
-        --bg:         var(--ink-navy);   /* page background                     */
+        --bg:         var(--ink);   /* page background                     */
         --text:       var(--cream);      /* body copy and headings              */
         --text-muted: var(--lavender);   /* secondary copy, captions, meta      */
         --line:       var(--line-on-dark); /* borders, dividers, card outlines  */
@@ -54,10 +54,10 @@
 
         /* --- Fixed surfaces: sections alternate dark / cream in BOTH
                themes, so these never flip. --- */
-        --surface-dark:       var(--ink-navy);
+        --surface-dark:       var(--ink);
         --surface-dark-text:  var(--cream);
         --surface-cream:      var(--cream);
-        --surface-cream-text: var(--ink-navy);
+        --surface-cream-text: var(--ink);
 
         /* --- Fonts: four weights total, nothing else --- */
         --font-display: "Playfair Display", Georgia, serif;      /* headings, monogram, nav letters */
@@ -148,11 +148,11 @@
          radii and motion above are shared by both themes. */
       [data-theme="light"] {
         --bg:          var(--cream);
-        --text:        var(--ink-navy);
-        --text-muted:  var(--plum);
+        --text:        var(--ink);
+        --text-muted:  var(--aubergine);
         --line:        var(--line-on-cream);
-        --mark:        var(--ink-navy);     /* monogram goes ink on cream: gold is never text on cream */
-        --label:       var(--plum);
+        --mark:        var(--ink);     /* monogram goes ink on cream: gold is never text on cream */
+        --label:       var(--aubergine);
         --shadow-lift: 0 8px 24px rgba(26, 26, 46, 0.12); /* lighter lift on a cream page */
       }
     </style>
