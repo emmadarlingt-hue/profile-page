@@ -6,12 +6,7 @@
     <!-- This tells phones: "don't zoom out, display at normal size" -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- This imports your font from Google (it was missing before!) -->
-    <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@400;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="./style.css">
     <script src="./script.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Emma Darling - Profile</title>
    <meta property="og:image" content="https://emmadarling.dev/images/og-image.png">
 <meta property="og:title" content="Emma Darling — Frontend Developer">
@@ -122,6 +117,7 @@
         --measure:        68ch;  /* comfortable reading width for text columns */
         --measure-narrow: 30ch;  /* hero lead line                             */
         --rail-width:     320px; /* sticky side rail on wide screens           */
+        --container-max:  72rem; /* 1152px: widest the content inside a section gets */
         --target-min:     44px;  /* minimum tap/click target (accessibility)   */
 
         /* --- Radii: the design is deliberately square-cornered --- */
@@ -150,208 +146,184 @@
         --bg:          var(--cream);
         --text:        var(--ink);
         --text-muted:  var(--aubergine);
+        --accent:      var(--ink);     /* focus ring goes ink: gold on cream is only ~2.4:1 */
         --line:        var(--line-on-cream);
         --mark:        var(--ink);     /* monogram goes ink on cream: gold is never text on cream */
         --label:       var(--aubergine);
         --shadow-lift: 0 8px 24px rgba(26, 26, 46, 0.12); /* lighter lift on a cream page */
       }
+
+      /* ============================================================
+         PAGE SKELETON  (Milestone 2)
+         Bones only: layout and colour surfaces. Typography is M3,
+         the monogram and rail are M4, motion is M5.
+         ============================================================ */
+
+      /* ---------- Base ----------
+         border-box means padding is counted INSIDE an element's width,
+         so adding padding never makes something wider than we asked.
+         body has no margin, so the sections' colours reach the very
+         edges of the window (the old 16px cream gutter is gone). */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-weight: var(--weight-regular);
+        font-size: var(--fs-body);
+        line-height: var(--lh-body);
+      }
+
+      /* Links take the colour of the text around them, so they are
+         readable on both ink and cream surfaces. */
+      a {
+        color: inherit;
+      }
+
+      /* Keyboard users see a clear 2px accent ring on whatever has focus. */
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: var(--space-1);
+      }
+
+      /* ---------- Full-bleed bands ----------
+         The header, each section and the footer stretch the full width
+         of the window. They carry the padding; the colours come from
+         the surface rules below. This is the aubergine-column fix:
+         the colour lives on the full-width band, never on .container. */
+      .site-header,
+      main > section,
+      .site-footer {
+        padding-block: var(--space-section-y);
+        padding-inline: var(--space-section-x);
+      }
+
+      /* ---------- Section surfaces ----------
+         Which colour each band gets. Header and #make stay ink in both
+         themes; everything else follows the theme's page colour. */
+      /* /* --- Section surfaces --- */
+.site-header, #make { background: var(--surface-dark); color: var(--surface-dark-text); }
+#envision, #automate, #contact, .site-footer { background: var(--bg); color: var(--text); }
+
+      /* ---------- Container ----------
+         The centred column INSIDE each band. It only limits width
+         and centres itself; it never has a background of its own. */
+      .container {
+        max-width: var(--container-max);
+        margin-inline: auto;
+      }
+
+      /* ---------- Rail (placeholder) ----------
+         The E · M · A links in a plain row. Each link is at least
+         44px square so it is easy to tap. Proper styling is M4. */
+      .rail ul {
+        display: flex;
+        gap: var(--space-2);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .rail a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: var(--target-min);
+        min-height: var(--target-min);
+      }
     </style>
   </head>
 
   <body>
-    <div class="container">
-      <h1><span id="name-text"></span><span class="cursor" id="name-cursor"></span></h1>
-<p class="tagline" id="tagline"></p>
-<span class="learning-badge">⚡ Currently learning: React & CSS animations</span>
-     <h2>About Me</h2>
-<p class="about-text">I came to coding the long way round. Before I wrote my first line of HTML, I'd run my own event technology business — deploying interactive touchscreen installations at high-profile events — managed everything from the kit to the client, and built something from scratch as a single parent with very little safety net. Now I'm channelling that same instinct into frontend development. In the last two months I've shipped several projects: a weather app, a notes tool, a trilingual vocabulary trainer, and Verbarium — my personal dictionary of words that probably should exist but don't yet. I'm a quick learner who thrives on making things, and I'm drawn to roles where creativity and technical skill sit in the same room.</p>
-      <h2>My Skills</h2>
-     <div class="skills">
-  <span class="skill-tag">HTML</span>
-  <span class="skill-tag">CSS</span>
-  <span class="skill-tag">JavaScript</span>
-  <span class="skill-tag">Responsive Design</span>
-  <span class="skill-tag">Git & GitHub</span>
-  <span class="skill-tag">Netlify</span>
-  <span class="skill-tag">APIs & JSON</span>
-  <span class="skill-tag">French</span>
-  <span class="skill-tag">Italian</span>
-</div>
+    <!-- ============================================================
+         HEADER + HERO
+         Monogram placeholder (real SVG in M4), the E · M · A rail,
+         then the hero lines. Ink in both themes.
+         ============================================================ -->
+    <header class="site-header" id="top">
+      <div class="container">
+        <a class="monogram" href="#top" aria-label="Emma Darling, back to top">EMA</a>
 
-     <h2>My Projects</h2>
-<div class="projects">
+        <nav class="rail" aria-label="Sections">
+          <ul>
+            <li><a href="#envision" aria-label="Envision">E</a></li>
+            <li><a href="#make" aria-label="Make">M</a></li>
+            <li><a href="#automate" aria-label="Automate">A</a></li>
+          </ul>
+        </nav>
 
-  <a href="https://parkgate-construction.com" target="_blank" class="project-card">
-    <h3>Parkgate Construction</h3>
-    <p>A one-page site for a London construction firm specialising in health club refurbishment — dark hero panel, scrolling client marquee, services grid, and contact form. Built, deployed and domain-configured end to end.</p>
-    <div class="project-tags">
-      <span class="project-tag">HTML</span>
-      <span class="project-tag">CSS</span>
-      <span class="project-tag">JavaScript</span>
-      <span class="project-tag">Git &amp; GitHub</span>
-      <span class="project-tag">Netlify</span>
-      <span class="project-tag">DNS</span>
-    </div>
-    <span class="view-btn">View project →</span>
-  </a>
+        <h1>Emma Darling</h1>
+        <p>Web Designer &amp; Front-End Developer</p>
+        <p>Envision · Make · Automate</p>
+        <p>I design websites, build them, and automate what comes next.</p>
+      </div>
+    </header>
 
-<a href="https://verbarium-mmxxvi.netlify.app" target="_blank" class="project-card">
-    <h3>Verbarium</h3>
-    <p>A searchable personal lexicon of ninety coined words across five volumes — with etymologies, example sentences, and a literary cream and burgundy design.</p>
-    <div class="project-tags">
-      <span class="project-tag">HTML</span>
-      <span class="project-tag">CSS</span>
-      <span class="project-tag">JavaScript</span>
-      <span class="project-tag">localStorage</span>
-    </div>
-    <span class="view-btn">View project →</span>
-  </a>
+    <main>
+      <!-- ENVISION: positioning, three principles, Parkgate case study (M7) -->
+      <section id="envision">
+        <div class="container">
+          <h2>Envision</h2>
+          <ul>
+            <li>Restraint</li>
+            <li>Evidence</li>
+            <li>Shipping</li>
+          </ul>
+          <p>Parkgate Construction — one-page site for a London construction firm; brief → brand → build → custom domain.</p>
+        </div>
+      </section>
 
-  <a href="https://tipcalculatorv2.netlify.app" target="_blank" class="project-card">
-    <h3>Tip Calculator</h3>
-    <p>Enter a bill amount, choose a tip percentage, and split the total across however many people are eating. Instant, clean, no fuss.</p>
-    <div class="project-tags">
-      <span class="project-tag">HTML</span>
-      <span class="project-tag">CSS</span>
-      <span class="project-tag">JavaScript</span>
-    </div>
-    <span class="view-btn">View project →</span>
-  </a>
+      <!-- MAKE: project grid, rendered from the projects array in M6 -->
+      <section id="make">
+        <div class="container">
+          <h2>Make</h2>
+          <p>Seven shipped projects — grid coming.</p>
+          <div id="project-grid"></div>
+        </div>
+      </section>
 
-  <a href="https://lingua-daily.netlify.app" target="_blank" class="project-card">
-    <h3>Lingua Daily</h3>
-    <p>A daily vocabulary trainer that teaches the same word in English, French, and Italian — with pronunciation and example sentences. Built for language lovers.</p>
-    <div class="project-tags">
-      <span class="project-tag">HTML</span>
-      <span class="project-tag">CSS</span>
-      <span class="project-tag">JavaScript</span>
-    </div>
-    <span class="view-btn">View project →</span>
-  </a>
+      <!-- AUTOMATE: agentic-AI line, pipeline graphic, latest issue card (M8) -->
+      <section id="automate">
+        <div class="container">
+          <h2>Automate</h2>
+          <p>I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+          <p><a href="https://promptwrought.com" target="_blank" rel="noopener noreferrer">Promptwrought</a></p>
+        </div>
+      </section>
 
-  <a href="https://forecastlive.netlify.app" target="_blank" class="project-card">
-    <h3>Forecast Live</h3>
-    <p>Search any city in the world and get live weather data including temperature, wind speed, and conditions — powered by the Open-Meteo API.</p>
-    <div class="project-tags">
-      <span class="project-tag">HTML</span>
-      <span class="project-tag">CSS</span>
-      <span class="project-tag">JavaScript</span>
-      <span class="project-tag">Open-Meteo API</span>
-      <span class="project-tag">Async/Await</span>
-    </div>
-    <span class="view-btn">View project →</span>
-  </a>
+      <!-- CONTACT: plain text links for now -->
+      <section id="contact">
+        <div class="container">
+          <h2>Contact</h2>
+          <ul>
+            <li><a href="mailto:hello@emmadarling.dev">Email</a></li>
+            <li><a href="https://www.linkedin.com/in/emmadarling-dev/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://github.com/emmadarlingt-hue" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://promptwrought.com" target="_blank" rel="noopener noreferrer">Promptwrought</a></li>
+          </ul>
+          <p>Open to London / hybrid / remote.</p>
+        </div>
+      </section>
+    </main>
 
-  <a href="https://pagine.netlify.app" target="_blank" class="project-card">
-    <h3>Pagine</h3>
-    <p>A minimal notes app that saves everything to your browser — no account needed, no server, no internet required. Your notes are always there when you return.</p>
-    <div class="project-tags">
-      <span class="project-tag">HTML</span>
-      <span class="project-tag">CSS</span>
-      <span class="project-tag">JavaScript</span>
-      <span class="project-tag">localStorage</span>
-    </div>
-    <span class="view-btn">View project →</span>
-  </a>
-<section class="subscribe-block">
-    <h2 class="section-title">My Newsletter</h2>
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 2026 Emma Darling</p>
+      </div>
+    </footer>
 
-    <img class="subscribe-mark" src="images/promptwrought-logo-cream.png" alt="">
-    <img class="subscribe-wordmark" src="images/promptwrought-wordmark-cream.png" alt="Promptwrought">
-    <p class="subscribe-tagline">A word a week for the age of talking to machines.</p>
-
-    <iframe src="https://promptwrought.substack.com/embed?transparent=1&light=1"
-            width="480" height="150"
-            style="border:0; background:transparent"
-            frameborder="0" scrolling="no"></iframe>
-  </section>
-
-</div>
-<div class="social-links">
-  <a href="https://github.com/emmadarlingt-hue" target="_blank"
-   aria-label="Emma Darling on GitHub">
-  <i class="fa-brands fa-github" aria-hidden="true"></i>
-</a>
-
-<a href="https://www.linkedin.com/in/emmadarling-dev/" target="_blank"
-   aria-label="Emma Darling on LinkedIn">
-  <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-</a>
-    <a href="https://promptwrought.substack.com/welcome"
-   target="_blank"
-   aria-label="Promptwrought on Substack">
-  <svg class="social-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
-  </svg>
-</a>
-  </a>
-</div>
-<style>
-  .cursor {
-    display: inline-block;
-    width: 2px;
-    height: 0.85em;
-    background: var(--terracotta);
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink 0.7s infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-</style>
-
-<script>
-  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&';
-  const NAME  = 'Emma Darling';
-  const FIRST = 'Entrepreneur · Event Technology Pioneer';
-  const FINAL = 'Frontend developer · Multilingual creative';
-
-  function rand(n) { return Math.floor(Math.random() * n); }
-
-  function typeText(el, text, speed, done) {
-    let i = 0;
-    el.textContent = '';
-    const iv = setInterval(() => {
-      el.textContent = text.slice(0, i + 1);
-      i++;
-      if (i >= text.length) { clearInterval(iv); if (done) done(); }
-    }, speed);
-  }
-
-  function slotReveal(el, text, done) {
-    let revealed = 0, frame = 0;
-    el.textContent = Array.from(text).map(c => (c===' '||c==='·') ? c : CHARS[rand(CHARS.length)]).join('');
-    const iv = setInterval(() => {
-      frame++;
-      el.textContent = Array.from(text).map((ch, i) => {
-        if (i < revealed) return ch;
-        if (ch===' '||ch==='·') return ch;
-        return CHARS[rand(CHARS.length)];
-      }).join('');
-      if (frame % 3 === 0 && revealed < text.length) {
-        while (revealed < text.length && (text[revealed]===' '||text[revealed]==='·')) revealed++;
-        revealed++;
-      }
-      if (revealed >= text.length) { el.textContent = text; clearInterval(iv); if (done) done(); }
-    }, 45);
-  }
-
-  window.addEventListener('load', () => {
-    const nameEl  = document.getElementById('name-text');
-    const tagEl   = document.getElementById('tagline');
-    const cursor  = document.getElementById('name-cursor');
-
-    typeText(nameEl, NAME, 80, () => {
-      cursor.style.display = 'none';
-      setTimeout(() => {
-        slotReveal(tagEl, FIRST, () => {
-          setTimeout(() => {
-            slotReveal(tagEl, FINAL);
-          }, 1400);
-        });
-      }, 350);
-    });
-  });
-</script>
-
+    <script>
+      /* ============================================================
+         PAGE SCRIPT
+         Empty for now. The projects array (M6), the scroll-reveal
+         observer (M5) and the theme toggle (M9) will live here.
+         ============================================================ */
+    </script>
   </body>
 </html>
