@@ -1,0 +1,295 @@
+:root {
+  --cream:      #F5EFE0;
+  --aubergine:  #1C1221;
+  --navy:       #2A3F5F;
+  --sage:       #7A9E8E;
+  --terracotta: #C4855A;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--aubergine);
+  font-family: "Averia Serif Libre", serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+  padding: 16px;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 16px;
+  }
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: var(--aubergine);
+  padding: 40px;
+  border-radius: 12px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 24px 16px;
+  }
+}
+
+h1 {
+  font-size: 48px;
+  color: var(--cream);
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 32px;
+  }
+}
+
+.tagline {
+  color: var(--sage);
+  font-style: italic;
+  font-size: 18px;
+}
+
+h2 {
+  color: var(--sage);
+  margin-top: 30px;
+}
+
+p {
+  color: var(--cream);
+  opacity: 0.85;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px auto;
+  max-width: 600px;
+}
+
+.skill-tag {
+  background: transparent;
+  border: 1.5px solid var(--terracotta);
+  color: var(--terracotta);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: "Averia Serif Libre", serif;
+}
+
+button {
+  background-color: var(--terracotta);
+  color: var(--cream);
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  button {
+    width: 100%;
+  }
+}
+
+button:hover {
+  background-color: #4a2e55;
+}
+
+
+#message {
+  color: var(--sage);
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.social-links {
+  text-align: center;
+  padding: 20px;
+}
+
+.social-links a {
+  font-size: 3rem;
+  color: var(--sage);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: var(--terracotta);
+  }
+.learning-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  background: var(--accent-color);
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+
+.project-card {
+  background: #3a6b58;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 16px 20px;
+  text-decoration: none;
+  color: var(--cream);
+  text-align: left;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.project-card:hover {
+  background: #447a66;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+
+.project-card h3 {
+  font-size: 16px;
+  margin-bottom: 4px;
+  color: #9fd4c0;
+}
+
+.project-card p {
+  font-size: 13px;
+  opacity: 0.9;
+  margin: 0;
+  color: var(--cream);
+}
+.view-btn {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--terracotta);
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.project-card:hover .view-btn {
+  opacity: 1;
+}
+.about-text {
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.project-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--cream);
+  color: var(--cream);
+  opacity: 0.7;
+}
+/* === Page load animations === */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.tagline {
+  animation: fadeUp 0.6s ease 0.15s forwards;
+  opacity: 0;
+}
+
+.about-text {
+  animation: fadeUp 0.6s ease 0.3s forwards;
+  opacity: 0;
+}
+
+.skills {
+  animation: fadeUp 0.6s ease 0.45s forwards;
+  opacity: 0;
+}
+
+.projects {
+  animation: fadeUp 0.6s ease 0.6s forwards;
+  opacity: 0;
+}
+
+.social-links {
+  animation: fadeUp 0.6s ease 0.75s forwards;
+  opacity: 0;
+}
+/* === Skill tag animations === */
+
+.skill-tag {
+  animation: fadeUp 0.4s ease forwards;
+  opacity: 0;
+}
+.project-card {
+  animation: fadeUp 0.5s ease forwards;
+  opacity: 0;
+}
+/* ---- Promptwrought subscribe block ---- */
+/* ---- Promptwrought subscribe block ---- */
+.subscribe-block {
+  text-align: center;
+  padding: 64px 24px;
+}
+
+.subscribe-mark {
+  width: 44px;
+  height: auto;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.subscribe-wordmark {
+  width: 220px;
+  max-width: 72%;
+  height: auto;
+  display: block;
+  margin: 0 auto 14px;
+}
+
+.subscribe-tagline {
+  color: #F5EFE6;      /* was #2D1B35 — invisible on the dark panel */
+  opacity: 0.8;
+  margin: 0 0 22px;
+}
+
+.subscribe-block iframe {
+  max-width: 100%;
+}
+.social-svg {
+  width: 0.88em;
+  height: 0.88em;
+  vertical-align: -0.05em;
+}

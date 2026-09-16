@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Fraunces:opsz,wght@9..144,600&family=DM+Sans:wght@400;500&family=Cormorant+Garamond:ital,wght@1,400&display=swap" rel="stylesheet"><style>body{margin:0;background:#e9e6df;font-family:"DM Sans",system-ui,sans-serif}a{color:inherit}a:hover{color:inherit}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start}.dv-opt{flex:0 0 auto;min-width:0;display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.6)}.dv-card{flex:0 0 auto;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.ema span{opacity:0;animation:rise .6s cubic-bezier(.4,0,.2,1) forwards}.ema span:nth-child(1){animation-delay:.1s}.ema span:nth-child(2){animation-delay:.26s}.ema span:nth-child(3){animation-delay:.42s}@media (prefers-reduced-motion:reduce){.ema span{animation:none;opacity:1}}</style></helmet>
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">2b hero only — EMA + name in Playfair Display vs Fraunces (everything else identical)</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="3a"><div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Playfair Display 600</div>
+<div class="dv-card" style="width:1280px;background:#F5EDD6">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 40px;border-bottom:1px solid rgba(26,26,46,.14);font-family:'DM Sans',sans-serif">
+    <span style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#4A1A4A">Emma Darling</span>
+    <span style="font-family:ui-monospace,monospace;font-size:11px;color:#4A1A4A;opacity:.6">Playfair Display 600</span>
+  </div>
+  <header style="background:#1A1A2E;color:#F5EDD6;padding:96px 80px 120px;display:flex;flex-direction:column;gap:28px;font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.65">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:280px;line-height:.85;letter-spacing:.02em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <h1 style="margin:16px 0 0;font-family:'Playfair Display',serif;font-weight:600;font-size:72px;line-height:1">Emma Darling</h1>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px;display:flex;gap:14px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+    <p style="margin:0;font-size:24px;line-height:1.5;max-width:30ch">I design websites, build them, and automate what comes next.</p>
+  </header>
+</div>
+</div>
+<div class="dv-opt" id="3b"><div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Fraunces 600 (opsz 144)</div>
+<div class="dv-card" style="width:1280px;background:#F5EDD6">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 40px;border-bottom:1px solid rgba(26,26,46,.14);font-family:'DM Sans',sans-serif">
+    <span style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#4A1A4A">Emma Darling</span>
+    <span style="font-family:ui-monospace,monospace;font-size:11px;color:#4A1A4A;opacity:.6">Fraunces 600 · opsz 9..144</span>
+  </div>
+  <header style="background:#1A1A2E;color:#F5EDD6;padding:96px 80px 120px;display:flex;flex-direction:column;gap:28px;font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.65">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Fraunces',serif;font-weight:600;font-size:280px;line-height:.85;letter-spacing:.02em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <h1 style="margin:16px 0 0;font-family:'Fraunces',serif;font-weight:600;font-size:72px;line-height:1">Emma Darling</h1>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px;display:flex;gap:14px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+    <p style="margin:0;font-size:24px;line-height:1.5;max-width:30ch">I design websites, build them, and automate what comes next.</p>
+  </header>
+</div>
+</div>
+</div>
+<p class="dv-next">Only the EMA and the name change; E·M·A row, positioning line, ink band and gold are the same in both.</p>
+</section>
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Hybrid — B's sticky-rail skeleton · C's big gold EMA hero · A's editorial rhythm · dark (2a) and light (2b)</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="2a"><div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Structured Editorial · rail + gold EMA hero + ground changes in the scrolling column</div>
+<div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+
+<div class="dv-card" style="width:390px;background:#1A1A2E;color:#F5EDD6;font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.65">
+  <div style="position:sticky;top:0;z-index:2;background:rgba(26,26,46,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(245,237,214,.14);padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Emma Darling</span>
+    <nav style="display:flex;font-family:'Playfair Display',serif;font-weight:600;font-size:17px"><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:48px;min-height:44px;display:grid;place-items:center;border-bottom:2px solid #C8922A">E</a><a href="#" style="text-decoration:none;color:#C9B8D8;min-width:48px;min-height:44px;display:grid;place-items:center">M</a><a href="#" style="text-decoration:none;color:#C9B8D8;min-width:48px;min-height:44px;display:grid;place-items:center">A</a></nav>
+  </div>
+  <header style="padding:48px 20px 64px;display:flex;flex-direction:column;gap:22px">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:132px;line-height:.9;letter-spacing:.02em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <h1 style="margin:8px 0 0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.05">Emma Darling</h1>
+    <p style="margin:0;color:#C9B8D8">Web Designer &amp; Front-End Developer</p>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:19px;display:flex;gap:10px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+    <p style="margin:6px 0 0;font-size:19px;line-height:1.6">I design websites, build them, and automate what comes next.</p>
+  </header>
+  <section style="background:#F5EDD6;color:#1A1A2E;padding:64px 20px;display:flex;flex-direction:column;gap:26px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A">E — Envision</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">How I read a brief</h2>
+    <p style="margin:0">Three principles carry every project from first call to launch.</p>
+    <dl style="margin:0;display:flex;flex-direction:column;gap:16px">
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Restraint</dt><dd style="margin:4px 0 0;color:#4A1A4A">Fewer elements, each doing more.</dd></div>
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Evidence</dt><dd style="margin:4px 0 0;color:#4A1A4A">Decisions traced to the brief and the reader.</dd></div>
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Shipping</dt><dd style="margin:4px 0 0;color:#4A1A4A">Finished means live on its own domain.</dd></div>
+    </dl>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border:1px solid rgba(26,26,46,.18);padding:22px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A"><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:23px">Parkgate Construction</h3><p style="margin:0 0 10px;font-size:16px">One-page site for a London construction firm.</p><p style="margin:0;font-size:14px;color:#4A1A4A">brief → brand → build → custom domain</p></a>
+  </section>
+  <section style="padding:64px 20px;display:flex;flex-direction:column;gap:22px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">M — Make</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">Shipped</h2>
+    <div style="display:flex;flex-direction:column">
+      <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Parkgate Construction</h3><p style="margin:0;color:#C9B8D8;font-size:16px">HTML/CSS/JS · Netlify · DNS</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Verbarium</h3><p style="margin:0;color:#C9B8D8;font-size:16px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Bank-a-Win</h3><p style="margin:0;color:#C9B8D8;font-size:16px">React habit-reward app · state, persistence</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Forecast</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Open-Meteo weather · fetch, async</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Lingua Daily</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Trilingual word-of-the-day</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Pagine</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Minimal notes · localStorage</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);border-bottom:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Tip Calculator</span></a>
+    </div>
+  </section>
+  <section style="background:#F5EDD6;color:#1A1A2E;padding:64px 20px;display:flex;flex-direction:column;gap:24px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A">A — Automate</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">How I work</h2>
+    <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;line-height:1.4">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+    <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px">
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">1</span><span>Draft</span></li>
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">2</span><span>Schema-matched entry</span></li>
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">3</span><span>Published issue</span></li>
+    </ol>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border:1px solid rgba(26,26,46,.18);padding:22px"><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Promptwrought · latest issue</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#4A1A4A">[issue title]</span></h3><p style="margin:0;color:#4A1A4A"><span style="font-family:ui-monospace,monospace;font-size:14px">[one-line summary]</span></p><p style="margin:12px 0 0;font-weight:500;border-bottom:1px solid #1A1A2E;display:inline-block">Read the issue</p></a>
+  </section>
+  <footer style="padding:64px 20px 44px;display:flex;flex-direction:column;gap:16px">
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">Let's talk.</h2>
+    <p style="margin:0;color:#C9B8D8">Open to London / hybrid / remote.</p>
+    <ul style="margin:8px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid #C8922A">Email</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">LinkedIn</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">GitHub</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">Promptwrought</a></li>
+    </ul>
+    <p style="margin:20px 0 0;font-size:14px;color:#C9B8D8">emmadarling.dev · London</p>
+  </footer>
+</div>
+
+<div class="dv-card" style="width:1280px;background:#1A1A2E;color:#F5EDD6;font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.65;display:grid;grid-template-columns:340px minmax(0,1fr)">
+  <aside style="position:sticky;top:0;align-self:start;height:900px;padding:48px 40px;border-right:1px solid rgba(245,237,214,.14);display:flex;flex-direction:column;gap:32px">
+    <span class="ema-mark" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:40px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:28px;line-height:1.1">Emma Darling</p>
+    <nav style="display:flex;flex-direction:column;border-top:1px solid rgba(245,237,214,.14)">
+      <a href="#" style="text-decoration:none;color:#F5EDD6;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(245,237,214,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">E</span><span style="font-size:16px">Envision</span></a>
+      <a href="#" style="text-decoration:none;color:#C9B8D8;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(245,237,214,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">M</span><span style="font-size:16px">Make</span></a>
+      <a href="#" style="text-decoration:none;color:#C9B8D8;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(245,237,214,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">A</span><span style="font-size:16px">Automate</span></a>
+    </nav>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px;font-size:16px">
+      <p style="margin:0;color:#C9B8D8">Open to London / hybrid / remote.</p>
+      <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column">
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid #C8922A">Email</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">LinkedIn</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">GitHub</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">Promptwrought</a></li>
+      </ul>
+      <p style="margin:12px 0 0;font-size:14px;color:#C9B8D8">London · emmadarling.dev</p>
+    </div>
+  </aside>
+  <main style="display:flex;flex-direction:column">
+    <header style="padding:96px 80px 120px;display:flex;flex-direction:column;gap:28px">
+      <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:280px;line-height:.85;letter-spacing:.02em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+      <h1 style="margin:16px 0 0;font-family:'Playfair Display',serif;font-weight:600;font-size:72px;line-height:1">Emma Darling</h1>
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px;display:flex;gap:14px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+      <p style="margin:0;font-size:24px;line-height:1.5;max-width:30ch">I design websites, build them, and automate what comes next.</p>
+    </header>
+    <section style="background:#F5EDD6;color:#1A1A2E;padding:104px 80px;display:grid;grid-template-columns:160px minmax(0,1fr);gap:40px">
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A;padding-top:14px">E — Envision</p>
+      <div style="display:flex;flex-direction:column;gap:28px;max-width:68ch">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">How I read a brief</h2>
+        <p style="margin:0">Three principles carry every project from first call to launch.</p>
+        <dl style="margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px">
+          <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Restraint</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Fewer elements, each doing more. No decoration that doesn't earn its place.</dd></div>
+          <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Evidence</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Decisions traced to the brief, the reader and what the content needs.</dd></div>
+          <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Shipping</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Finished means live on its own domain and in use.</dd></div>
+        </dl>
+        <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;border:1px solid rgba(26,26,46,.18);padding:28px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:28px">Parkgate Construction</h3><p style="margin:0">One-page site for a London construction firm.</p></div><p style="margin:0;font-size:15px;color:#4A1A4A">brief → brand → build → custom domain</p></a>
+      </div>
+    </section>
+    <section style="padding:104px 80px;display:grid;grid-template-columns:160px minmax(0,1fr);gap:40px">
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8;padding-top:14px">M — Make</p>
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">Shipped</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Parkgate Construction</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">HTML/CSS/JS · Netlify · DNS</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Verbarium</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Bank-a-Win</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">React habit-reward app · state, persistence</p></a>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Forecast</span><span style="color:#C9B8D8;font-size:16px">Open-Meteo weather · fetch, async</span></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Lingua Daily</span><span style="color:#C9B8D8;font-size:16px">Trilingual word-of-the-day</span></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Pagine</span><span style="color:#C9B8D8;font-size:16px">Minimal notes · localStorage</span></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);border-bottom:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Tip Calculator</span><span></span></a>
+        </div>
+      </div>
+    </section>
+    <section style="background:#F5EDD6;color:#1A1A2E;padding:104px 80px 120px;display:grid;grid-template-columns:160px minmax(0,1fr);gap:40px">
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A;padding-top:14px">A — Automate</p>
+      <div style="display:flex;flex-direction:column;gap:32px;max-width:68ch">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">How I work</h2>
+        <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;line-height:1.35">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+        <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
+          <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">1</span><span>Draft</span></li>
+          <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">2</span><span>Schema-matched entry</span></li>
+          <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">3</span><span>Published issue</span></li>
+        </ol>
+        <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;border:1px solid rgba(26,26,46,.18);padding:28px"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Promptwrought · latest issue</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:26px"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#4A1A4A">[issue title]</span></h3><p style="margin:0;color:#4A1A4A"><span style="font-family:ui-monospace,monospace;font-size:14px">[one-line summary]</span></p></div><p style="margin:0;font-weight:500;border-bottom:1px solid #1A1A2E">Read the issue</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+</div>
+<div class="dv-card" style="width:1698px;padding:24px 28px;font:14px/1.6 system-ui,sans-serif;color:#1a1a1a;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px">
+  <div><p style="margin:0 0 6px;font-weight:600">Type</p><p style="margin:0">Playfair Display 600 (name, EMA, headings, eyebrows, rail letters)<br>DM Sans 400 (body) · 500 (labels, project names)<br>Cormorant Garamond 400 italic (Automate statement)</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Hex</p><p style="margin:0">#1A1A2E ink (rail, hero, Make) · #F5EDD6 cream (Envision, Automate bands; text on ink) · #C9B8D8 lavender secondary on ink · #4A1A4A aubergine secondary on cream · #3A6357 deepened eucalyptus for eyebrows/step numbers on cream (4.5:1+); #4A7B6F only on ink · #C8922A gold. Rail stays ink while the column changes ground, so the band edges read as one page, not two.</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Four gold moments</p><p style="margin:0">1 the hero EMA (280px desktop / 132px mobile) and its small echo in the rail<br>2 active-section underline in the mobile E·M·A nav<br>3 "Featured" eyebrow on three project cards + hairline on hover<br>4 underline on Email in Contact</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Signature detail</p><p style="margin:0">On load the hero EMA rises in E → M → A; as the reader scrolls past the hero it shrinks and slides into the rail slot (mobile: into the top bar), and the cream Envision band appears to slide up underneath it. Why: the one graphic device becomes the nav in front of the reader's eyes, and the rail/hero relationship is explained without a word.</p></div>
+</div>
+</div>
+</div>
+<div class="dv-opt" id="2b"><div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Light mode of 2a · cream page, Deep Ink hero and Make bands</div>
+<div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+
+<div class="dv-card" style="width:390px;background:#F5EDD6;color:#1A1A2E;font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.65">
+  <div style="position:sticky;top:0;z-index:2;background:rgba(245,237,214,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(26,26,46,.14);padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#4A1A4A">Emma Darling</span>
+    <nav style="display:flex;font-family:'Playfair Display',serif;font-weight:600;font-size:17px"><a href="#" style="text-decoration:none;color:#1A1A2E;min-width:48px;min-height:44px;display:grid;place-items:center;border-bottom:2px solid #C8922A">E</a><a href="#" style="text-decoration:none;color:#4A1A4A;min-width:48px;min-height:44px;display:grid;place-items:center">M</a><a href="#" style="text-decoration:none;color:#4A1A4A;min-width:48px;min-height:44px;display:grid;place-items:center">A</a></nav>
+  </div>
+  <header style="background:#1A1A2E;color:#F5EDD6;padding:48px 20px 64px;display:flex;flex-direction:column;gap:22px">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:132px;line-height:.9;letter-spacing:.02em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <h1 style="margin:8px 0 0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.05">Emma Darling</h1>
+    <p style="margin:0;color:#C9B8D8">Web Designer &amp; Front-End Developer</p>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:19px;display:flex;gap:10px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+    <p style="margin:6px 0 0;font-size:19px;line-height:1.6">I design websites, build them, and automate what comes next.</p>
+  </header>
+  <section style="padding:64px 20px;display:flex;flex-direction:column;gap:26px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A">E — Envision</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">How I read a brief</h2>
+    <p style="margin:0">Three principles carry every project from first call to launch.</p>
+    <dl style="margin:0;display:flex;flex-direction:column;gap:16px">
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Restraint</dt><dd style="margin:4px 0 0;color:#4A1A4A">Fewer elements, each doing more.</dd></div>
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Evidence</dt><dd style="margin:4px 0 0;color:#4A1A4A">Decisions traced to the brief and the reader.</dd></div>
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Shipping</dt><dd style="margin:4px 0 0;color:#4A1A4A">Finished means live on its own domain.</dd></div>
+    </dl>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border:1px solid rgba(26,26,46,.18);padding:22px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A"><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:23px">Parkgate Construction</h3><p style="margin:0 0 10px;font-size:16px">One-page site for a London construction firm.</p><p style="margin:0;font-size:14px;color:#4A1A4A">brief → brand → build → custom domain</p></a>
+  </section>
+  <section style="background:#1A1A2E;color:#F5EDD6;padding:64px 20px;display:flex;flex-direction:column;gap:22px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">M — Make</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">Shipped</h2>
+    <div style="display:flex;flex-direction:column">
+      <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Parkgate Construction</h3><p style="margin:0;color:#C9B8D8;font-size:16px">HTML/CSS/JS · Netlify · DNS</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Verbarium</h3><p style="margin:0;color:#C9B8D8;font-size:16px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Bank-a-Win</h3><p style="margin:0;color:#C9B8D8;font-size:16px">React habit-reward app · state, persistence</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Forecast</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Open-Meteo weather · fetch, async</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Lingua Daily</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Trilingual word-of-the-day</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Pagine</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Minimal notes · localStorage</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);border-bottom:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Tip Calculator</span></a>
+    </div>
+  </section>
+  <section style="padding:64px 20px;display:flex;flex-direction:column;gap:24px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A">A — Automate</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">How I work</h2>
+    <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;line-height:1.4">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+    <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px">
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">1</span><span>Draft</span></li>
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">2</span><span>Schema-matched entry</span></li>
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">3</span><span>Published issue</span></li>
+    </ol>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border:1px solid rgba(26,26,46,.18);padding:22px"><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Promptwrought · latest issue</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#4A1A4A">[issue title]</span></h3><p style="margin:0;color:#4A1A4A"><span style="font-family:ui-monospace,monospace;font-size:14px">[one-line summary]</span></p><p style="margin:12px 0 0;font-weight:500;border-bottom:1px solid #1A1A2E;display:inline-block">Read the issue</p></a>
+  </section>
+  <footer style="padding:64px 20px 44px;display:flex;flex-direction:column;gap:16px">
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">Let's talk.</h2>
+    <p style="margin:0;color:#4A1A4A">Open to London / hybrid / remote.</p>
+    <ul style="margin:8px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#1A1A2E;border-bottom:1px solid #C8922A">Email</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#1A1A2E;border-bottom:1px solid rgba(26,26,46,.3)">LinkedIn</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#1A1A2E;border-bottom:1px solid rgba(26,26,46,.3)">GitHub</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#1A1A2E;border-bottom:1px solid rgba(26,26,46,.3)">Promptwrought</a></li>
+    </ul>
+    <p style="margin:20px 0 0;font-size:14px;color:#4A1A4A">emmadarling.dev · London</p>
+  </footer>
+</div>
+
+<div class="dv-card" style="width:1280px;background:#F5EDD6;color:#1A1A2E;font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.65;display:grid;grid-template-columns:340px minmax(0,1fr)">
+  <aside style="position:sticky;top:0;align-self:start;height:900px;padding:48px 40px;border-right:1px solid rgba(26,26,46,.14);display:flex;flex-direction:column;gap:32px">
+    <span class="ema-mark" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:40px;line-height:1;letter-spacing:.04em;color:#1A1A2E"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:28px;line-height:1.1">Emma Darling</p>
+    <nav style="display:flex;flex-direction:column;border-top:1px solid rgba(26,26,46,.14)">
+      <a href="#" style="text-decoration:none;color:#1A1A2E;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(26,26,46,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">E</span><span style="font-size:16px">Envision</span></a>
+      <a href="#" style="text-decoration:none;color:#4A1A4A;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(26,26,46,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">M</span><span style="font-size:16px">Make</span></a>
+      <a href="#" style="text-decoration:none;color:#4A1A4A;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(26,26,46,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">A</span><span style="font-size:16px">Automate</span></a>
+    </nav>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px;font-size:16px">
+      <p style="margin:0;color:#4A1A4A">Open to London / hybrid / remote.</p>
+      <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column">
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#1A1A2E;border-bottom:1px solid #C8922A">Email</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#1A1A2E;border-bottom:1px solid rgba(26,26,46,.3)">LinkedIn</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#1A1A2E;border-bottom:1px solid rgba(26,26,46,.3)">GitHub</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#1A1A2E;border-bottom:1px solid rgba(26,26,46,.3)">Promptwrought</a></li>
+      </ul>
+      <p style="margin:12px 0 0;font-size:14px;color:#4A1A4A">London · emmadarling.dev</p>
+    </div>
+  </aside>
+  <main style="display:flex;flex-direction:column">
+    <header style="background:#1A1A2E;color:#F5EDD6;padding:96px 80px 120px;display:flex;flex-direction:column;gap:28px">
+      <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:280px;line-height:.85;letter-spacing:.02em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+      <h1 style="margin:16px 0 0;font-family:'Playfair Display',serif;font-weight:600;font-size:72px;line-height:1">Emma Darling</h1>
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px;display:flex;gap:14px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+      <p style="margin:0;font-size:24px;line-height:1.5;max-width:30ch">I design websites, build them, and automate what comes next.</p>
+    </header>
+    <section style="padding:104px 80px;display:grid;grid-template-columns:160px minmax(0,1fr);gap:40px">
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A;padding-top:14px">E — Envision</p>
+      <div style="display:flex;flex-direction:column;gap:28px;max-width:68ch">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">How I read a brief</h2>
+        <p style="margin:0">Three principles carry every project from first call to launch.</p>
+        <dl style="margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px">
+          <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Restraint</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Fewer elements, each doing more. No decoration that doesn't earn its place.</dd></div>
+          <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Evidence</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Decisions traced to the brief, the reader and what the content needs.</dd></div>
+          <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Shipping</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Finished means live on its own domain and in use.</dd></div>
+        </dl>
+        <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;border:1px solid rgba(26,26,46,.18);padding:28px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:28px">Parkgate Construction</h3><p style="margin:0">One-page site for a London construction firm.</p></div><p style="margin:0;font-size:15px;color:#4A1A4A">brief → brand → build → custom domain</p></a>
+      </div>
+    </section>
+    <section style="background:#1A1A2E;color:#F5EDD6;padding:104px 80px;display:grid;grid-template-columns:160px minmax(0,1fr);gap:40px">
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8;padding-top:14px">M — Make</p>
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">Shipped</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Parkgate Construction</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">HTML/CSS/JS · Netlify · DNS</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Verbarium</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Bank-a-Win</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">React habit-reward app · state, persistence</p></a>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Forecast</span><span style="color:#C9B8D8;font-size:16px">Open-Meteo weather · fetch, async</span></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Lingua Daily</span><span style="color:#C9B8D8;font-size:16px">Trilingual word-of-the-day</span></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Pagine</span><span style="color:#C9B8D8;font-size:16px">Minimal notes · localStorage</span></a>
+          <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);border-bottom:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Tip Calculator</span><span></span></a>
+        </div>
+      </div>
+    </section>
+    <section style="padding:104px 80px 120px;display:grid;grid-template-columns:160px minmax(0,1fr);gap:40px">
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A;padding-top:14px">A — Automate</p>
+      <div style="display:flex;flex-direction:column;gap:32px;max-width:68ch">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">How I work</h2>
+        <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;line-height:1.35">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+        <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
+          <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">1</span><span>Draft</span></li>
+          <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">2</span><span>Schema-matched entry</span></li>
+          <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">3</span><span>Published issue</span></li>
+        </ol>
+        <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;border:1px solid rgba(26,26,46,.18);padding:28px"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Promptwrought · latest issue</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:26px"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#4A1A4A">[issue title]</span></h3><p style="margin:0;color:#4A1A4A"><span style="font-family:ui-monospace,monospace;font-size:14px">[one-line summary]</span></p></div><p style="margin:0;font-weight:500;border-bottom:1px solid #1A1A2E">Read the issue</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+</div>
+<div class="dv-card" style="width:1698px;padding:24px 28px;font:14px/1.6 system-ui,sans-serif;color:#1a1a1a;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px">
+  <div><p style="margin:0 0 6px;font-weight:600">Type</p><p style="margin:0">Playfair Display 600 (name, EMA, headings, eyebrows, rail letters)<br>DM Sans 400 (body) · 500 (labels, project names)<br>Cormorant Garamond 400 italic (Automate statement)</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Hex</p><p style="margin:0">Ground order: cream page → #1A1A2E ink hero → cream Envision → #1A1A2E ink Make → cream Automate. Aubergine #4A1A4A is demoted to secondary text and eyebrows on cream only, so nothing vibrates against the cream ground. #1A1A2E text on cream, #F5EDD6 text on the ink bands, #C9B8D8 secondary on them, #4A1A4A secondary on cream, #3A6357 eyebrows/step numbers on cream, hairlines rgba(26,26,46,.14–.18). Gold #C8922A never sits as text on cream (~2.4:1) — only on the ink bands, or as a 1–2px hairline. Rail and footer EMA are ink on cream.</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Four gold moments</p><p style="margin:0">1 the hero EMA (280px desktop / 132px mobile), gold on the ink hero band only — the rail and footer echoes are ink<br>2 active-section underline in the mobile E·M·A nav<br>3 "Featured" eyebrow on three project cards + hairline on hover<br>4 underline on Email in Contact</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Signature detail</p><p style="margin:0">Same as 2a, and the ink hero band is what makes it survive light mode: the EMA docks out of an ink field into a cream rail, changing from gold to ink as it goes. Why: the mark keeps its contrast in both positions, and the colour change is read as the mark settling into the page furniture rather than as two different logos.</p></div>
+</div>
+</div>
+</div>
+<p class="dv-next">Try next: "build <a class="dv-oid" href="#2a">2a</a> as the real page with the <a class="dv-oid" href="#2b">2b</a> light theme" · "make the rail cream in 2a too" · "show 2a mid-scroll with the EMA docked"</p>
+</section>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Three layout directions — emmadarling.dev · mobile 390 + desktop 1280 · gold serif EMA monogram</span></div>
+<div class="dv-opts">
+
+<!-- ================= A — EDITORIAL ================= -->
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>A — Editorial · ink → cream → aubergine (Make) → cream → ink; cream-dominant</div>
+<div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+<div class="dv-card" style="width:390px;background:#1A1A2E;color:#F5EDD6;font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.65">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 24px;position:sticky;top:0;background:rgba(26,26,46,.92);backdrop-filter:blur(8px)">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:18px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <nav style="display:flex;gap:6px;font-family:'Playfair Display',serif;font-weight:600;font-size:18px"><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:44px;min-height:44px;display:grid;place-items:center">E</a><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:44px;min-height:44px;display:grid;place-items:center">M</a><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:44px;min-height:44px;display:grid;place-items:center">A</a></nav>
+  </div>
+  <header style="padding:56px 24px 72px;display:flex;flex-direction:column;gap:22px">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:63px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <h1 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:46px;line-height:1.05">Emma Darling</h1>
+    <p style="margin:0;font-size:17px;color:#C9B8D8">Web Designer &amp; Front-End Developer</p>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:20px;display:flex;gap:10px"><span>Envision</span><span style="color:#C8922A">·</span><span>Make</span><span style="color:#C8922A">·</span><span>Automate</span></p>
+    <p style="margin:8px 0 0;font-size:19px;line-height:1.6;max-width:68ch">I design websites, build them, and automate what comes next.</p>
+  </header>
+  <section style="background:#F5EDD6;color:#1A1A2E;padding:64px 24px;display:flex;flex-direction:column;gap:28px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A">E — Envision</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">How I read a brief</h2>
+    <p style="margin:0;max-width:68ch">Three principles carry every project from first call to launch.</p>
+    <dl style="margin:0;display:flex;flex-direction:column;gap:18px">
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Restraint</dt><dd style="margin:4px 0 0;color:#4A1A4A">Fewer elements, each doing more. Say no to decoration that doesn't earn its place.</dd></div>
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Evidence</dt><dd style="margin:4px 0 0;color:#4A1A4A">Decisions traced to the brief, the reader and what the content actually needs.</dd></div>
+      <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Shipping</dt><dd style="margin:4px 0 0;color:#4A1A4A">A design is finished when it's live on its own domain and someone can use it.</dd></div>
+    </dl>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border:1px solid rgba(26,26,46,.18);padding:22px;margin-top:8px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A">
+      <p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Case study</p>
+      <h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Parkgate Construction</h3>
+      <p style="margin:0 0 12px">One-page site for a London construction firm.</p>
+      <p style="margin:0;font-size:15px;color:#4A1A4A">brief → brand → build → custom domain</p>
+    </a>
+  </section>
+  <section style="background:#4A1A4A;padding:64px 24px;display:flex;flex-direction:column;gap:22px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">M — Make</p>
+    <h2 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">Shipped</h2>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Parkgate Construction</h3><p style="margin:0;color:#C9B8D8;font-size:16px">HTML/CSS/JS · Netlify · DNS</p></a>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Verbarium</h3><p style="margin:0;color:#C9B8D8;font-size:16px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border-top:1px solid rgba(245,237,214,.18);padding:18px 0"><p style="margin:0 0 4px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Bank-a-Win</h3><p style="margin:0;color:#C9B8D8;font-size:16px">React habit-reward app · state, persistence</p></a>
+    <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Forecast</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Open-Meteo weather · fetch, async</span></a>
+    <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Lingua Daily</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Trilingual word-of-the-day</span></a>
+    <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Pagine</span><span style="color:#C9B8D8;font-size:16px;text-align:right">Minimal notes · localStorage</span></a>
+    <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);border-bottom:1px solid rgba(245,237,214,.18);padding:14px 0"><span style="font-weight:500">Tip Calculator</span><span style="color:#C9B8D8;font-size:16px"></span></a>
+  </section>
+  <section style="background:#F5EDD6;color:#1A1A2E;padding:64px 24px;display:flex;flex-direction:column;gap:26px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A">A — Automate</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">How I work</h2>
+    <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;line-height:1.4;max-width:68ch">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+    <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;counter-reset:s">
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">1</span><span>Draft</span></li>
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">2</span><span>Schema-matched entry</span></li>
+      <li style="display:flex;gap:16px;align-items:baseline;border-top:1px solid rgba(26,26,46,.18);padding-top:12px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:20px;color:#3A6357">3</span><span>Published issue</span></li>
+    </ol>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border:1px solid rgba(26,26,46,.18);padding:22px"><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Promptwrought · latest issue</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#4A1A4A">[issue title]</span></h3><p style="margin:0;color:#4A1A4A"><span style="font-family:ui-monospace,monospace;font-size:14px">[one-line summary]</span></p><p style="margin:12px 0 0;font-weight:500;border-bottom:1px solid #1A1A2E;display:inline-block">Read the issue</p></a>
+  </section>
+  <footer style="padding:64px 24px 48px;display:flex;flex-direction:column;gap:18px">
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:32px;line-height:1.15">Let's talk.</h2>
+    <p style="margin:0;color:#C9B8D8">Open to London / hybrid / remote.</p>
+    <ul style="margin:8px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px">
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid #C8922A">Email</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">LinkedIn</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">GitHub</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">Promptwrought</a></li>
+    </ul>
+    <p style="margin:24px 0 0;font-size:14px;color:#C9B8D8">emmadarling.dev · London</p>
+  </footer>
+</div>
+
+<div class="dv-card" style="width:1280px;background:#1A1A2E;color:#F5EDD6;font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.65">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 64px;position:sticky;top:0;background:rgba(26,26,46,.92);backdrop-filter:blur(8px)">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:21px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <nav style="display:flex;gap:28px;font-family:'Playfair Display',serif;font-weight:600;font-size:20px"><a href="#" style="text-decoration:none;color:#F5EDD6;min-height:44px;display:flex;align-items:center;gap:8px">E <span style="font-family:'DM Sans',sans-serif;font-weight:400;font-size:15px;color:#C9B8D8">Envision</span></a><a href="#" style="text-decoration:none;color:#F5EDD6;min-height:44px;display:flex;align-items:center;gap:8px">M <span style="font-family:'DM Sans',sans-serif;font-weight:400;font-size:15px;color:#C9B8D8">Make</span></a><a href="#" style="text-decoration:none;color:#F5EDD6;min-height:44px;display:flex;align-items:center;gap:8px">A <span style="font-family:'DM Sans',sans-serif;font-weight:400;font-size:15px;color:#C9B8D8">Automate</span></a></nav>
+  </div>
+  <header style="padding:120px 64px 140px;max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:28px">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:92px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <h1 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:96px;line-height:1">Emma Darling</h1>
+    <p style="margin:0;font-size:20px;color:#C9B8D8">Web Designer &amp; Front-End Developer</p>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px;display:flex;gap:14px"><span>Envision</span><span style="color:#C8922A">·</span><span>Make</span><span style="color:#C8922A">·</span><span>Automate</span></p>
+    <p style="margin:12px 0 0;font-size:24px;line-height:1.5;max-width:30ch">I design websites, build them, and automate what comes next.</p>
+  </header>
+  <section style="background:#F5EDD6;color:#1A1A2E;padding:120px 64px"><div style="max-width:880px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A;padding-top:14px">E — Envision</p>
+    <div style="display:flex;flex-direction:column;gap:28px">
+      <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">How I read a brief</h2>
+      <p style="margin:0;max-width:68ch">Three principles carry every project from first call to launch.</p>
+      <dl style="margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px">
+        <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Restraint</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Fewer elements, each doing more. No decoration that doesn't earn its place.</dd></div>
+        <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Evidence</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Decisions traced to the brief, the reader and what the content needs.</dd></div>
+        <div style="border-top:1px solid rgba(26,26,46,.18);padding-top:14px"><dt style="font-weight:500">Shipping</dt><dd style="margin:4px 0 0;color:#4A1A4A;font-size:17px">Finished means live on its own domain and in use.</dd></div>
+      </dl>
+      <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;border:1px solid rgba(26,26,46,.18);padding:28px;margin-top:8px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A">
+        <div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:28px">Parkgate Construction</h3><p style="margin:0">One-page site for a London construction firm.</p></div>
+        <p style="margin:0;font-size:15px;color:#4A1A4A">brief → brand → build → custom domain</p>
+      </a>
+    </div></div>
+  </section>
+  <section style="background:#4A1A4A;padding:120px 64px"><div style="max-width:880px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8;padding-top:14px">M — Make</p>
+    <div style="display:flex;flex-direction:column;gap:28px">
+      <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">Shipped</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+        <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Parkgate Construction</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">HTML/CSS/JS · Netlify · DNS</p></a>
+        <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Verbarium</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+        <a href="#" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border:1px solid rgba(245,237,214,.18);padding:24px;min-height:200px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Bank-a-Win</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">React habit-reward app · state, persistence</p></a>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Forecast</span><span style="color:#C9B8D8;font-size:16px">Open-Meteo weather · fetch, async</span></a>
+        <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Lingua Daily</span><span style="color:#C9B8D8;font-size:16px">Trilingual word-of-the-day</span></a>
+        <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Pagine</span><span style="color:#C9B8D8;font-size:16px">Minimal notes · localStorage</span></a>
+        <a href="#" style="text-decoration:none;color:inherit;display:flex;justify-content:space-between;gap:16px;border-top:1px solid rgba(245,237,214,.18);border-bottom:1px solid rgba(245,237,214,.18);padding:16px 0"><span style="font-weight:500">Tip Calculator</span><span></span></a>
+      </div>
+    </div></div>
+  </section>
+  <section style="background:#F5EDD6;color:#1A1A2E;padding:120px 64px"><div style="max-width:880px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#4A1A4A;padding-top:14px">A — Automate</p>
+    <div style="display:flex;flex-direction:column;gap:32px">
+      <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">How I work</h2>
+      <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;line-height:1.35;max-width:68ch">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+      <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
+        <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">1</span><span>Draft</span></li>
+        <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">2</span><span>Schema-matched entry</span></li>
+        <li style="border-top:1px solid rgba(26,26,46,.18);padding-top:12px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:22px;color:#3A6357">3</span><span>Published issue</span></li>
+      </ol>
+      <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;border:1px solid rgba(26,26,46,.18);padding:28px"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#3A6357;font-weight:500">Promptwrought · latest issue</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:26px"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#4A1A4A">[issue title]</span></h3><p style="margin:0;color:#4A1A4A"><span style="font-family:ui-monospace,monospace;font-size:14px">[one-line summary]</span></p></div><p style="margin:0;font-weight:500;border-bottom:1px solid #1A1A2E">Read the issue</p></a>
+    </div></div>
+  </section>
+  <footer style="padding:120px 64px 64px"><div style="max-width:880px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px">
+    <p style="margin:0;font-size:14px;color:#C9B8D8;padding-top:14px">emmadarling.dev<br>London</p>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">Let's talk.</h2>
+      <p style="margin:0;color:#C9B8D8">Open to London / hybrid / remote.</p>
+      <ul style="margin:8px 0 0;padding:0;list-style:none;display:flex;gap:32px;flex-wrap:wrap">
+        <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid #C8922A">Email</a></li>
+        <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">LinkedIn</a></li>
+        <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">GitHub</a></li>
+        <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">Promptwrought</a></li>
+      </ul>
+    </div></div>
+  </footer>
+</div>
+</div>
+<div class="dv-card" style="width:1698px;padding:24px 28px;font:14px/1.6 system-ui,sans-serif;color:#1a1a1a;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px">
+  <div><p style="margin:0 0 6px;font-weight:600">Type</p><p style="margin:0">Playfair Display 600 (display, E·M·A nav)<br>DM Sans 400 (body) · 500 (labels, project names)<br>Cormorant Garamond 400 italic (Automate statement)</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Hex</p><p style="margin:0">#1A1A2E ink (hero, contact) · #4A1A4A aubergine full-width Make ground · #F5EDD6 cream ground + text on dark · #C9B8D8 lavender secondary text on ink · #4A1A4A aubergine secondary text on cream · #4A7B6F eucalyptus eyebrows/step numbers · #C8922A gold</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Four gold moments</p><p style="margin:0">1 the EMA monogram itself (gold serif, letters rise in E→M→A)<br>2 the two middots in Envision · Make · Automate<br>3 "Featured" eyebrow on three project cards + the hairline on card hover<br>4 underline on Email in Contact</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Signature detail</p><p style="margin:0">On each ground change the section letter (E, M, A) in the small eyebrow slides into the nav and the nav underline moves with it. Why: it's the same three letters doing nav, heading and monogram — no new device, and the reader always knows where they are on a long single column.</p></div>
+</div>
+</div>
+
+<!-- ================= B — STRUCTURED ================= -->
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>B — Structured · sticky left rail (monogram, E·M·A, contact) + scrolling right column</div>
+<div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+<div class="dv-card" style="width:390px;background:#1A1A2E;color:#F5EDD6;font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.65">
+  <div style="position:sticky;top:0;background:#1A1A2E;border-bottom:1px solid rgba(245,237,214,.14);padding:12px 20px;display:flex;justify-content:space-between;align-items:center">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:18px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <nav style="display:flex;font-family:'Playfair Display',serif;font-weight:600;font-size:17px"><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:48px;min-height:44px;display:grid;place-items:center;border-bottom:2px solid #C8922A">E</a><a href="#" style="text-decoration:none;color:#C9B8D8;min-width:48px;min-height:44px;display:grid;place-items:center">M</a><a href="#" style="text-decoration:none;color:#C9B8D8;min-width:48px;min-height:44px;display:grid;place-items:center">A</a></nav>
+  </div>
+  <header style="padding:48px 20px 56px;display:flex;flex-direction:column;gap:18px;border-bottom:1px solid rgba(245,237,214,.14)">
+    <p style="margin:0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">London · emmadarling.dev</p>
+    <h1 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:42px;line-height:1.05">Emma Darling</h1>
+    <p style="margin:0;color:#C9B8D8">Web Designer &amp; Front-End Developer</p>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:19px;display:flex;gap:10px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+    <p style="margin:6px 0 0;font-size:19px;line-height:1.6">I design websites, build them, and automate what comes next.</p>
+  </header>
+  <section style="padding:48px 20px;border-bottom:1px solid rgba(245,237,214,.14);display:flex;flex-direction:column;gap:22px">
+    <div style="display:flex;align-items:baseline;gap:14px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:40px;line-height:1">E</span><h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px">Envision</h2></div>
+    <p style="margin:0">Three principles carry every project from first call to launch.</p>
+    <dl style="margin:0;display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px 16px">
+      <dt style="font-weight:500">Restraint</dt><dd style="margin:0;color:#C9B8D8;font-size:16px">Fewer elements, each doing more.</dd>
+      <dt style="font-weight:500">Evidence</dt><dd style="margin:0;color:#C9B8D8;font-size:16px">Decisions traced to the brief and the reader.</dd>
+      <dt style="font-weight:500">Shipping</dt><dd style="margin:0;color:#C9B8D8;font-size:16px">Finished means live on its own domain.</dd>
+    </dl>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border:1px solid rgba(245,237,214,.18);padding:20px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A"><p style="margin:0 0 6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px">Parkgate Construction</h3><p style="margin:0 0 10px;font-size:16px">One-page site for a London construction firm.</p><p style="margin:0;font-size:14px;color:#C9B8D8">brief → brand → build → custom domain</p></a>
+  </section>
+  <section style="padding:48px 20px;border-bottom:1px solid rgba(245,237,214,.14);display:flex;flex-direction:column;gap:22px">
+    <div style="display:flex;align-items:baseline;gap:14px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:40px;line-height:1">M</span><h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px">Make</h2></div>
+    <div style="display:grid;gap:12px">
+      <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);border-left:2px solid #C8922A;padding:16px 18px;display:flex;flex-direction:column;gap:4px"><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:21px">Parkgate Construction</h3><p style="margin:0;color:#C9B8D8;font-size:15px">HTML/CSS/JS · Netlify · DNS</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);border-left:2px solid #C8922A;padding:16px 18px;display:flex;flex-direction:column;gap:4px"><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:21px">Verbarium</h3><p style="margin:0;color:#C9B8D8;font-size:15px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);border-left:2px solid #C8922A;padding:16px 18px;display:flex;flex-direction:column;gap:4px"><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:21px">Bank-a-Win</h3><p style="margin:0;color:#C9B8D8;font-size:15px">React habit-reward app · state, persistence</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);padding:16px 18px;display:flex;flex-direction:column;gap:4px"><h3 style="margin:0;font-weight:500;font-size:17px">Forecast</h3><p style="margin:0;color:#C9B8D8;font-size:15px">Open-Meteo weather · fetch, async</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);padding:16px 18px;display:flex;flex-direction:column;gap:4px"><h3 style="margin:0;font-weight:500;font-size:17px">Lingua Daily</h3><p style="margin:0;color:#C9B8D8;font-size:15px">Trilingual word-of-the-day</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);padding:16px 18px;display:flex;flex-direction:column;gap:4px"><h3 style="margin:0;font-weight:500;font-size:17px">Pagine</h3><p style="margin:0;color:#C9B8D8;font-size:15px">Minimal notes · localStorage</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);padding:16px 18px;display:flex;flex-direction:column;gap:4px"><h3 style="margin:0;font-weight:500;font-size:17px">Tip Calculator</h3></a>
+    </div>
+  </section>
+  <section style="padding:48px 20px;border-bottom:1px solid rgba(245,237,214,.14);display:flex;flex-direction:column;gap:22px">
+    <div style="display:flex;align-items:baseline;gap:14px"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:40px;line-height:1">A</span><h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px">Automate</h2></div>
+    <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:23px;line-height:1.4">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+    <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 16px;font-size:16px">
+      <li style="display:contents"><span style="color:#4A7B6F;font-weight:500">01</span><span>Draft</span></li>
+      <li style="display:contents"><span style="color:#4A7B6F;font-weight:500">02</span><span>Schema-matched entry</span></li>
+      <li style="display:contents"><span style="color:#4A7B6F;font-weight:500">03</span><span>Published issue</span></li>
+    </ol>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;border:1px solid rgba(245,237,214,.18);padding:20px"><p style="margin:0 0 6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Promptwrought · latest</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:21px"><span style="font-family:ui-monospace,monospace;font-size:13px;color:#C9B8D8">[issue title]</span></h3><p style="margin:0;font-size:15px"><span style="font-family:ui-monospace,monospace;font-size:13px;color:#C9B8D8">[one-line summary]</span></p></a>
+  </section>
+  <footer style="padding:48px 20px 40px;display:flex;flex-direction:column;gap:14px">
+    <p style="margin:0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Contact</p>
+    <p style="margin:0">Open to London / hybrid / remote.</p>
+    <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 16px">
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">Email</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">LinkedIn</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">GitHub</a></li>
+      <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">Promptwrought</a></li>
+    </ul>
+  </footer>
+</div>
+
+<div class="dv-card" style="width:1280px;background:#1A1A2E;color:#F5EDD6;font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.65;display:grid;grid-template-columns:340px minmax(0,1fr)">
+  <aside style="position:sticky;top:0;align-self:start;height:900px;padding:48px 40px;border-right:1px solid rgba(245,237,214,.14);display:flex;flex-direction:column;gap:32px">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:67px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <div style="display:flex;flex-direction:column;gap:6px"><h1 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:30px;line-height:1.1">Emma Darling</h1><p style="margin:0;font-size:16px;color:#C9B8D8">Web Designer &amp; Front-End Developer</p></div>
+    <nav style="display:flex;flex-direction:column;border-top:1px solid rgba(245,237,214,.14)">
+      <a href="#" style="text-decoration:none;color:#F5EDD6;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(245,237,214,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">E</span><span style="font-size:16px">Envision</span></a>
+      <a href="#" style="text-decoration:none;color:#C9B8D8;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(245,237,214,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">M</span><span style="font-size:16px">Make</span></a>
+      <a href="#" style="text-decoration:none;color:#C9B8D8;display:grid;grid-template-columns:40px 1fr;align-items:center;min-height:52px;border-bottom:1px solid rgba(245,237,214,.14)"><span style="font-family:'Playfair Display',serif;font-weight:600;font-size:24px">A</span><span style="font-size:16px">Automate</span></a>
+    </nav>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px;font-size:16px">
+      <p style="margin:0;color:#C9B8D8">Open to London / hybrid / remote.</p>
+      <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column">
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid #C8922A">Email</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">LinkedIn</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">GitHub</a></li>
+        <li><a href="#" style="display:flex;align-items:center;min-height:44px;text-decoration:none;color:#F5EDD6;border-bottom:1px solid rgba(245,237,214,.3)">Promptwrought</a></li>
+      </ul>
+      <p style="margin:12px 0 0;font-size:14px;color:#C9B8D8">London · emmadarling.dev</p>
+    </div>
+  </aside>
+  <main style="display:flex;flex-direction:column">
+    <header style="padding:120px 80px 96px;border-bottom:1px solid rgba(245,237,214,.14);display:flex;flex-direction:column;gap:24px">
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:64px;line-height:1.05;letter-spacing:-.01em;display:flex;gap:18px;flex-wrap:wrap"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+      <p style="margin:0;font-size:24px;line-height:1.5;max-width:30ch">I design websites, build them, and automate what comes next.</p>
+    </header>
+    <section style="padding:88px 80px;border-bottom:1px solid rgba(245,237,214,.14);display:grid;grid-template-columns:120px minmax(0,1fr);gap:32px">
+      <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:88px;line-height:.9">E</span>
+      <div style="display:flex;flex-direction:column;gap:28px;max-width:68ch">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:36px;line-height:1.1">Envision</h2>
+        <p style="margin:0">Three principles carry every project from first call to launch.</p>
+        <dl style="margin:0;display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px 24px">
+          <dt style="font-weight:500">Restraint</dt><dd style="margin:0;color:#C9B8D8">Fewer elements, each doing more. No decoration that doesn't earn its place.</dd>
+          <dt style="font-weight:500">Evidence</dt><dd style="margin:0;color:#C9B8D8">Decisions traced to the brief, the reader and what the content needs.</dd>
+          <dt style="font-weight:500">Shipping</dt><dd style="margin:0;color:#C9B8D8">Finished means live on its own domain and in use.</dd>
+        </dl>
+        <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;border:1px solid rgba(245,237,214,.18);padding:28px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:28px">Parkgate Construction</h3><p style="margin:0">One-page site for a London construction firm.</p></div><p style="margin:0;font-size:15px;color:#C9B8D8">brief → brand → build → custom domain</p></a>
+      </div>
+    </section>
+    <section style="padding:88px 80px;border-bottom:1px solid rgba(245,237,214,.14);display:grid;grid-template-columns:120px minmax(0,1fr);gap:32px">
+      <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:88px;line-height:.9">M</span>
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:36px;line-height:1.1">Make</h2>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+          <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);border-left:2px solid #C8922A;padding:24px;display:flex;flex-direction:column;gap:6px;min-height:150px;transition:transform .2s" style-hover="transform:translateY(-4px)"><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Parkgate Construction</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">HTML/CSS/JS · Netlify · DNS</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);border-left:2px solid #C8922A;padding:24px;display:flex;flex-direction:column;gap:6px;min-height:150px;transition:transform .2s" style-hover="transform:translateY(-4px)"><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Verbarium</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);border-left:2px solid #C8922A;padding:24px;display:flex;flex-direction:column;gap:6px;min-height:150px;transition:transform .2s" style-hover="transform:translateY(-4px)"><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px">Bank-a-Win</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">React habit-reward app · state, persistence</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);padding:24px;display:flex;flex-direction:column;gap:6px;min-height:150px"><h3 style="margin:0;font-weight:500;font-size:18px">Forecast</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">Open-Meteo weather · fetch, async</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);padding:24px;display:flex;flex-direction:column;gap:6px;min-height:150px"><h3 style="margin:0;font-weight:500;font-size:18px">Lingua Daily</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">Trilingual word-of-the-day</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);padding:24px;display:flex;flex-direction:column;gap:6px;min-height:150px"><h3 style="margin:0;font-weight:500;font-size:18px">Pagine</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">Minimal notes · localStorage</p></a>
+          <a href="#" style="text-decoration:none;color:inherit;border:1px solid rgba(245,237,214,.18);padding:24px;display:flex;flex-direction:column;gap:6px;min-height:150px"><h3 style="margin:0;font-weight:500;font-size:18px">Tip Calculator</h3></a>
+        </div>
+      </div>
+    </section>
+    <section style="padding:88px 80px 120px;display:grid;grid-template-columns:120px minmax(0,1fr);gap:32px">
+      <span style="font-family:'Playfair Display',serif;font-weight:600;font-size:88px;line-height:.9">A</span>
+      <div style="display:flex;flex-direction:column;gap:28px;max-width:68ch">
+        <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:36px;line-height:1.1">Automate</h2>
+        <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:28px;line-height:1.4">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+        <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 20px">
+          <li style="display:contents"><span style="color:#4A7B6F;font-weight:500">01</span><span>Draft</span></li>
+          <li style="display:contents"><span style="color:#4A7B6F;font-weight:500">02</span><span>Schema-matched entry</span></li>
+          <li style="display:contents"><span style="color:#4A7B6F;font-weight:500">03</span><span>Published issue</span></li>
+        </ol>
+        <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;border:1px solid rgba(245,237,214,.18);padding:28px"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Promptwrought · latest issue</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:26px"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#C9B8D8">[issue title]</span></h3><p style="margin:0"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#C9B8D8">[one-line summary]</span></p></div><p style="margin:0;font-weight:500;border-bottom:1px solid #F5EDD6">Read the issue</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+</div>
+<div class="dv-card" style="width:1698px;padding:24px 28px;font:14px/1.6 system-ui,sans-serif;color:#1a1a1a;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px">
+  <div><p style="margin:0 0 6px;font-weight:600">Type</p><p style="margin:0">Playfair Display 600 (name, big E/M/A, rail nav letters)<br>DM Sans 400 (body) · 500 (labels, project names)<br>Cormorant Garamond 400 italic (Automate statement)</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Hex</p><p style="margin:0">#1A1A2E ink throughout (single ground; structure comes from hairline rules rgba(245,237,214,.14)) · #F5EDD6 text · #C9B8D8 secondary text, middots, inactive nav · #4A7B6F step numbers · #C8922A gold. Light mode inverts to #F5EDD6 ground / #1A1A2E text / #4A1A4A secondary.</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Four gold moments</p><p style="margin:0">1 the EMA monogram in the rail<br>2 active-section underline in the E·M·A nav (mobile) — on desktop the active rail letter turns cream, the others lavender, so gold stays on the monogram<br>3 2px left rule on the three featured project cards<br>4 underline on Email in the rail contact</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Signature detail</p><p style="margin:0">A 1px gold rule under the rail monogram grows left-to-right with scroll depth — the page's progress bar. Why: the rail is always on screen, so progress belongs there, and it keeps the gold count at four.</p></div>
+</div>
+</div>
+
+<!-- ================= C — IMMERSIVE ================= -->
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>C — Immersive · ink throughout, glass panels, monogram large in hero → shrinks into nav on scroll</div>
+<div style="display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">
+<div class="dv-card" style="width:390px;background:#1A1A2E;color:#F5EDD6;font-family:'DM Sans',sans-serif;font-size:17px;line-height:1.65;position:relative;overflow:hidden">
+  <div style="position:absolute;top:-120px;right:-140px;width:420px;height:420px;border-radius:50%;background:radial-gradient(closest-side,rgba(74,26,74,.55),rgba(74,26,74,0));pointer-events:none"></div>
+  <div style="position:absolute;top:1500px;left:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(closest-side,rgba(74,123,111,.35),rgba(74,123,111,0));pointer-events:none"></div>
+  <div style="position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(26,26,46,.6);backdrop-filter:blur(14px);border-bottom:1px solid rgba(245,237,214,.1)">
+    <span style="font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Emma Darling</span>
+    <nav style="display:flex;font-family:'Playfair Display',serif;font-weight:600;font-size:17px"><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:46px;min-height:44px;display:grid;place-items:center">E</a><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:46px;min-height:44px;display:grid;place-items:center">M</a><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:46px;min-height:44px;display:grid;place-items:center">A</a></nav>
+  </div>
+  <header style="position:relative;padding:40px 20px 72px;display:flex;flex-direction:column;gap:20px;align-items:center;text-align:center">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:126px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <h1 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.05">Emma Darling</h1>
+    <p style="margin:0;color:#C9B8D8">Web Designer &amp; Front-End Developer</p>
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:19px;display:flex;gap:10px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+    <p style="margin:6px 0 0;font-size:19px;line-height:1.6">I design websites, build them, and automate what comes next.</p>
+  </header>
+  <section style="position:relative;padding:32px 20px;display:flex;flex-direction:column;gap:20px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">E — Envision</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:30px;line-height:1.15">How I read a brief</h2>
+    <div style="display:grid;gap:12px">
+      <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:12px;padding:18px 20px"><p style="margin:0 0 4px;font-weight:500">Restraint</p><p style="margin:0;color:#C9B8D8;font-size:16px">Fewer elements, each doing more.</p></div>
+      <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:12px;padding:18px 20px"><p style="margin:0 0 4px;font-weight:500">Evidence</p><p style="margin:0;color:#C9B8D8;font-size:16px">Decisions traced to the brief and the reader.</p></div>
+      <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:12px;padding:18px 20px"><p style="margin:0 0 4px;font-weight:500">Shipping</p><p style="margin:0;color:#C9B8D8;font-size:16px">Finished means live on its own domain.</p></div>
+    </div>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:12px;padding:22px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A"><p style="margin:0 0 6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:23px">Parkgate Construction</h3><p style="margin:0 0 10px;font-size:16px">One-page site for a London construction firm.</p><p style="margin:0;font-size:14px;color:#C9B8D8">brief → brand → build → custom domain</p></a>
+  </section>
+  <section style="position:relative;padding:56px 20px;display:flex;flex-direction:column;gap:20px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">M — Make</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:30px;line-height:1.15">Shipped</h2>
+    <div style="display:grid;gap:12px">
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:6px;min-height:140px"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:23px">Parkgate Construction</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:15px">HTML/CSS/JS · Netlify · DNS</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:6px;min-height:140px"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:23px">Verbarium</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:15px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:6px;min-height:140px"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:23px">Bank-a-Win</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:15px">React habit-reward app · state, persistence</p></a>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.04);border:1px solid rgba(245,237,214,.1);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500">Forecast</span><span style="color:#C9B8D8;font-size:14px">Open-Meteo weather · fetch, async</span></a>
+        <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.04);border:1px solid rgba(245,237,214,.1);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500">Lingua Daily</span><span style="color:#C9B8D8;font-size:14px">Trilingual word-of-the-day</span></a>
+        <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.04);border:1px solid rgba(245,237,214,.1);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500">Pagine</span><span style="color:#C9B8D8;font-size:14px">Minimal notes · localStorage</span></a>
+        <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.04);border:1px solid rgba(245,237,214,.1);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500">Tip Calculator</span></a>
+      </div>
+    </div>
+  </section>
+  <section style="position:relative;padding:56px 20px;display:flex;flex-direction:column;gap:20px">
+    <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">A — Automate</p>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:30px;line-height:1.15">How I work</h2>
+    <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:23px;line-height:1.4">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+      <div style="background:rgba(245,237,214,.05);border:1px solid rgba(245,237,214,.12);border-radius:12px;padding:14px 12px;display:flex;flex-direction:column;gap:4px;font-size:15px"><span style="color:#4A7B6F;font-weight:500">01</span><span>Draft</span></div>
+      <div style="background:rgba(245,237,214,.05);border:1px solid rgba(245,237,214,.12);border-radius:12px;padding:14px 12px;display:flex;flex-direction:column;gap:4px;font-size:15px"><span style="color:#4A7B6F;font-weight:500">02</span><span>Schema-matched entry</span></div>
+      <div style="background:rgba(245,237,214,.05);border:1px solid rgba(245,237,214,.12);border-radius:12px;padding:14px 12px;display:flex;flex-direction:column;gap:4px;font-size:15px"><span style="color:#4A7B6F;font-weight:500">03</span><span>Published issue</span></div>
+    </div>
+    <a href="#" style="text-decoration:none;color:inherit;display:block;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:12px;padding:22px"><p style="margin:0 0 6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Promptwrought · latest</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:22px"><span style="font-family:ui-monospace,monospace;font-size:13px;color:#C9B8D8">[issue title]</span></h3><p style="margin:0;font-size:15px"><span style="font-family:ui-monospace,monospace;font-size:13px;color:#C9B8D8">[one-line summary]</span></p></a>
+  </section>
+  <footer style="position:relative;padding:56px 20px 40px;display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center">
+    <span class="ema-mark" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:25px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <p style="margin:0">Open to London / hybrid / remote.</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;gap:6px;flex-wrap:wrap;justify-content:center">
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;text-decoration:none;color:#F5EDD6;border:1px solid rgba(245,237,214,.2);border-radius:22px">Email</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;text-decoration:none;color:#F5EDD6;border:1px solid rgba(245,237,214,.2);border-radius:22px">LinkedIn</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;text-decoration:none;color:#F5EDD6;border:1px solid rgba(245,237,214,.2);border-radius:22px">GitHub</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:44px;padding:0 16px;text-decoration:none;color:#F5EDD6;border:1px solid rgba(245,237,214,.2);border-radius:22px">Promptwrought</a></li>
+    </ul>
+    <p style="margin:16px 0 0;font-size:14px;color:#C9B8D8">emmadarling.dev · London</p>
+  </footer>
+</div>
+
+<div class="dv-card" style="width:1280px;background:#1A1A2E;color:#F5EDD6;font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.65;position:relative;overflow:hidden">
+  <div style="position:absolute;top:-200px;right:-100px;width:800px;height:800px;border-radius:50%;background:radial-gradient(closest-side,rgba(74,26,74,.5),rgba(74,26,74,0));pointer-events:none"></div>
+  <div style="position:absolute;top:1300px;left:-300px;width:800px;height:800px;border-radius:50%;background:radial-gradient(closest-side,rgba(74,123,111,.3),rgba(74,123,111,0));pointer-events:none"></div>
+  <div style="position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:16px 64px;background:rgba(26,26,46,.55);backdrop-filter:blur(16px);border-bottom:1px solid rgba(245,237,214,.1)">
+    <div style="display:flex;align-items:center;gap:16px"><span style="width:50px;height:30px;display:inline-block"></span><span style="font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Emma Darling</span><span style="font-family:ui-monospace,monospace;font-size:11px;color:#C9B8D8;opacity:.7">← monogram lands here after scroll</span></div>
+    <nav style="display:flex;gap:8px;font-family:'Playfair Display',serif;font-weight:600;font-size:20px"><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:48px;min-height:44px;display:grid;place-items:center">E</a><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:48px;min-height:44px;display:grid;place-items:center">M</a><a href="#" style="text-decoration:none;color:#F5EDD6;min-width:48px;min-height:44px;display:grid;place-items:center">A</a></nav>
+  </div>
+  <header style="position:relative;padding:80px 64px 120px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center">
+    <span class="ema-mark ema" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:235px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <h1 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:72px;line-height:1">Emma Darling</h1>
+      <p style="margin:0;font-size:20px;color:#C9B8D8">Web Designer &amp; Front-End Developer</p>
+      <p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:24px;display:flex;gap:14px"><span>Envision</span><span style="color:#C9B8D8">·</span><span>Make</span><span style="color:#C9B8D8">·</span><span>Automate</span></p>
+      <p style="margin:8px 0 0;font-size:22px;line-height:1.5;max-width:30ch">I design websites, build them, and automate what comes next.</p>
+    </div>
+  </header>
+  <section style="position:relative;padding:64px 64px 96px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px">
+    <div style="display:flex;flex-direction:column;gap:20px"><p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">E — Envision</p><h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">How I read a brief</h2><p style="margin:0;max-width:40ch">Three principles carry every project from first call to launch.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+        <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:14px;padding:22px"><p style="margin:0 0 6px;font-weight:500">Restraint</p><p style="margin:0;color:#C9B8D8;font-size:16px">Fewer elements, each doing more.</p></div>
+        <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:14px;padding:22px"><p style="margin:0 0 6px;font-weight:500">Evidence</p><p style="margin:0;color:#C9B8D8;font-size:16px">Decisions traced to the brief and the reader.</p></div>
+        <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:14px;padding:22px"><p style="margin:0 0 6px;font-weight:500">Shipping</p><p style="margin:0;color:#C9B8D8;font-size:16px">Finished means live on its own domain.</p></div>
+      </div>
+      <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:14px;padding:28px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-3px);box-shadow:0 1px 0 #C8922A"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Case study</p><h3 style="margin:0 0 8px;font-family:'Playfair Display',serif;font-weight:600;font-size:28px">Parkgate Construction</h3><p style="margin:0">One-page site for a London construction firm.</p></div><p style="margin:0;font-size:15px;color:#C9B8D8">brief → brand → build → custom domain</p></a>
+    </div>
+  </section>
+  <section style="position:relative;padding:64px 64px 96px;display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between"><div style="display:flex;flex-direction:column;gap:12px"><p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">M — Make</p><h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">Shipped</h2></div><p style="margin:0;color:#C9B8D8;font-size:16px">Seven projects · all live</p></div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:8px;min-height:220px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px">Parkgate Construction</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">HTML/CSS/JS · Netlify · DNS</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:8px;min-height:220px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px">Verbarium</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">Searchable lexicon of ~90 coined words across five volumes · search and category filtering · localStorage</p></a>
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:8px;min-height:220px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 1px 0 #C8922A"><p style="margin:0;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#C8922A;font-weight:500">Featured</p><h3 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:26px">Bank-a-Win</h3><p style="margin:auto 0 0;color:#C9B8D8;font-size:16px">React habit-reward app · state, persistence</p></a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.04);border:1px solid rgba(245,237,214,.1);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500">Forecast</span><span style="color:#C9B8D8;font-size:15px">Open-Meteo weather · fetch, async</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.04);border:1px solid rgba(245,237,214,.1);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500">Lingua Daily</span><span style="color:#C9B8D8;font-size:15px">Trilingual word-of-the-day</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.04);border:1px solid rgba(245,237,214,.1);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500">Pagine</span><span style="color:#C9B8D8;font-size:15px">Minimal notes · localStorage</span></a>
+      <a href="#" style="text-decoration:none;color:inherit;background:rgba(245,237,214,.04);border:1px solid rgba(245,237,214,.1);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:500">Tip Calculator</span></a>
+    </div>
+  </section>
+  <section style="position:relative;padding:64px 64px 96px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px">
+    <div style="display:flex;flex-direction:column;gap:20px"><p style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#C9B8D8">A — Automate</p><h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:44px;line-height:1.1">How I work</h2><p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:27px;line-height:1.4">I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+        <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:6px"><span style="color:#4A7B6F;font-weight:500">01</span><span>Draft</span></div>
+        <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:6px"><span style="color:#4A7B6F;font-weight:500">02</span><span>Schema-matched entry</span></div>
+        <div style="background:rgba(245,237,214,.05);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.12);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:6px"><span style="color:#4A7B6F;font-weight:500">03</span><span>Published issue</span></div>
+      </div>
+      <a href="#" style="text-decoration:none;color:inherit;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;background:rgba(245,237,214,.07);backdrop-filter:blur(12px);border:1px solid rgba(245,237,214,.14);border-radius:14px;padding:28px"><div><p style="margin:0 0 6px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#C9B8D8">Promptwrought · latest issue</p><h3 style="margin:0 0 6px;font-family:'Playfair Display',serif;font-weight:600;font-size:26px"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#C9B8D8">[issue title]</span></h3><p style="margin:0"><span style="font-family:ui-monospace,monospace;font-size:14px;color:#C9B8D8">[one-line summary]</span></p></div><p style="margin:0;font-weight:500;border-bottom:1px solid #F5EDD6">Read the issue</p></a>
+    </div>
+  </section>
+  <footer style="position:relative;padding:80px 64px 56px;display:flex;flex-direction:column;gap:20px;align-items:center;text-align:center;border-top:1px solid rgba(245,237,214,.1)">
+    <span class="ema-mark" aria-label="EMA" style="display:inline-flex;font-family:'Playfair Display',serif;font-weight:600;font-size:29px;line-height:1;letter-spacing:.04em;color:#C8922A"><span>E</span><span>M</span><span style="margin-left:-.06em">A</span></span>
+    <h2 style="margin:0;font-family:'Playfair Display',serif;font-weight:600;font-size:36px;line-height:1.1">Let's talk.</h2>
+    <p style="margin:0;color:#C9B8D8">Open to London / hybrid / remote.</p>
+    <ul style="margin:0;padding:0;list-style:none;display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:46px;padding:0 20px;text-decoration:none;color:#1A1A2E;background:#C8922A;border-radius:23px;font-weight:500">Email</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:46px;padding:0 20px;text-decoration:none;color:#F5EDD6;border:1px solid rgba(245,237,214,.2);border-radius:23px">LinkedIn</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:46px;padding:0 20px;text-decoration:none;color:#F5EDD6;border:1px solid rgba(245,237,214,.2);border-radius:23px">GitHub</a></li>
+      <li><a href="#" style="display:inline-flex;align-items:center;min-height:46px;padding:0 20px;text-decoration:none;color:#F5EDD6;border:1px solid rgba(245,237,214,.2);border-radius:23px">Promptwrought</a></li>
+    </ul>
+    <p style="margin:12px 0 0;font-size:14px;color:#C9B8D8">emmadarling.dev · London</p>
+  </footer>
+</div>
+</div>
+<div class="dv-card" style="width:1698px;padding:24px 28px;font:14px/1.6 system-ui,sans-serif;color:#1a1a1a;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px">
+  <div><p style="margin:0 0 6px;font-weight:600">Type</p><p style="margin:0">Playfair Display 600 (name, headings, E·M·A nav)<br>DM Sans 400 (body) · 500 (labels, project names, Email button)<br>Cormorant Garamond 400 italic (Automate statement)</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Hex</p><p style="margin:0">#1A1A2E ink throughout · glass panels rgba(245,237,214,.05–.07) + backdrop-filter blur(12px) + 1px rgba(245,237,214,.12–.14) border · two soft radial washes of #4A1A4A (top right) and #4A7B6F (Make, bottom left) so the glass has something to blur · #F5EDD6 text · #C9B8D8 secondary · #4A7B6F step numbers · #C8922A gold</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Four gold moments</p><p style="margin:0">1 the EMA monogram, ~235px in the hero, gold at nav size after docking<br>2 "Featured" eyebrow on the three project cards + hairline on hover<br>3 Email as the single filled gold button in Contact (ink text on gold — gold never carries body text)<br>4 the footer EMA (same mark, closes the loop)</p></div>
+  <div><p style="margin:0 0 6px;font-weight:600">Signature detail</p><p style="margin:0">The hero EMA doesn't just shrink into the nav — it slides up and left to dock as the wordmark, and the E·M·A nav letters fade in only once it has docked (~120ms after). Why: the reader sees the graphic become the navigation, which is the whole idea of the page; on mobile the same move is a 300 → 44px scale, so it survives the phone-first read.</p></div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "build <a class="dv-oid" href="#1a">1a</a> as the real page with light mode" · "give <a class="dv-oid" href="#1b">1b</a> the cream ground changes from <a class="dv-oid" href="#1a">1a</a>" · "show the mid-scroll state of <a class="dv-oid" href="#1c">1c</a> with the docked monogram"</p>
+</section>
+</x-dc>
+</body>
+</html>
