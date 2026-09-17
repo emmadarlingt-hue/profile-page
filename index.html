@@ -6,6 +6,12 @@
     <!-- This tells phones: "don't zoom out, display at normal size" -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Fonts: exactly the four weights in :root. preconnect opens the
+         connection to Google early so the fonts arrive sooner. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=DM+Sans:wght@400;500&family=Playfair+Display:wght@600&display=swap">
+
     <script src="./script.js"></script>
     <title>Emma Darling - Profile</title>
    <meta property="og:image" content="https://emmadarling.dev/images/og-image.png">
@@ -247,6 +253,120 @@
         min-width: var(--target-min);
         min-height: var(--target-min);
       }
+
+      /* ============================================================
+         TYPOGRAPHY AND RHYTHM  (Milestone 3)
+         Fonts, sizes and the vertical spacing between things. Every
+         value is a token. No colours are set here: text inherits its
+         band's colour, so light mode keeps passing.
+         ============================================================ */
+
+      /* ---------- Headings ----------
+         Playfair Display at 600. The weight must be set explicitly:
+         browsers default headings to bold (700), which isn't loaded,
+         so the browser would fake it and the letters would look smudged. */
+      h1,
+      h2 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: var(--weight-display);
+      }
+
+      h1 {
+        font-size: var(--fs-h1);
+        line-height: var(--lh-h1);
+        letter-spacing: var(--ls-h1);
+      }
+
+      h2 {
+        font-size: var(--fs-h2);
+        line-height: var(--lh-heading);
+      }
+
+      /* The monogram placeholder only gets its typeface here.
+         Size, colour and layout arrive with the SVG in M4. */
+      .monogram {
+        font-family: var(--font-display);
+        font-weight: var(--weight-display);
+      }
+
+      /* ---------- Hero lines ---------- */
+
+      /* "Web Designer & Front-End Developer": a step up from body text. */
+      .hero-role {
+        font-size: var(--fs-sub);
+      }
+
+      /* "Envision · Make · Automate": the page's one small uppercase label.
+         Wide letter spacing keeps small capitals readable. */
+      .hero-label {
+        font-size: var(--fs-label);
+        font-weight: var(--weight-medium);
+        letter-spacing: var(--ls-label);
+        text-transform: uppercase;
+      }
+
+      /* The one-sentence lead: bigger, and kept narrow so it breaks
+         into a few short lines instead of one long one. */
+      .hero-lead {
+        font-size: var(--fs-lead);
+        line-height: var(--lh-lead);
+        max-width: var(--measure-narrow);
+      }
+
+      /* ---------- Pull-quote ----------
+         The only place Cormorant Garamond is used. */
+      .pull-quote {
+        font-family: var(--font-quote);
+        font-style: italic;
+        font-weight: var(--weight-regular);
+        font-size: var(--fs-quote);
+        line-height: var(--lh-quote);
+      }
+
+      /* ---------- Prose ----------
+         No browser-default margins: all spacing comes from the rhythm
+         rules below. Lines stop at about 68 characters, a comfortable
+         reading length. */
+      p,
+      ul {
+        margin: 0;
+      }
+
+      p,
+      li {
+        max-width: var(--measure);
+      }
+
+      /* ---------- Vertical rhythm ----------
+         Each item directly inside a .container gets the same gap above
+         it ("* + *" means "any element that follows another one").
+         Only direct children are affected, so the rail's list inside
+         <nav> keeps its own flex layout. */
+      .container > * + * {
+        margin-block-start: var(--space-flow);
+      }
+
+      /* Headings get a bigger gap after them, so each heading clearly
+         belongs to the content below it. */
+      .container > h1 + *,
+      .container > h2 + * {
+        margin-block-start: var(--space-stack);
+      }
+
+      /* Lists: a token-sized indent, and a small gap between items. */
+      .container > ul {
+        padding-inline-start: var(--space-6);
+      }
+
+      .container > ul > li + li {
+        margin-block-start: var(--space-2);
+      }
+
+      /* ---------- Footer ---------- */
+      .site-footer p {
+        font-size: var(--fs-small);
+      }
     </style>
   </head>
 
@@ -269,9 +389,9 @@
         </nav>
 
         <h1>Emma Darling</h1>
-        <p>Web Designer &amp; Front-End Developer</p>
-        <p>Envision · Make · Automate</p>
-        <p>I design websites, build them, and automate what comes next.</p>
+        <p class="hero-role">Web Designer &amp; Front-End Developer</p>
+        <p class="hero-label">Envision · Make · Automate</p>
+        <p class="hero-lead">I design websites, build them, and automate what comes next.</p>
       </div>
     </header>
 
@@ -280,6 +400,7 @@
       <section id="envision">
         <div class="container">
           <h2>Envision</h2>
+          <p class="pull-quote">Restraint is a design decision. The art is in the <a href="https://verbarium-mmxxvi.netlify.app" target="_blank" rel="noopener noreferrer">handfinish</a>.</p>
           <ul>
             <li>Restraint</li>
             <li>Evidence</li>

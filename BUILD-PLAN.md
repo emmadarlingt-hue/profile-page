@@ -85,7 +85,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 
 **Hero.** Emma Darling · Web Designer & Front-End Developer · *Envision · Make · Automate* · "I design websites, build them, and automate what comes next."
 
-**Envision.** Three principles: restraint, evidence, shipping. Case study: Parkgate Construction — one-page site for a London construction firm; brief → brand → build → custom domain.
+**Envision.** Three principles: restraint, evidence, shipping. Case study: Parkgate Construction — one-page site for a London construction firm; brief → brand → build → custom domain. Pull-quote: "Restraint is a design decision. The art is in the handfinish." — "handfinish" links to its Verbarium entry.
 
 **Make.**
 | Project | Stack / what it proves | URL | Featured |
