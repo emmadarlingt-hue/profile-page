@@ -23,6 +23,7 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 - Projects render from a `projects` array — no project markup hand-written in HTML.
 - Motion: token easing, one IntersectionObserver (threshold 0.15, unobserve after
   firing), prefers-reduced-motion collapses everything to 0.01ms.
-- Accessibility: contrast ≥ 4.5:1, :focus-visible 2px accent outline, 44px targets. (ink in light mode; lavender in dark — never gold on cream).
+- Accessibility: contrast ≥ 4.5:1, :focus-visible 2px outline in var(--focus), 44px targets.
+  --focus is lavender in dark mode and on ink bands in both themes, ink on cream — never gold.
 - Comment CSS sections and JS functions in plain English — I'm learning from this code.
 - Ask before running commands. Never force-push. Never touch main.

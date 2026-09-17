@@ -43,7 +43,8 @@
         --text:       var(--cream);      /* body copy and headings              */
         --text-muted: var(--lavender);   /* secondary copy, captions, meta      */
         --line:       var(--line-on-dark); /* borders, dividers, card outlines  */
-        --accent:     var(--gold);       /* focus rings, hover hairlines, mark  */
+        --accent:     var(--gold);       /* hover hairlines, small highlights   */
+        --focus:      var(--lavender);   /* keyboard focus ring (never gold)    */
         --mark:       var(--gold);       /* the big "EMA" monogram              */
         --label:      var(--lavender);   /* uppercase eyebrow labels            */
 
@@ -53,6 +54,7 @@
         --surface-dark-text:  var(--cream);
         --surface-cream:      var(--cream);
         --surface-cream-text: var(--ink);
+        --surface-dark-focus: var(--lavender); /* focus ring on ink bands, both themes */
 
         /* --- Fonts: four weights total, nothing else --- */
         --font-display: "Playfair Display", Georgia, serif;      /* headings, monogram, nav letters */
@@ -146,7 +148,7 @@
         --bg:          var(--cream);
         --text:        var(--ink);
         --text-muted:  var(--aubergine);
-        --accent:      var(--ink);     /* focus ring goes ink: gold on cream is only ~2.4:1 */
+        --focus:       var(--ink);     /* focus ring goes ink: gold on cream is only ~2.4:1 */
         --line:        var(--line-on-cream);
         --mark:        var(--ink);     /* monogram goes ink on cream: gold is never text on cream */
         --label:       var(--aubergine);
@@ -186,9 +188,10 @@
         color: inherit;
       }
 
-      /* Keyboard users see a clear 2px accent ring on whatever has focus. */
+      /* Keyboard users see a clear 2px ring on whatever has focus.
+         Its colour comes from --focus, which changes per theme and per band. */
       :focus-visible {
-        outline: 2px solid var(--accent);
+        outline: 2px solid var(--focus);
         outline-offset: var(--space-1);
       }
 
@@ -210,6 +213,13 @@
       /* /* --- Section surfaces --- */
 .site-header, #make { background: var(--surface-dark); color: var(--surface-dark-text); }
 #envision, #automate, #contact, .site-footer { background: var(--bg); color: var(--text); }
+
+      /* Ink bands stay ink in light mode too, so their focus ring must stay
+         lavender. Custom properties inherit, so every link inside picks this up. */
+      .site-header,
+      #make {
+        --focus: var(--surface-dark-focus);
+      }
 
       /* ---------- Container ----------
          The centred column INSIDE each band. It only limits width
