@@ -34,18 +34,18 @@
       :root {
         /* --- Palette: the raw paint pots, named by what they look like.
                Only the "role" tokens further down should use these. --- */
-        --ink:      #1A1A2E;                 /* deep navy-black, the dark surface        */
+        --teal:      #0E2A35;                 /* deep navy-black, the dark surface        */
         --cream:         #F5EDD6;                 /* warm cream, the light surface            */
         --lavender:      #C9B8D8;                 /* soft lavender, muted text on dark        */
         --aubergine:          #4A1A4A;                 /* deep aubergine, muted text on cream           */
         --eucalyptus:          #3A6357;                 /* eucalyptus green, small labels on cream        */
         --gold:          #C8922A;                 /* accent gold: max 4 uses, never text on cream */
         --line-on-dark:  rgba(245, 237, 214, 0.18); /* cream hairline at 18% for dark surfaces */
-        --line-on-cream: rgba(26, 26, 46, 0.18);    /* navy hairline at 18% for cream surfaces */
+        --line-on-cream: rgba(14, 42, 53, …);    /* navy hairline at 18% for cream surfaces */
 
         /* --- Colour roles: what each colour DOES. These are the ones
                that flip when the light theme is switched on. --- */
-        --bg:         var(--ink);   /* page background                     */
+        --bg:         var(--teal);   /* page background                     */
         --text:       var(--cream);      /* body copy and headings              */
         --text-muted: var(--lavender);   /* secondary copy, captions, meta      */
         --line:       var(--line-on-dark); /* borders, dividers, card outlines  */
@@ -56,10 +56,10 @@
 
         /* --- Fixed surfaces: sections alternate dark / cream in BOTH
                themes, so these never flip. --- */
-        --surface-dark:       var(--ink);
+        --surface-dark:       var(--teal);
         --surface-dark-text:  var(--cream);
         --surface-cream:      var(--cream);
-        --surface-cream-text: var(--ink);
+        --surface-cream-text: var(--teal);
         --surface-dark-focus: var(--lavender); /* focus ring on ink bands, both themes */
         --surface-dark-mark:  var(--gold);     /* monogram on ink bands, both themes   */
         --surface-dark-line:  var(--line-on-dark); /* hairline on ink, both themes     */
@@ -145,7 +145,8 @@
         /* --- Shadows --- */
         --shadow-none:        none;
         --shadow-accent-line: 0 1px 0 var(--accent);            /* 1px gold hairline under a hovered card */
-        --shadow-lift:        0 8px 24px rgba(0, 0, 0, 0.35);   /* soft lift for hovered cards            */
+        --shadow-lift:        0 8px 24px rgba(14, 42, 53, …)
+        ;   /* soft lift for hovered cards            */
 
         /* --- Motion: one easing curve for everything, plus a few durations --- */
         --ease:       cubic-bezier(0.16, 1, 0.3, 1); /* fast start, long gentle settle */
@@ -160,11 +161,11 @@
          radii and motion above are shared by both themes. */
       [data-theme="light"] {
         --bg:          var(--cream);
-        --text:        var(--ink);
+        --text:        var(--teal);
         --text-muted:  var(--aubergine);
-        --focus:       var(--ink);     /* focus ring goes ink: gold on cream is only ~2.4:1 */
+        --focus:       var(--teal);     /* focus ring goes ink: gold on cream is only ~2.4:1 */
         --line:        var(--line-on-cream);
-        --mark:        var(--ink);     /* monogram goes ink on cream: gold is never text on cream */
+        --mark:        var(--teal);     /* monogram goes ink on cream: gold is never text on cream */
         --rail-active: var(--eucalyptus); /* 5.5:1 on cream, and gold is never text on cream */
         --label:       var(--aubergine);
         --shadow-lift: 0 8px 24px rgba(26, 26, 46, 0.12); /* lighter lift on a cream page */
