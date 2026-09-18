@@ -2,7 +2,7 @@
 
 Rules live in `CLAUDE.md`. This file is *what* to build, in order. Tick each box only after the branch preview has been checked on a phone.
 
-Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings, DM Sans body. Eucalyptus `#3A6357` on cream. Gold never as text on cream. Light mode = cream page, ink hero, ink Make band.
+Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings, DM Sans body. Eucalyptus `#3A6357` on cream. Gold never as text on cream. Light mode = cream page, teal hero, teal Make band.
 
 ---
 
@@ -14,7 +14,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 - Commit: `chore: revamp branch, CLAUDE.md, build plan`
 
 ## M1 — Design tokens
-- [ ] `:root` block: colours (ink, gold, cream, eucalyptus, aubergine, lavender), fluid type scale with `clamp()`, spacing scale, radii, shadows, `--ease`
+- [ ] `:root` block: colours (teal, gold, cream, eucalyptus, aubergine, lavender), fluid type scale with `clamp()`, spacing scale, radii, shadows, `--ease`
 - [ ] `[data-theme="light"]` override set
 - [ ] Nothing hard-coded below `:root`
 - Commit: `feat: design tokens`
@@ -40,14 +40,17 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 
 ## M5 — Motion system
 - [ ] One `IntersectionObserver`, reveal once, stagger via `transition-delay`
-- [ ] Link underlines draw in from the left; project cards lift with a gold hairline on hover
+- [ ] Link underlines draw in from the left; 
+- [ ] Links: colour via a `--link` token (gold in dark, eucalyptus in light), no underline at rest, underline draws in on hover — "handfinish" is the test case 
+- [ ] project cards lift with a gold hairline on hover
 - [ ] `prefers-reduced-motion` collapses everything
 - Commit: `feat: scroll reveals`
 
 ## M6 — Make: data-driven project grid
 - [ ] `projects` array → cards. Featured (larger): Parkgate, Verbarium, Bank-a-Win. Tight row: Forecast, Lingua Daily, Pagine, Tip Calculator
-- [ ] Ink band in light mode; glass panels (`backdrop-filter: blur`) on ink
+- [ ] teal band in light mode; glass panels (`backdrop-filter: blur`) on teal
 - Commit: `feat: project grid from data`
+- [ ] Check aubergine meta text on cream against the teal; if it clashes, `--text-muted` and `--label` move to eucalyptus in light mode
 
 ## M7 — Envision
 - [ ] Positioning line + three principles: restraint, evidence, shipping
@@ -63,7 +66,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 ## M9 — Light/dark toggle
 - [ ] Respect `prefers-color-scheme` on first load; toggle writes `data-theme`, persists to `localStorage`
 - [ ] Swap token sets only — no per-element overrides
-- [ ] Light mode check: cream page, ink hero, ink Make band, zero gold text on cream
+- [ ] Light mode check: cream page, teal hero, teal Make band, zero gold text on cream
 - Commit: `feat: theme toggle`
 
 ## M10 — Parkgate case study
@@ -73,7 +76,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 
 ## M11 — Polish and ship
 - [ ] Accessibility pass (contrast, focus, 44px targets, alt/`<title>`)
-- [ ] OG image 1200×630 (monogram on ink); `<title>`, meta description, OG tags
+- [ ] OG image 1200×630 (monogram on teal); `<title>`, meta description, OG tags
 - [ ] Lighthouse ≥ 90 across the board
 - [ ] Merge `revamp` → `main`; Netlify deploys production
 - [ ] Same day: LinkedIn headline → "Web Designer & Front-End Developer · Envision · Make · Automate"; add the site to the Evidence Inventory
