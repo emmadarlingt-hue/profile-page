@@ -61,6 +61,8 @@
         --surface-cream:      var(--cream);
         --surface-cream-text: var(--ink);
         --surface-dark-focus: var(--lavender); /* focus ring on ink bands, both themes */
+        --surface-dark-mark:  var(--gold);     /* monogram on ink bands, both themes   */
+        --surface-dark-line:  var(--line-on-dark); /* hairline on ink, both themes     */
 
         /* --- Fonts: four weights total, nothing else --- */
         --font-display: "Playfair Display", Georgia, serif;      /* headings, monogram, nav letters */
@@ -86,15 +88,19 @@
         --fs-mark:  clamp(7.5rem,    3.2rem + 19vw,     17.5rem);  /* 120 -> 280px the "EMA" monogram     */
 
         /* --- Line heights and letter spacing --- */
-        --lh-mark:    0.85;   /* monogram letters sit tight   */
         --lh-h1:      1.02;
         --lh-heading: 1.12;   /* h2 and h3                    */
         --lh-quote:   1.35;
         --lh-lead:    1.5;
         --lh-body:    1.65;
         --ls-h1:      -0.01em; /* slightly tighter display size */
-        --ls-mark:    0.02em;
         --ls-nav:     0.04em;
+        --mark-stroke:       1;      /* draw-in stroke width, in SVG user units */
+        --mark-shrink-end:   2.25rem; /* monogram height once it sits in the bar */
+        --mark-shrink-range: 30vh;   /* scroll distance over which it shrinks   */
+        --mark-scale-min:    0.15;   /* how far the hero monogram shrinks       */
+        --bar-height:        4rem;   /* the slim top bar it shrinks into        */
+        --rail-active:     var(--gold); /* the current section's letter        */
         --ls-label:   0.14em;  /* uppercase labels need air     */
         --ls-eyebrow: 0.18em;
 
@@ -124,7 +130,9 @@
         /* --- Layout --- */
         --measure:        68ch;  /* comfortable reading width for text columns */
         --measure-narrow: 30ch;  /* hero lead line                             */
-        --rail-width:     320px; /* sticky side rail on wide screens           */
+        --rail-gutter:    calc(var(--target-min) + var(--space-6) * 2); /* space the fixed rail needs */
+        /* breakpoints: 768, 1100 — media queries can't read custom properties,
+           so these live here as a note and are typed literally in the queries */
         --container-max:  72rem; /* 1152px: widest the content inside a section gets */
         --target-min:     44px;  /* minimum tap/click target (accessibility)   */
 
@@ -157,6 +165,7 @@
         --focus:       var(--ink);     /* focus ring goes ink: gold on cream is only ~2.4:1 */
         --line:        var(--line-on-cream);
         --mark:        var(--ink);     /* monogram goes ink on cream: gold is never text on cream */
+        --rail-active: var(--eucalyptus); /* 5.5:1 on cream, and gold is never text on cream */
         --label:       var(--aubergine);
         --shadow-lift: 0 8px 24px rgba(26, 26, 46, 0.12); /* lighter lift on a cream page */
       }
@@ -227,6 +236,12 @@
         --focus: var(--surface-dark-focus);
       }
 
+      /* The header is ink in both themes, so the monogram stays gold there.
+         --mark itself still goes ink on cream for pages with a cream hero. */
+      .site-header {
+        --mark: var(--surface-dark-mark);
+      }
+
       /* ---------- Container ----------
          The centred column INSIDE each band. It only limits width
          and centres itself; it never has a background of its own. */
@@ -235,23 +250,15 @@
         margin-inline: auto;
       }
 
-      /* ---------- Rail (placeholder) ----------
-         The E · M · A links in a plain row. Each link is at least
-         44px square so it is easy to tap. Proper styling is M4. */
+      /* ---------- Rail: list layout ----------
+         The E · M · A links in a row. Each link is at least 44px square so
+         it is easy to tap. Colour, type and the fixed layout are in M4. */
       .rail ul {
         display: flex;
         gap: var(--space-2);
         margin: 0;
         padding: 0;
         list-style: none;
-      }
-
-      .rail a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: var(--target-min);
-        min-height: var(--target-min);
       }
 
       /* ============================================================
@@ -281,13 +288,6 @@
       h2 {
         font-size: var(--fs-h2);
         line-height: var(--lh-heading);
-      }
-
-      /* The monogram placeholder only gets its typeface here.
-         Size, colour and layout arrive with the SVG in M4. */
-      .monogram {
-        font-family: var(--font-display);
-        font-weight: var(--weight-display);
       }
 
       /* ---------- Hero lines ---------- */
@@ -341,8 +341,8 @@
       /* ---------- Vertical rhythm ----------
          Each item directly inside a .container gets the same gap above
          it ("* + *" means "any element that follows another one").
-         Only direct children are affected, so the rail's list inside
-         <nav> keeps its own flex layout. */
+         Only direct children of a .container are affected, so the rail —
+         which sits outside them — keeps its own flex layout. */
       .container > * + * {
         margin-block-start: var(--space-flow);
       }
@@ -367,26 +367,367 @@
       .site-footer p {
         font-size: var(--fs-small);
       }
+
+      /* ============================================================
+         MONOGRAM AND RAIL  (Milestone 4)
+         The page's one signature moment: the EMA letters draw
+         themselves in on load, then the hero monogram shrinks as you
+         scroll. The rail is the section nav that follows you down.
+         ============================================================ */
+
+      /* ---------- Monogram ----------
+         The link fills the container, and the SVG scales with it:
+         width 100%, height worked out from the viewBox's proportions.
+         currentColor inside the SVG picks up the colour set here. */
+      .monogram {
+        display: block;
+        color: var(--mark);
+      }
+
+      /* Sized by height, because that is what the shrink animates: the
+         width follows from the viewBox's proportions. */
+      .mark {
+        display: block;
+        height: var(--fs-mark);
+        width: auto;
+        max-width: 100%;
+      }
+
+      /* Each letter is one outlined shape. It starts unfilled with a hairline
+         stroke around its edge; the stroke is a dashed line exactly as long as
+         the outline, pushed out of sight. Bringing the offset back to 0 makes
+         the line appear to draw itself. pathLength="1" tells the browser to
+         treat every letter's outline as length 1, however long it really is,
+         so one set of numbers works for all three. */
+      .mark-letter {
+        fill-opacity: 0;
+        stroke: currentColor;
+        stroke-width: var(--mark-stroke);
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation:
+          mark-draw var(--dur-slow) var(--ease) forwards,
+          mark-ink  var(--dur-mid)  var(--ease) forwards;
+      }
+
+      /* E draws first, then M, then A. Each letter's fill fades in once its
+         own outline has finished, so the delays add up from the draw time. */
+      .mark-e {
+        animation-delay: 0ms, var(--dur-slow);
+      }
+
+      .mark-m {
+        animation-delay: var(--dur-fast), calc(var(--dur-slow) + var(--dur-fast));
+      }
+
+      .mark-a {
+        animation-delay: calc(var(--dur-fast) * 2), calc(var(--dur-slow) + var(--dur-fast) * 2);
+      }
+
+      @keyframes mark-draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      /* The fill arrives and the outline fades out, leaving solid letters. */
+      @keyframes mark-ink {
+        to {
+          fill-opacity: 1;
+          stroke-opacity: 0;
+        }
+      }
+
+      /* ---------- Shrink into the top bar ----------
+         As you scroll, the hero monogram shrinks and fades, and a slim bar
+         fades in at the top of the window holding a small copy of the
+         letters. Two elements rather than one: a single element can't be
+         both an in-flow hero and a pinned bar without either shifting the
+         page as it scrolls or covering the text beneath it.
+
+         Both are driven by how far the page has scrolled, which needs
+         scroll-driven animations: Chrome and Safari have them, Firefox
+         doesn't yet. Intentional progressive enhancement — in Firefox the
+         monogram simply scrolls away at full size and no bar appears.
+         Not a bug.
+
+         The bar is display: none until that support exists, so browsers
+         without it never get a bar they can't animate. */
+      .top-bar {
+        display: none;
+      }
+
+      @supports (animation-timeline: scroll()) {
+        /* Fixed, so it costs the page no layout and nothing shifts. It starts
+           hidden, which matters: a link that can take keyboard focus while
+           invisible is a trap. Hidden also means it can't be clicked, so the
+           bar never intercepts anything scrolling underneath it. */
+        .top-bar {
+          display: flex;
+          align-items: center;
+          position: fixed;
+          inset-block-start: 0;
+          inset-inline: 0;
+          z-index: 3;
+          height: var(--bar-height);
+          padding-inline: var(--space-section-x);
+          background: var(--surface-dark);
+          border-block-end: 1px solid var(--surface-dark-line);
+          color: var(--surface-dark-mark);
+          /* The bar is ink in both themes, so its focus ring follows the
+             ink-band rule rather than the page theme's. */
+          --focus: var(--surface-dark-focus);
+          visibility: hidden;
+          animation: bar-in linear both;
+          animation-timeline: scroll(root);
+          animation-range: 0 var(--mark-shrink-range);
+        }
+
+        /* The link wraps the letters only, so the rest of the bar isn't
+           clickable and the focus ring is drawn round the monogram rather
+           than the width of the window. */
+        .top-bar-link {
+          display: inline-flex;
+          align-items: center;
+          min-height: var(--target-min);
+        }
+
+        /* The copy is already at its final size. */
+        .top-bar .mark {
+          height: var(--mark-shrink-end);
+        }
+
+        /* The hero monogram shrinks towards its own top-left corner, the
+           corner nearest where the bar's copy will appear. */
+        .monogram {
+          transform-origin: left top;
+          animation: mark-hand-off linear both;
+          animation-timeline: scroll(root);
+          animation-range: 0 var(--mark-shrink-range);
+        }
+
+        /* Only needed while there is a bar to jump underneath. */
+        html {
+          scroll-padding-top: var(--bar-height);
+        }
+      }
+
+      /* The hand-off happens at one point, 80% of the way through the shrink:
+         the hero monogram has faded to nothing by then, and the bar appears
+         at that instant, already solid. No moment where both are on the page,
+         none where neither is, and never an invisible link that can be
+         clicked or focused. */
+      @keyframes bar-in {
+        0%,
+        79.9% {
+          visibility: hidden;
+        }
+
+        80%,
+        100% {
+          visibility: visible;
+        }
+      }
+
+      /* The hero monogram shrinks and fades as you scroll, and is gone — not
+         just transparent — by the time the bar arrives. */
+      @keyframes mark-hand-off {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+          visibility: visible;
+        }
+
+        80%,
+        100% {
+          transform: scale(var(--mark-scale-min));
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      /* ---------- Rail ----------
+         A centred row of letters on phones. The list's flex layout and 44px
+         targets come from the rail rules further up. */
+      .rail {
+        padding-block: var(--space-4);
+        padding-inline: var(--space-section-x);
+      }
+
+      .rail ul {
+        justify-content: center;
+      }
+
+      /* One rule for the letters: the 44px target, the type, and position
+         relative so the active dot can be placed against it. */
+      .rail a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        min-width: var(--target-min);
+        min-height: var(--target-min);
+        font-family: var(--font-display);
+        font-weight: var(--weight-display);
+        letter-spacing: var(--ls-nav);
+        text-decoration: none;
+      }
+
+      /* The section you're looking at. aria-current tells screen readers the
+         same thing the colour tells everyone else. */
+
+      .rail a[aria-current="true"] {
+        color: var(--rail-active);
+      }
+
+      /* A small dot marks the active letter as well as the colour, so the
+         cue doesn't depend on colour alone. On phones it sits under the
+         letter; in the fixed column it moves to the letter's left. */
+      .rail a[aria-current="true"]::after {
+        content: "";
+        position: absolute;
+        inset-block-end: var(--space-1);
+        inset-inline-start: 50%;
+        width: var(--space-1);
+        height: var(--space-1);
+        margin-inline-start: calc(var(--space-1) / -2);
+        border-radius: var(--radius-pill);
+        /* Body colour, not the active letter's colour: that keeps the page's
+           gold to three uses (hero monogram, bar copy, active letter). */
+        background: var(--text);
+      }
+
+      /* From 768px the rail leaves the flow and floats against the right
+         edge, vertically centred, as a column of three letters. It carries
+         its own panel: the bands scrolling behind it are ink in one theme
+         and cream in the other, so the letters need a background of their
+         own to stay readable over both. */
+      @media (min-width: 768px) {
+        .rail {
+          position: fixed;
+          top: 50%;
+          right: var(--space-6);
+          transform: translateY(-50%);
+          padding: var(--space-2);
+          z-index: 1;
+          background: var(--bg);
+          border: 1px solid var(--line);
+          border-radius: var(--radius-pill);
+        }
+
+        .rail ul {
+          flex-direction: column;
+        }
+
+        /* In the column the dot sits beside the letter, not beneath it. */
+        .rail a[aria-current="true"]::after {
+          inset-block-end: auto;
+          inset-inline-start: var(--space-1);
+          top: 50%;
+          margin-block-start: calc(var(--space-1) / -2);
+          margin-inline-start: 0;
+        }
+      }
+
+      /* The fixed rail would otherwise sit on top of the content. Every band
+         keeps a gutter wide enough for it. */
+      @media (min-width: 768px) {
+        .site-header,
+        main > section,
+        .site-footer {
+          padding-inline-end: calc(var(--space-section-x) + var(--rail-gutter));
+        }
+      }
+
+      /* ---------- Reduced motion ----------
+         Anyone who asks for less movement gets the finished monogram with
+         no drawing and no shrinking. */
+      @media (prefers-reduced-motion: reduce) {
+        .mark-letter {
+          animation-duration: 0.01ms;
+          animation-delay: 0ms;
+        }
+
+        .mark,
+        .monogram {
+          animation: none;
+        }
+
+        /* No shrink means no hand-off, so there is no bar to show — and no
+           bar means anchor jumps need no room left for one. */
+        .top-bar {
+          display: none;
+        }
+
+        html {
+          scroll-padding-top: 0;
+        }
+      }
     </style>
   </head>
 
   <body>
     <!-- ============================================================
          HEADER + HERO
-         Monogram placeholder (real SVG in M4), the E · M · A rail,
-         then the hero lines. Ink in both themes.
+         The monogram (inline SVG) and the hero lines. Ink in both
+         themes, so the monogram stays gold here in both. The rail
+         lives just above, outside the header.
          ============================================================ -->
+    <!-- The slim bar the hero monogram hands off to. It is the back-to-top
+         link once the hero one has gone: both are driven by the same scroll
+         timeline, and visibility decides which exists. A hidden element can
+         be neither clicked, focused nor announced, so exactly one of the two
+         is ever real — never both, and never neither. -->
+    <div class="top-bar">
+      <a class="top-bar-link" href="#top" aria-label="EMA, back to top">
+        <svg class="mark" viewBox="264.9 462.8 284.5 92.8" focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor">
+          <g transform="translate(262.568923, 553.601577)">
+            <path d="M 4.34375 0 L 4.34375 -1.25 L 6.96875 -1.25 C 9.863281 -1.25 12.117188 -1.910156 13.734375 -3.234375 C 15.347656 -4.554688 16.15625 -6.753906 16.15625 -9.828125 L 16.15625 -79.203125 C 16.15625 -82.179688 15.347656 -84.3125 13.734375 -85.59375 C 12.117188 -86.882812 9.863281 -87.53125 6.96875 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 68.625 -88.765625 L 69.375 -66.765625 L 68.125 -66.765625 L 67.890625 -70.859375 C 67.472656 -77.078125 65.914062 -81.410156 63.21875 -83.859375 C 60.53125 -86.304688 56.035156 -87.53125 49.734375 -87.53125 L 30.703125 -87.53125 L 30.703125 -47.125 L 61.421875 -47.125 L 61.421875 -45.875 L 30.703125 -45.875 L 30.703125 -1.25 L 53.09375 -1.25 C 59.71875 -1.25 64.4375 -2.46875 67.25 -4.90625 C 70.070312 -7.351562 71.691406 -11.6875 72.109375 -17.90625 L 72.359375 -22 L 73.609375 -22 L 72.734375 0 Z M 4.34375 0 "/>
+          </g>
+          <g transform="translate(341.023163, 553.601577)">
+            <path d="M 4.34375 0 L 4.34375 -1.25 L 10.4375 -1.25 C 13.257812 -1.25 15.476562 -1.910156 17.09375 -3.234375 C 18.707031 -4.554688 19.515625 -6.753906 19.515625 -9.828125 L 19.515625 -79.328125 C 19.515625 -82.222656 18.707031 -84.3125 17.09375 -85.59375 C 15.476562 -86.882812 13.257812 -87.53125 10.4375 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 32.078125 -88.765625 L 62.046875 -15.90625 L 87.78125 -88.765625 L 112.765625 -88.765625 L 112.765625 -87.53125 L 110.15625 -87.53125 C 107.164062 -87.53125 104.882812 -86.863281 103.3125 -85.53125 C 101.738281 -84.207031 100.953125 -81.972656 100.953125 -78.828125 L 100.953125 -9.953125 C 100.953125 -6.796875 101.738281 -4.554688 103.3125 -3.234375 C 104.882812 -1.910156 107.164062 -1.25 110.15625 -1.25 L 112.765625 -1.25 L 112.765625 0 L 77.828125 0 L 77.828125 -1.25 L 78.453125 -1.25 C 81.097656 -1.25 83.1875 -1.890625 84.71875 -3.171875 C 86.257812 -4.453125 87.03125 -6.628906 87.03125 -9.703125 L 87.03125 -82.796875 L 57.9375 0 L 54.078125 0 L 20.765625 -81.4375 L 20.765625 -9.953125 C 20.765625 -6.796875 21.59375 -4.554688 23.25 -3.234375 C 24.90625 -1.910156 27.390625 -1.25 30.703125 -1.25 L 33.6875 -1.25 L 33.6875 0 Z M 4.34375 0 "/>
+          </g>
+          <g transform="translate(458.145013, 553.601577)">
+            <path d="M 0.125 0 L 0.125 -1.25 L 4.109375 -1.25 C 6.671875 -1.25 8.695312 -1.953125 10.1875 -3.359375 C 11.6875 -4.765625 13.054688 -7.25 14.296875 -10.8125 L 41.90625 -88.765625 L 49.859375 -88.765625 L 80.0625 -8.453125 C 81.144531 -5.710938 82.265625 -3.828125 83.421875 -2.796875 C 84.585938 -1.765625 86.125 -1.25 88.03125 -1.25 L 89.265625 -1.25 L 89.265625 0 L 53.21875 0 L 53.21875 -1.25 L 57.1875 -1.25 C 60.007812 -1.25 62.039062 -1.597656 63.28125 -2.296875 C 64.519531 -3.003906 65.140625 -4.269531 65.140625 -6.09375 C 65.140625 -6.757812 65.054688 -7.566406 64.890625 -8.515625 C 64.734375 -9.472656 64.445312 -10.53125 64.03125 -11.6875 L 56.5625 -32.328125 L 23.375 -32.328125 L 16.40625 -12.8125 C 16 -11.5625 15.671875 -10.457031 15.421875 -9.5 C 15.171875 -8.550781 15.046875 -7.664062 15.046875 -6.84375 C 15.046875 -4.769531 15.894531 -3.316406 17.59375 -2.484375 C 19.289062 -1.660156 22.046875 -1.25 25.859375 -1.25 L 30.34375 -1.25 L 30.34375 0 Z M 23.75 -33.5625 L 56.078125 -33.5625 L 47.375 -57.4375 C 45.957031 -61.332031 44.585938 -65.25 43.265625 -69.1875 C 41.941406 -73.125 40.863281 -76.75 40.03125 -80.0625 C 38.875 -76.582031 37.734375 -73.265625 36.609375 -70.109375 C 35.492188 -66.960938 34.234375 -63.359375 32.828125 -59.296875 Z M 23.75 -33.5625 "/>
+          </g>
+        </g>
+        </svg>
+      </a>
+    </div>
+
+    <!-- The rail sits outside the header so it can stay on screen as the page
+         scrolls: a static row on phones, a fixed column from 768px up. Each
+         label starts with the visible letter, so voice control can reach it. -->
+    <nav class="rail" aria-label="Sections">
+      <ul>
+        <li><a href="#envision" aria-label="E, Envision">E</a></li>
+        <li><a href="#make" aria-label="M, Make">M</a></li>
+        <li><a href="#automate" aria-label="A, Automate">A</a></li>
+      </ul>
+    </nav>
+
     <header class="site-header" id="top">
       <div class="container">
-        <a class="monogram" href="#top" aria-label="Emma Darling, back to top">EMA</a>
-
-        <nav class="rail" aria-label="Sections">
-          <ul>
-            <li><a href="#envision" aria-label="Envision">E</a></li>
-            <li><a href="#make" aria-label="Make">M</a></li>
-            <li><a href="#automate" aria-label="Automate">A</a></li>
-          </ul>
-        </nav>
+        <!-- The monogram: outlined letterforms from images/ema-monogram.svg,
+             inlined so CSS can colour and animate them. The viewBox is the
+             letters' bounding box plus 2 units, room for the draw-in stroke. -->
+        <a class="monogram" href="#top" aria-label="EMA, back to top">
+          <svg class="mark" viewBox="264.9 462.8 284.5 92.8" role="img" xmlns="http://www.w3.org/2000/svg">
+            <title>Emma Darling</title>
+            <g fill="currentColor">
+              <g transform="translate(262.568923, 553.601577)">
+                <path class="mark-letter mark-e" pathLength="1" d="M 4.34375 0 L 4.34375 -1.25 L 6.96875 -1.25 C 9.863281 -1.25 12.117188 -1.910156 13.734375 -3.234375 C 15.347656 -4.554688 16.15625 -6.753906 16.15625 -9.828125 L 16.15625 -79.203125 C 16.15625 -82.179688 15.347656 -84.3125 13.734375 -85.59375 C 12.117188 -86.882812 9.863281 -87.53125 6.96875 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 68.625 -88.765625 L 69.375 -66.765625 L 68.125 -66.765625 L 67.890625 -70.859375 C 67.472656 -77.078125 65.914062 -81.410156 63.21875 -83.859375 C 60.53125 -86.304688 56.035156 -87.53125 49.734375 -87.53125 L 30.703125 -87.53125 L 30.703125 -47.125 L 61.421875 -47.125 L 61.421875 -45.875 L 30.703125 -45.875 L 30.703125 -1.25 L 53.09375 -1.25 C 59.71875 -1.25 64.4375 -2.46875 67.25 -4.90625 C 70.070312 -7.351562 71.691406 -11.6875 72.109375 -17.90625 L 72.359375 -22 L 73.609375 -22 L 72.734375 0 Z M 4.34375 0 "/>
+              </g>
+              <g transform="translate(341.023163, 553.601577)">
+                <path class="mark-letter mark-m" pathLength="1" d="M 4.34375 0 L 4.34375 -1.25 L 10.4375 -1.25 C 13.257812 -1.25 15.476562 -1.910156 17.09375 -3.234375 C 18.707031 -4.554688 19.515625 -6.753906 19.515625 -9.828125 L 19.515625 -79.328125 C 19.515625 -82.222656 18.707031 -84.3125 17.09375 -85.59375 C 15.476562 -86.882812 13.257812 -87.53125 10.4375 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 32.078125 -88.765625 L 62.046875 -15.90625 L 87.78125 -88.765625 L 112.765625 -88.765625 L 112.765625 -87.53125 L 110.15625 -87.53125 C 107.164062 -87.53125 104.882812 -86.863281 103.3125 -85.53125 C 101.738281 -84.207031 100.953125 -81.972656 100.953125 -78.828125 L 100.953125 -9.953125 C 100.953125 -6.796875 101.738281 -4.554688 103.3125 -3.234375 C 104.882812 -1.910156 107.164062 -1.25 110.15625 -1.25 L 112.765625 -1.25 L 112.765625 0 L 77.828125 0 L 77.828125 -1.25 L 78.453125 -1.25 C 81.097656 -1.25 83.1875 -1.890625 84.71875 -3.171875 C 86.257812 -4.453125 87.03125 -6.628906 87.03125 -9.703125 L 87.03125 -82.796875 L 57.9375 0 L 54.078125 0 L 20.765625 -81.4375 L 20.765625 -9.953125 C 20.765625 -6.796875 21.59375 -4.554688 23.25 -3.234375 C 24.90625 -1.910156 27.390625 -1.25 30.703125 -1.25 L 33.6875 -1.25 L 33.6875 0 Z M 4.34375 0 "/>
+              </g>
+              <g transform="translate(458.145013, 553.601577)">
+                <path class="mark-letter mark-a" pathLength="1" d="M 0.125 0 L 0.125 -1.25 L 4.109375 -1.25 C 6.671875 -1.25 8.695312 -1.953125 10.1875 -3.359375 C 11.6875 -4.765625 13.054688 -7.25 14.296875 -10.8125 L 41.90625 -88.765625 L 49.859375 -88.765625 L 80.0625 -8.453125 C 81.144531 -5.710938 82.265625 -3.828125 83.421875 -2.796875 C 84.585938 -1.765625 86.125 -1.25 88.03125 -1.25 L 89.265625 -1.25 L 89.265625 0 L 53.21875 0 L 53.21875 -1.25 L 57.1875 -1.25 C 60.007812 -1.25 62.039062 -1.597656 63.28125 -2.296875 C 64.519531 -3.003906 65.140625 -4.269531 65.140625 -6.09375 C 65.140625 -6.757812 65.054688 -7.566406 64.890625 -8.515625 C 64.734375 -9.472656 64.445312 -10.53125 64.03125 -11.6875 L 56.5625 -32.328125 L 23.375 -32.328125 L 16.40625 -12.8125 C 16 -11.5625 15.671875 -10.457031 15.421875 -9.5 C 15.171875 -8.550781 15.046875 -7.664062 15.046875 -6.84375 C 15.046875 -4.769531 15.894531 -3.316406 17.59375 -2.484375 C 19.289062 -1.660156 22.046875 -1.25 25.859375 -1.25 L 30.34375 -1.25 L 30.34375 0 Z M 23.75 -33.5625 L 56.078125 -33.5625 L 47.375 -57.4375 C 45.957031 -61.332031 44.585938 -65.25 43.265625 -69.1875 C 41.941406 -73.125 40.863281 -76.75 40.03125 -80.0625 C 38.875 -76.582031 37.734375 -73.265625 36.609375 -70.109375 C 35.492188 -66.960938 34.234375 -63.359375 32.828125 -59.296875 Z M 23.75 -33.5625 "/>
+              </g>
+            </g>
+          </svg>
+        </a>
 
         <h1>Emma Darling</h1>
         <p class="hero-role">Web Designer &amp; Front-End Developer</p>
@@ -452,9 +793,75 @@
     <script>
       /* ============================================================
          PAGE SCRIPT
-         Empty for now. The projects array (M6), the scroll-reveal
-         observer (M5) and the theme toggle (M9) will live here.
+         The scroll-reveal observer (M5), the projects array (M6) and the
+         theme toggle (M9) will live here.
          ============================================================ */
+
+      /* The rail's observer: it marks the letter for whichever section the
+         page is currently showing. Sections stay observed, because the rail
+         has to keep up as you scroll both ways.
+
+         Instead of measuring how much of a section is visible, this watches
+         a band across the upper third of the screen: rootMargin trims 20%
+         off the top and 70% off the bottom. A section counts as current
+         while it crosses that band, however tall it is — which is why
+         measuring visible area doesn't work here. The band sits high rather
+         than at the middle so that a short section still reaches it after
+         you click its letter and its top lands at the top of the screen.
+
+         Sometimes no section is in the band (over the hero or the footer);
+         then the last marked letter stays, rather than the rail going blank. */
+      function watchSectionsForRail() {
+        const railLinks = Array.from(document.querySelectorAll('.rail a'));
+
+        // Map each section element to the rail link that points at it.
+        const sections = new Map();
+        railLinks.forEach((link) => {
+          const section = document.querySelector(link.getAttribute('href'));
+          if (section) sections.set(section, link);
+        });
+
+        // The sections currently touching the band. Usually one, sometimes
+        // two at a shared edge, sometimes none.
+        const inBand = new Set();
+
+        function markCurrentLetter() {
+          // Take the first one in page order, so the result doesn't depend
+          // on which entry the browser happens to report last.
+          let current = null;
+          sections.forEach((link, section) => {
+            if (!current && inBand.has(section)) current = section;
+          });
+
+          if (!current) return;
+
+          sections.forEach((link, section) => {
+            if (section === current) {
+              link.setAttribute('aria-current', 'true');
+            } else {
+              link.removeAttribute('aria-current');
+            }
+          });
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                inBand.add(entry.target);
+              } else {
+                inBand.delete(entry.target);
+              }
+            });
+            markCurrentLetter();
+          },
+          { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+        );
+
+        sections.forEach((link, section) => observer.observe(section));
+      }
+
+      watchSectionsForRail();
     </script>
   </body>
 </html>

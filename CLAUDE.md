@@ -25,8 +25,10 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 - One milestone per session, one commit per milestone. Do not start the next.
 - Sections are full-bleed; .container inside sets max-width and has no background.
 - Projects render from a `projects` array — no project markup hand-written in HTML.
-- Motion: token easing, one IntersectionObserver (threshold 0.15, unobserve after
-  firing), prefers-reduced-motion collapses everything to 0.01ms.
+- Motion: token easing, prefers-reduced-motion collapses everything to 0.01ms.
+- Two IntersectionObservers — rail scroll-spy (rootMargin band, threshold 0,
+  permanent) and section reveals (threshold 0.15, unobserve after firing).
+  Never a third.
 - Accessibility: contrast ≥ 4.5:1, :focus-visible 2px outline in var(--focus), 44px targets.
   --focus is lavender in dark mode and on ink bands in both themes, ink on cream — never gold.
   External links: target="_blank" rel="noopener noreferrer".
