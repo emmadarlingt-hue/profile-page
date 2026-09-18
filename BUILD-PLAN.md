@@ -35,7 +35,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 - [ ] EMA as inline SVG paths (not an image), `<title>` inside
 - [ ] Large gold monogram in the hero (direction C)
 - [ ] Sticky rail: three letters E · M · A as anchor links; active letter in gold; no descriptor text
-- [ ] Draw-in animation on load, shared M–A stroke last
+- [ ] Draw-in animation on load, letters draw in E → M → A
 - Commit: `feat: monogram hero and rail nav`
 
 ## M5 — Motion system

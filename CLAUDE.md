@@ -17,6 +17,10 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
   Cormorant Garamond 400 italic (pull-quote only). Four weights total. Nothing else.
 - Gold #C8922A appears at most four times per page and never as text on cream.
 
+## Design decisions
+- Monogram: E·M·A in Noto Serif Display, tightly tracked, matching the LinkedIn
+  banner. No shared stroke. Source: images/ema-monogram.svg.
+
 ## Rules of the build
 - One milestone per session, one commit per milestone. Do not start the next.
 - Sections are full-bleed; .container inside sets max-width and has no background.
