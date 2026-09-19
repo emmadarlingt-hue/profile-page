@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=DM+Sans:wght@400;500&family=Playfair+Display:wght@600&display=swap">
 
-    <script src="./script.js"></script>
     <title>Emma Darling - Profile</title>
    <meta property="og:image" content="https://emmadarling.dev/images/og-image.png">
 <meta property="og:title" content="Emma Darling — Frontend Developer">
@@ -51,6 +50,7 @@
         --line:       var(--line-on-dark); /* borders, dividers, card outlines  */
         --accent:     var(--gold);       /* hover hairlines, small highlights   */
         --focus:      var(--lavender);   /* keyboard focus ring (never gold)    */
+        --link:       var(--gold);       /* text links and their underline      */
         --mark:       var(--gold);       /* the big "EMA" monogram              */
         --label:      var(--lavender);   /* uppercase eyebrow labels            */
 
@@ -63,6 +63,7 @@
         --surface-dark-focus: var(--lavender); /* focus ring on teal bands, both themes */
         --surface-dark-mark:  var(--gold);     /* monogram on teal bands, both themes   */
         --surface-dark-line:  var(--line-on-dark); /* hairline on teal, both themes     */
+        --surface-dark-link:  var(--gold);     /* links on teal bands, both themes     */
 
         /* --- Fonts: four weights total, nothing else --- */
         --font-display: "Playfair Display", Georgia, serif;      /* headings, monogram, nav letters */
@@ -153,6 +154,10 @@
         --dur-mid:    300ms;  /* opacity fades                  */
         --dur-slow:   600ms;  /* hero rise-in                   */
         --dur-reveal: 700ms;  /* scroll reveal of sections      */
+        --dur:        var(--dur-fast); /* link underline draw-in     */
+        --reveal-y:   var(--space-6);  /* how far revealed items rise */
+        --reveal-step: 80ms;  /* delay between staggered items  */
+        --link-rest-strength: 35%; /* in-sentence underline at rest */
       }
 
       /* ---------- 2b · LIGHT (override set) ----------
@@ -166,6 +171,7 @@
         --line:        var(--line-on-cream);
         --mark:        var(--teal);     /* monogram goes teal on cream: gold is never text on cream */
         --rail-active: var(--eucalyptus); /* 5.5:1 on cream, and gold is never text on cream */
+        --link:        var(--eucalyptus); /* same reason: links on cream go eucalyptus */
         --label:       var(--aubergine);
         --shadow-lift: 0 8px 24px rgba(14, 42, 53, 0.12); /* lighter lift on a cream page */
       }
@@ -234,6 +240,8 @@
       .site-header,
       #make {
         --focus: var(--surface-dark-focus);
+        /* Eucalyptus on teal would be ~2.1:1, so links stay gold here. */
+        --link: var(--surface-dark-link);
       }
 
       /* The header is teal in both themes, so the monogram stays gold there.
@@ -639,10 +647,108 @@
         }
       }
 
+      /* ============================================================
+         LINKS AND REVEALS  (Milestone 5)
+         Text links get their colour and a hand-drawn underline; each
+         band's content rises into place the first time it's seen.
+         ============================================================ */
+
+      /* ---------- Links ----------
+         Only text links in the page content and footer. The rail, the
+         monogram and the bar are navigation marks, not text links, so
+         they don't borrow this underline.
+
+         The underline is a background image one pixel tall: a solid line
+         the colour of the link, sized 0 wide at rest. On hover or keyboard
+         focus it grows to the full width, anchored at the left, so it
+         draws in from left to right. */
+      main a,
+      .site-footer a {
+        color: var(--link);
+        text-decoration: none;
+        background-image: linear-gradient(var(--link), var(--link));
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-size: 0 1px;
+        transition: background-size var(--dur) var(--ease);
+      }
+
+      main a:hover,
+      main a:focus-visible,
+      .site-footer a:hover,
+      .site-footer a:focus-visible {
+        background-size: 100% 1px;
+      }
+
+      /* Links inside a sentence need a cue at rest, or they can't be told
+         apart from the words around them. So they carry a second, faint
+         underline underneath that is always full width. The first layer
+         listed is drawn on top: the full-strength line grows over the
+         faint one. */
+      main p a {
+        background-image:
+          linear-gradient(var(--link), var(--link)),
+          linear-gradient(
+            color-mix(in srgb, var(--link) var(--link-rest-strength), transparent),
+            color-mix(in srgb, var(--link) var(--link-rest-strength), transparent)
+          );
+        background-size: 0 1px, 100% 1px;
+      }
+
+      main p a:hover,
+      main p a:focus-visible {
+        background-size: 100% 1px, 100% 1px;
+      }
+
+      /* ---------- Reveals ----------
+         Content inside each band starts a little lower and transparent,
+         then rises into place when the band scrolls into view. Three
+         guards keep this safe:
+         - it only applies when the html element has the "js" class, so
+           without JavaScript nothing is ever hidden;
+         - it only applies to people who haven't asked for reduced motion;
+         - it moves the band's CONTENT, never the band itself, so the
+           band's colour is there from the first frame.
+         The monogram is left out: it has its own draw-in and hand-off.
+
+         --i is each item's position in its band (0, 1, 2…), set by the
+         script; multiplying it by the step staggers them. */
+      @media (prefers-reduced-motion: no-preference) {
+        .js .reveal .container > :not(.monogram) {
+          opacity: 0;
+          transform: translateY(var(--reveal-y));
+        }
+
+        /* The transition lives only on the revealed state, so hiding is
+           instant and only the reveal animates. If the page paints before
+           the script runs, content drops out in one frame rather than
+           visibly fading away and then fading back in. */
+        .js .reveal.is-revealed .container > :not(.monogram) {
+          opacity: 1;
+          transform: none;
+          transition:
+            opacity var(--dur-reveal) var(--ease),
+            transform var(--dur-reveal) var(--ease);
+          transition-delay: calc(var(--i, 0) * var(--reveal-step));
+        }
+      }
+
       /* ---------- Reduced motion ----------
-         Anyone who asks for less movement gets the finished monogram with
-         no drawing and no shrinking. */
+         Anyone who asks for less movement gets everything in its finished
+         state: the monogram already drawn, no shrinking, nothing hidden,
+         and no animation or transition anywhere on the page. */
       @media (prefers-reduced-motion: reduce) {
+        /* The catch-all. !important because this has to beat every
+           animation and transition above, however specific its selector. */
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-delay: 0ms !important;
+          transition-duration: 0.01ms !important;
+          transition-delay: 0ms !important;
+        }
+
         .mark-letter {
           animation-duration: 0.01ms;
           animation-delay: 0ms;
@@ -707,7 +813,7 @@
       </ul>
     </nav>
 
-    <header class="site-header" id="top">
+    <header class="site-header reveal" id="top">
       <div class="container">
         <!-- The monogram: outlined letterforms from images/ema-monogram.svg,
              inlined so CSS can colour and animate them. The viewBox is the
@@ -738,7 +844,7 @@
 
     <main>
       <!-- ENVISION: positioning, three principles, Parkgate case study (M7) -->
-      <section id="envision">
+      <section id="envision" class="reveal">
         <div class="container">
           <h2>Envision</h2>
           <p class="pull-quote">Restraint is a design decision. The art is in the <a href="https://verbarium-mmxxvi.netlify.app" target="_blank" rel="noopener noreferrer">handfinish</a>.</p>
@@ -752,7 +858,7 @@
       </section>
 
       <!-- MAKE: project grid, rendered from the projects array in M6 -->
-      <section id="make">
+      <section id="make" class="reveal">
         <div class="container">
           <h2>Make</h2>
           <p>Seven shipped projects — grid coming.</p>
@@ -761,7 +867,7 @@
       </section>
 
       <!-- AUTOMATE: agentic-AI line, pipeline graphic, latest issue card (M8) -->
-      <section id="automate">
+      <section id="automate" class="reveal">
         <div class="container">
           <h2>Automate</h2>
           <p>I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
@@ -770,7 +876,7 @@
       </section>
 
       <!-- CONTACT: plain text links for now -->
-      <section id="contact">
+      <section id="contact" class="reveal">
         <div class="container">
           <h2>Contact</h2>
           <ul>
@@ -791,10 +897,18 @@
     </footer>
 
     <script>
+      // First thing: tell the CSS that JavaScript is running AND that the
+      // browser can do reveals. The reveal styles only hide content under
+      // html.js, so in a browser without IntersectionObserver — or if this
+      // script never runs — nothing on the page is ever hidden.
+      if ('IntersectionObserver' in window) {
+        document.documentElement.classList.add('js');
+      }
+
       /* ============================================================
          PAGE SCRIPT
-         The scroll-reveal observer (M5), the projects array (M6) and the
-         theme toggle (M9) will live here.
+         The rail scroll-spy (M4) and the scroll reveals (M5) are here.
+         The projects array (M6) and the theme toggle (M9) come later.
          ============================================================ */
 
       /* The rail's observer: it marks the letter for whichever section the
@@ -861,7 +975,46 @@
         sections.forEach((link, section) => observer.observe(section));
       }
 
-      watchSectionsForRail();
+      /* Scroll reveals — observer 2 of 2 (see CLAUDE.md; never a third).
+         Each band marked .reveal has its content numbered so the CSS can
+         stagger it, then waits until 15% of the band is on screen. At that
+         point it gets the is-revealed class, which lets its content rise
+         into place, and the band is no longer watched: each one reveals
+         once and stays revealed. */
+      function revealOnScroll() {
+        const bands = document.querySelectorAll('.reveal');
+
+        // Number each band's revealable items 0, 1, 2… as --i. The
+        // monogram is skipped, to match the CSS, so the stagger starts
+        // with the first item that actually moves.
+        bands.forEach((band) => {
+          const items = band.querySelectorAll('.container > :not(.monogram)');
+          items.forEach((item, index) => {
+            item.style.setProperty('--i', index);
+          });
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+
+        bands.forEach((band) => observer.observe(band));
+      }
+
+      // Reveals start first: content is hidden until they run, so nothing
+      // else in this script should be able to stand in their way.
+      if ('IntersectionObserver' in window) {
+        revealOnScroll();
+        watchSectionsForRail();
+      }
     </script>
   </body>
 </html>
