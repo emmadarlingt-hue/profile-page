@@ -42,7 +42,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 - [ ] One `IntersectionObserver`, reveal once, stagger via `transition-delay`
 - [ ] Link underlines draw in from the left; 
 - [ ] Links: colour via a `--link` token (gold in dark, eucalyptus in light), no underline at rest, underline draws in on hover — "handfinish" is the test case 
-- [ ] project cards lift with a gold hairline on hover
+- [ ] Cards lift with a strengthened --line hairline on hover; never gold
 - [ ] `prefers-reduced-motion` collapses everything
 - Commit: `feat: scroll reveals`
 
