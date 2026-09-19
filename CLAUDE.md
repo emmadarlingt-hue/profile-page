@@ -30,7 +30,7 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
   permanent) and section reveals (threshold 0.15, unobserve after firing).
   Never a third.
 - Accessibility: contrast ≥ 4.5:1, :focus-visible 2px outline in var(--focus), 44px targets.
-  --focus is lavender in dark mode and on ink bands in both themes, ink on cream — never gold.
+  --focus is lavender in dark mode and on teal #0E2A35 bands in both themes, teal #0E2A35 on cream — never gold.
   External links: target="_blank" rel="noopener noreferrer".
 - Comment CSS sections and JS functions in plain English — I'm learning from this code.
 - Ask before running commands. Never force-push. Never touch main.

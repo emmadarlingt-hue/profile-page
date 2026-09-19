@@ -34,14 +34,14 @@
       :root {
         /* --- Palette: the raw paint pots, named by what they look like.
                Only the "role" tokens further down should use these. --- */
-        --teal:      #0E2A35;                 /* deep navy-black, the dark surface        */
+        --teal:      #0E2A35;                 /* deep teal, the dark surface              */
         --cream:         #F5EDD6;                 /* warm cream, the light surface            */
         --lavender:      #C9B8D8;                 /* soft lavender, muted text on dark        */
         --aubergine:          #4A1A4A;                 /* deep aubergine, muted text on cream           */
         --eucalyptus:          #3A6357;                 /* eucalyptus green, small labels on cream        */
         --gold:          #C8922A;                 /* accent gold: max 4 uses, never text on cream */
         --line-on-dark:  rgba(245, 237, 214, 0.18); /* cream hairline at 18% for dark surfaces */
-        --line-on-cream: rgba(14, 42, 53, …);    /* navy hairline at 18% for cream surfaces */
+        --line-on-cream: rgba(14, 42, 53, 0.18); /* teal hairline at 18% for cream surfaces */
 
         /* --- Colour roles: what each colour DOES. These are the ones
                that flip when the light theme is switched on. --- */
@@ -60,9 +60,9 @@
         --surface-dark-text:  var(--cream);
         --surface-cream:      var(--cream);
         --surface-cream-text: var(--teal);
-        --surface-dark-focus: var(--lavender); /* focus ring on ink bands, both themes */
-        --surface-dark-mark:  var(--gold);     /* monogram on ink bands, both themes   */
-        --surface-dark-line:  var(--line-on-dark); /* hairline on ink, both themes     */
+        --surface-dark-focus: var(--lavender); /* focus ring on teal bands, both themes */
+        --surface-dark-mark:  var(--gold);     /* monogram on teal bands, both themes   */
+        --surface-dark-line:  var(--line-on-dark); /* hairline on teal, both themes     */
 
         /* --- Fonts: four weights total, nothing else --- */
         --font-display: "Playfair Display", Georgia, serif;      /* headings, monogram, nav letters */
@@ -145,8 +145,7 @@
         /* --- Shadows --- */
         --shadow-none:        none;
         --shadow-accent-line: 0 1px 0 var(--accent);            /* 1px gold hairline under a hovered card */
-        --shadow-lift:        0 8px 24px rgba(14, 42, 53, …)
-        ;   /* soft lift for hovered cards            */
+        --shadow-lift:        0 8px 24px rgba(14, 42, 53, 0.35); /* soft lift for hovered cards            */
 
         /* --- Motion: one easing curve for everything, plus a few durations --- */
         --ease:       cubic-bezier(0.16, 1, 0.3, 1); /* fast start, long gentle settle */
@@ -163,12 +162,12 @@
         --bg:          var(--cream);
         --text:        var(--teal);
         --text-muted:  var(--aubergine);
-        --focus:       var(--teal);     /* focus ring goes ink: gold on cream is only ~2.4:1 */
+        --focus:       var(--teal);     /* focus ring goes teal: gold on cream is only ~2.4:1 */
         --line:        var(--line-on-cream);
-        --mark:        var(--teal);     /* monogram goes ink on cream: gold is never text on cream */
+        --mark:        var(--teal);     /* monogram goes teal on cream: gold is never text on cream */
         --rail-active: var(--eucalyptus); /* 5.5:1 on cream, and gold is never text on cream */
         --label:       var(--aubergine);
-        --shadow-lift: 0 8px 24px rgba(26, 26, 46, 0.12); /* lighter lift on a cream page */
+        --shadow-lift: 0 8px 24px rgba(14, 42, 53, 0.12); /* lighter lift on a cream page */
       }
 
       /* ============================================================
@@ -199,7 +198,7 @@
       }
 
       /* Links take the colour of the text around them, so they are
-         readable on both ink and cream surfaces. */
+         readable on both teal and cream surfaces. */
       a {
         color: inherit;
       }
@@ -224,21 +223,21 @@
       }
 
       /* ---------- Section surfaces ----------
-         Which colour each band gets. Header and #make stay ink in both
+         Which colour each band gets. Header and #make stay teal in both
          themes; everything else follows the theme's page colour. */
       /* /* --- Section surfaces --- */
 .site-header, #make { background: var(--surface-dark); color: var(--surface-dark-text); }
 #envision, #automate, #contact, .site-footer { background: var(--bg); color: var(--text); }
 
-      /* Ink bands stay ink in light mode too, so their focus ring must stay
+      /* Teal bands stay teal in light mode too, so their focus ring must stay
          lavender. Custom properties inherit, so every link inside picks this up. */
       .site-header,
       #make {
         --focus: var(--surface-dark-focus);
       }
 
-      /* The header is ink in both themes, so the monogram stays gold there.
-         --mark itself still goes ink on cream for pages with a cream hero. */
+      /* The header is teal in both themes, so the monogram stays gold there.
+         --mark itself still goes teal on cream for pages with a cream hero. */
       .site-header {
         --mark: var(--surface-dark-mark);
       }
@@ -475,8 +474,8 @@
           background: var(--surface-dark);
           border-block-end: 1px solid var(--surface-dark-line);
           color: var(--surface-dark-mark);
-          /* The bar is ink in both themes, so its focus ring follows the
-             ink-band rule rather than the page theme's. */
+          /* The bar is teal in both themes, so its focus ring follows the
+             teal-band rule rather than the page theme's. */
           --focus: var(--surface-dark-focus);
           visibility: hidden;
           animation: bar-in linear both;
@@ -600,7 +599,7 @@
 
       /* From 768px the rail leaves the flow and floats against the right
          edge, vertically centred, as a column of three letters. It carries
-         its own panel: the bands scrolling behind it are ink in one theme
+         its own panel: the bands scrolling behind it are teal in one theme
          and cream in the other, so the letters need a background of their
          own to stay readable over both. */
       @media (min-width: 768px) {
@@ -670,7 +669,7 @@
   <body>
     <!-- ============================================================
          HEADER + HERO
-         The monogram (inline SVG) and the hero lines. Ink in both
+         The monogram (inline SVG) and the hero lines. Teal in both
          themes, so the monogram stays gold here in both. The rail
          lives just above, outside the header.
          ============================================================ -->
