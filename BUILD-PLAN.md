@@ -49,6 +49,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 ## M6 — Make: data-driven project grid
 - [ ] `projects` array → cards. Featured (larger): Parkgate, Verbarium, Bank-a-Win. Tight row: Forecast, Lingua Daily, Pagine, Tip Calculator
 - [ ] teal band in light mode; glass panels (`backdrop-filter: blur`) on teal
+- [ ] Tall-band reveal check: a band taller than ~6.7 screen heights never reaches the 0.15 reveal threshold. If the stacked grid on a phone gets there, observe the cards instead of the band
 - Commit: `feat: project grid from data`
 - [ ] Check aubergine meta text on cream against the teal; if it clashes, `--text-muted` and `--label` move to eucalyptus in light mode
 

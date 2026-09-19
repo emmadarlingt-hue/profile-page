@@ -15,7 +15,8 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 - Light mode is a [data-theme="light"] override set. Nothing hard-coded below :root.
 - Fonts: Playfair Display 600 (display), DM Sans 400/500 (body, labels),
   Cormorant Garamond 400 italic (pull-quote only). Four weights total. Nothing else.
-- Gold #C8922A appears at most four times per page and never as text on cream.
+- Gold #C8922A has at most four roles per page: the hero monogram, the top-bar
+  monogram copy, the active rail letter, and text links. Never as text on cream.
 
 ## Design decisions
 - Monogram: E·M·A in Noto Serif Display, tightly tracked, matching the LinkedIn
