@@ -41,6 +41,8 @@
         --gold:          #C8922A;                 /* accent gold: max 4 uses, never text on cream */
         --line-on-dark:  rgba(245, 237, 214, 0.18); /* cream hairline at 18% for dark surfaces */
         --line-on-cream: rgba(14, 42, 53, 0.18); /* teal hairline at 18% for cream surfaces */
+        --line-on-dark-strong:  rgba(245, 237, 214, 0.4); /* the same hairlines at 40%, */
+        --line-on-cream-strong: rgba(14, 42, 53, 0.4);    /* for hovered cards          */
 
         /* --- Colour roles: what each colour DOES. These are the ones
                that flip when the light theme is switched on. --- */
@@ -48,6 +50,7 @@
         --text:       var(--cream);      /* body copy and headings              */
         --text-muted: var(--lavender);   /* secondary copy, captions, meta      */
         --line:       var(--line-on-dark); /* borders, dividers, card outlines  */
+        --line-strong: var(--line-on-dark-strong); /* hovered card outlines     */
         --accent:     var(--gold);       /* hover hairlines, small highlights   */
         --focus:      var(--lavender);   /* keyboard focus ring (never gold)    */
         --link:       var(--gold);       /* text links and their underline      */
@@ -64,6 +67,9 @@
         --surface-dark-mark:  var(--gold);     /* monogram on teal bands, both themes   */
         --surface-dark-line:  var(--line-on-dark); /* hairline on teal, both themes     */
         --surface-dark-link:  var(--gold);     /* links on teal bands, both themes     */
+        --surface-dark-muted: var(--lavender); /* meta text and labels on teal, ~8:1   */
+        --surface-dark-line-strong: var(--line-on-dark-strong); /* hovered outlines on teal */
+        --surface-dark-shadow-lift: 0 8px 24px rgba(0, 0, 0, 0.35); /* a teal shadow can't show on teal */
 
         /* --- Fonts: four weights total, nothing else --- */
         --font-display: "Playfair Display", Georgia, serif;      /* headings, monogram, nav letters */
@@ -135,6 +141,11 @@
         /* breakpoints: 768, 1100 — media queries can't read custom properties,
            so these live here as a note and are typed literally in the queries */
         --container-max:  72rem; /* 1152px: widest the content inside a section gets */
+        --card-pad:       var(--space-6); /* inside a featured project card     */
+        --card-pad-tight: var(--space-4); /* inside a card in the tight row     */
+        --card-lift:      calc(var(--space-1) * -1); /* how far a hovered card rises */
+        --glass-fill:     rgba(245, 237, 214, 0.06); /* cream at 6%: a raised tint on teal */
+        --glass-blur:     12px;  /* frosted-glass blur behind a card      */
         --target-min:     44px;  /* minimum tap/click target (accessibility)   */
 
         /* --- Radii: the design is deliberately square-cornered --- */
@@ -169,6 +180,7 @@
         --text-muted:  var(--aubergine);
         --focus:       var(--teal);     /* focus ring goes teal: gold on cream is only ~2.4:1 */
         --line:        var(--line-on-cream);
+        --line-strong: var(--line-on-cream-strong);
         --mark:        var(--teal);     /* monogram goes teal on cream: gold is never text on cream */
         --rail-active: var(--eucalyptus); /* 5.5:1 on cream, and gold is never text on cream */
         --link:        var(--eucalyptus); /* same reason: links on cream go eucalyptus */
@@ -242,6 +254,13 @@
         --focus: var(--surface-dark-focus);
         /* Eucalyptus on teal would be ~2.1:1, so links stay gold here. */
         --link: var(--surface-dark-link);
+        /* Same story for everything a project card uses: in light mode these
+           would flip to their cream-page values and vanish against teal. */
+        --text-muted:  var(--surface-dark-muted);
+        --label:       var(--surface-dark-muted);
+        --line:        var(--surface-dark-line);
+        --line-strong: var(--surface-dark-line-strong);
+        --shadow-lift: var(--surface-dark-shadow-lift);
       }
 
       /* The header is teal in both themes, so the monogram stays gold there.
@@ -648,6 +667,142 @@
       }
 
       /* ============================================================
+         PROJECT GRID  (Milestone 6)
+         Cards built by the script from the projects array. Featured
+         projects sit large in their own row; the rest share a tighter
+         row underneath. Every card is a frosted glass panel on the teal
+         band.
+         ============================================================ */
+
+      /* ---------- The two lists ----------
+         Both are plain lists (no bullets) laid out as grids. Column
+         counts step up at the page's two breakpoints (768 and 1100). */
+      .projects {
+        display: grid;
+        gap: var(--space-grid);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .projects + .projects {
+        margin-block-start: var(--space-stack);
+      }
+
+      /* The prose rule caps list items at a reading width; grid cells
+         should fill their column instead. */
+      .projects > li {
+        max-width: none;
+      }
+
+      @media (min-width: 768px) {
+        .projects--row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1100px) {
+        .projects--featured {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .projects--row {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      /* ---------- A card ----------
+         The glass: a faint cream tint over the teal, and a blur of
+         whatever is behind the card (today that's flat teal, so the
+         tint is what you actually see). height: 100% makes cards in the
+         same row line up at the bottom. */
+      .card {
+        height: 100%;
+        padding: var(--card-pad);
+        background: var(--glass-fill);
+        backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        transition:
+          transform var(--dur) var(--ease),
+          box-shadow var(--dur) var(--ease),
+          border-color var(--dur) var(--ease);
+      }
+
+      .projects--row .card {
+        padding: var(--card-pad-tight);
+      }
+
+      /* Hover, or keyboard focus on a link inside: the card rises, casts
+         a soft shadow, and its outline strengthens. Never gold. The lift
+         is on the card, while the scroll reveal moves the list item
+         around it, so the two never fight over the same transform. */
+      .card:hover,
+      .card:focus-within {
+        transform: translateY(var(--card-lift));
+        box-shadow: var(--shadow-lift);
+        border-color: var(--line-strong);
+      }
+
+      /* ---------- What's inside a card ---------- */
+      .card h3 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: var(--weight-display);
+        font-size: var(--fs-h3);
+        line-height: var(--lh-heading);
+      }
+
+      .projects--row .card h3 {
+        font-size: var(--fs-body);
+      }
+
+      /* Each part of the card sits one small step below the last. */
+      .card > * + * {
+        margin-block-start: var(--space-3);
+      }
+
+      .card-meta {
+        font-size: var(--fs-small);
+        color: var(--text-muted);
+      }
+
+      .card-summary {
+        font-size: var(--fs-small);
+      }
+
+      /* The technologies, as a row of small uppercase labels. */
+      .card-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2) var(--space-3);
+        padding: 0;
+        list-style: none;
+        font-size: var(--fs-label);
+        font-weight: var(--weight-medium);
+        letter-spacing: var(--ls-label);
+        text-transform: uppercase;
+        color: var(--label);
+      }
+
+      .card-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        font-size: var(--fs-small);
+      }
+
+      /* Small text makes a small link, so padding above and below brings
+         each one up to the 44px tap target. background-origin keeps the
+         drawn-in underline under the words rather than at the bottom of
+         the padding. */
+      .card-links a {
+        display: inline-block;
+        padding-block: var(--space-3);
+        background-origin: content-box;
+      }
+
+      /* ============================================================
          LINKS AND REVEALS  (Milestone 5)
          Text links get their colour and a hand-drawn underline; each
          band's content rises into place the first time it's seen.
@@ -724,6 +879,23 @@
            the script runs, content drops out in one frame rather than
            visibly fading away and then fading back in. */
         .js .reveal.is-revealed .container > :not(.monogram) {
+          opacity: 1;
+          transform: none;
+          transition:
+            opacity var(--dur-reveal) var(--ease),
+            transform var(--dur-reveal) var(--ease);
+          transition-delay: calc(var(--i, 0) * var(--reveal-step));
+        }
+
+        /* Single items that reveal on their own rather than with a whole
+           band: the Make heading and each project card. Same look, same
+           timing; the only difference is what the observer watches. */
+        .js .reveal-item {
+          opacity: 0;
+          transform: translateY(var(--reveal-y));
+        }
+
+        .js .reveal-item.is-revealed {
           opacity: 1;
           transform: none;
           transition:
@@ -857,11 +1029,14 @@
         </div>
       </section>
 
-      <!-- MAKE: project grid, rendered from the projects array in M6 -->
-      <section id="make" class="reveal">
+      <!-- MAKE: the project grid. The cards are built by the script from the
+           projects array, so none of them are written out here. This band
+           isn't a .reveal band: with the grid stacked on a phone it can be
+           too tall to ever be 15% on screen, so the heading and each card
+           reveal one by one instead. -->
+      <section id="make">
         <div class="container">
-          <h2>Make</h2>
-          <p>Seven shipped projects — grid coming.</p>
+          <h2 class="reveal-item">Make</h2>
           <div id="project-grid"></div>
         </div>
       </section>
@@ -907,9 +1082,124 @@
 
       /* ============================================================
          PAGE SCRIPT
-         The rail scroll-spy (M4) and the scroll reveals (M5) are here.
-         The projects array (M6) and the theme toggle (M9) come later.
+         The projects (M6), the rail scroll-spy (M4) and the scroll
+         reveals (M5). The theme toggle (M9) comes later.
          ============================================================ */
+
+      /* The projects: the one place project content lives. The Make
+         grid is built from this list, so adding, removing or editing a
+         project means editing only this. A field set to null is simply
+         left off its card. */
+      const projects = [
+        { name: "Parkgate Construction", year: 2026, featured: true, caseStudy: null,
+          summary: "One-page site for a London construction firm — brief → brand → build → custom domain.",
+          stack: ["HTML", "CSS", "JavaScript", "Netlify", "DNS"],
+          url: "https://parkgate-construction.com", repo: null },
+        { name: "Verbarium", year: 2026, featured: true, caseStudy: null,
+          summary: "Searchable lexicon of ~90 coined words across five volumes — search, category filtering, localStorage.",
+          stack: ["HTML", "CSS", "JavaScript", "localStorage"],
+          url: "https://verbarium-mmxxvi.netlify.app", repo: null },
+        { name: "Bank-a-Win", year: 2026, featured: true, caseStudy: null,
+          summary: "Habit-reward app — add a win, bank a token, watch the bar fill, redeem. Persists between visits.",
+          stack: ["React", "localStorage", "Netlify"],
+          url: "https://bank-a-win.netlify.app", repo: null },
+        { name: "Forecast", year: 2026, featured: false, caseStudy: null,
+          summary: "Live weather from the Open-Meteo API — fetch, JSON, async/await.",
+          stack: ["JavaScript", "Open-Meteo API", "fetch"],
+          url: "https://forecastlive.netlify.app", repo: null },
+        { name: "Lingua Daily", year: 2026, featured: false, caseStudy: null,
+          summary: "Trilingual word-of-the-day (EN/FR/IT) with pronunciation.",
+          stack: ["HTML", "CSS", "JavaScript"],
+          url: "https://lingua-daily.netlify.app", repo: null },
+        { name: "Pagine", year: 2026, featured: false, caseStudy: null,
+          summary: "Minimal notes app that saves to the browser — no account, no server.",
+          stack: ["JavaScript", "localStorage"],
+          url: "https://pagine.netlify.app", repo: null },
+        { name: "Tip Calculator", year: 2026, featured: false, caseStudy: null,
+          summary: "Bill splitter with custom tip percentage — first interactive JavaScript.",
+          stack: ["HTML", "CSS", "JavaScript"],
+          url: "https://tipcalculatorv2.netlify.app", repo: null },
+      ];
+
+      /* A small helper: make an element with a class and some text.
+         textContent (rather than innerHTML) means the text is always
+         shown as text — it can never be read as HTML. */
+      function makeElement(tag, className, text) {
+        const el = document.createElement(tag);
+        if (className) el.className = className;
+        if (text !== undefined) el.textContent = text;
+        return el;
+      }
+
+      /* One link on a card. The visible text is short ("Live site"), so
+         the accessible name adds the project: "Live site: Verbarium".
+         It starts with the visible words, so voice control users can say
+         what they see. Only site-relative links (a case study) open in
+         the same tab; everything else is external. */
+      function makeCardLink(label, href, projectName) {
+        const link = makeElement('a', null, label);
+        link.href = href;
+        link.setAttribute('aria-label', `${label}: ${projectName}`);
+        if (!href.startsWith('/')) {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+        }
+        return link;
+      }
+
+      /* Build one project card: name, year, summary, stack labels
+         (featured cards only, so the tight row stays tight) and links.
+         Every optional field is checked, so null values just vanish. */
+      function makeCard(project) {
+        const card = makeElement('article', 'card');
+        card.append(makeElement('h3', null, project.name));
+
+        if (project.year) {
+          card.append(makeElement('p', 'card-meta', String(project.year)));
+        }
+
+        card.append(makeElement('p', 'card-summary', project.summary));
+
+        if (project.featured && project.stack && project.stack.length) {
+          const stack = makeElement('ul', 'card-stack');
+          project.stack.forEach((tech) => stack.append(makeElement('li', null, tech)));
+          card.append(stack);
+        }
+
+        const links = makeElement('p', 'card-links');
+        if (project.url) links.append(makeCardLink('Live site', project.url, project.name));
+        if (project.repo) links.append(makeCardLink('Code', project.repo, project.name));
+        if (project.caseStudy) links.append(makeCardLink('Case study', project.caseStudy, project.name));
+        if (links.children.length) card.append(links);
+
+        return card;
+      }
+
+      /* Fill the Make grid: featured projects in one list, the rest in
+         another. Each card sits in a list item that the scroll reveal
+         watches on its own, numbered with --i so cards in the same list
+         arrive one after another. */
+      function renderProjects() {
+        const grid = document.getElementById('project-grid');
+        if (!grid) return;
+
+        const groups = [
+          { className: 'projects projects--featured', items: projects.filter((p) => p.featured) },
+          { className: 'projects projects--row', items: projects.filter((p) => !p.featured) },
+        ];
+
+        groups.forEach((group) => {
+          if (!group.items.length) return;
+          const list = makeElement('ul', group.className);
+          group.items.forEach((project, index) => {
+            const item = makeElement('li', 'reveal-item');
+            item.style.setProperty('--i', index);
+            item.append(makeCard(project));
+            list.append(item);
+          });
+          grid.append(list);
+        });
+      }
 
       /* The rail's observer: it marks the letter for whichever section the
          page is currently showing. Sections stay observed, because the rail
@@ -976,13 +1266,18 @@
       }
 
       /* Scroll reveals — observer 2 of 2 (see CLAUDE.md; never a third).
-         Each band marked .reveal has its content numbered so the CSS can
-         stagger it, then waits until 15% of the band is on screen. At that
-         point it gets the is-revealed class, which lets its content rise
-         into place, and the band is no longer watched: each one reveals
-         once and stays revealed. */
+         It watches two kinds of thing:
+         - bands marked .reveal, whose content is numbered here so the CSS
+           can stagger it, and which reveal all at once;
+         - single .reveal-item elements (the Make heading and each project
+           card), which reveal on their own. A tall band could never be
+           15% on screen; a single card always can.
+         When 15% of either is on screen it gets the is-revealed class,
+         which lets it rise into place, and stops being watched: each
+         reveals once and stays revealed. */
       function revealOnScroll() {
         const bands = document.querySelectorAll('.reveal');
+        const singles = document.querySelectorAll('.reveal-item');
 
         // Number each band's revealable items 0, 1, 2… as --i. The
         // monogram is skipped, to match the CSS, so the stagger starts
@@ -1007,10 +1302,21 @@
         );
 
         bands.forEach((band) => observer.observe(band));
+        singles.forEach((single) => observer.observe(single));
       }
 
-      // Reveals start first: content is hidden until they run, so nothing
-      // else in this script should be able to stand in their way.
+      // The cards have to exist before the reveal observer can watch them,
+      // so the grid is built first. It's wrapped in try/catch because
+      // content is hidden until the reveals run: a mistake in the project
+      // data must never be able to leave the rest of the page invisible.
+      try {
+        renderProjects();
+      } catch (error) {
+        console.error('Project grid failed to render:', error);
+      }
+
+      // Reveals next, then the rail: nothing else should stand in the way
+      // of content becoming visible.
       if ('IntersectionObserver' in window) {
         revealOnScroll();
         watchSectionsForRail();
