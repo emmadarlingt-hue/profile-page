@@ -7,51 +7,51 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 ---
 
 ## M0 — Branch and safety net
-- [ ] `git checkout -b revamp` from an up-to-date `main`
-- [ ] Netlify → Site configuration → Build & deploy → Branch deploys → add `revamp`
-- [ ] Screenshot the current live site (desktop + phone) → save to `Promptwrought-Private/` as the "before"
-- [ ] Copy `CLAUDE.md` and `BUILD-PLAN.md` into the repo root
+- [x] `git checkout -b revamp` from an up-to-date `main`
+- [x] Netlify → Site configuration → Build & deploy → Branch deploys → add `revamp`
+- [x] Screenshot the current live site (desktop + phone) → save to `Promptwrought-Private/` as the "before"
+- [x] Copy `CLAUDE.md` and `BUILD-PLAN.md` into the repo root
 - Commit: `chore: revamp branch, CLAUDE.md, build plan`
 
 ## M1 — Design tokens
-- [ ] `:root` block: colours (teal, gold, cream, eucalyptus, aubergine, lavender), fluid type scale with `clamp()`, spacing scale, radii, shadows, `--ease`
-- [ ] `[data-theme="light"]` override set
-- [ ] Nothing hard-coded below `:root`
+- [x] `:root` block: colours (teal, gold, cream, eucalyptus, aubergine, lavender), fluid type scale with `clamp()`, spacing scale, radii, shadows, `--ease`
+- [x] `[data-theme="light"]` override set
+- [x] Nothing hard-coded below `:root`
 - Commit: `feat: design tokens`
 
 ## M2 — Skeleton and the column fix
-- [ ] Semantic structure per `CLAUDE.md`; rough content is fine
-- [ ] Every `<section>` full-bleed and coloured; `.container` inside with no background
-- [ ] Check at 1440 and 390: the aubergine column is gone
+- [x] Semantic structure per `CLAUDE.md`; rough content is fine
+- [x] Every `<section>` full-bleed and coloured; `.container` inside with no background
+- [x] Check at 1440 and 390: the aubergine column is gone
 - Commit: `feat: page skeleton, full-bleed sections`
 
 ## M3 — Typography and rhythm
-- [ ] Playfair Display 600 on `h1`/`h2`; DM Sans body 17–19px, lh 1.6–1.7, ~68ch
-- [ ] Cormorant italic on the one pull-quote only
-- [ ] Vertical rhythm from the spacing scale
+- [x] Playfair Display 600 on `h1`/`h2`; DM Sans body 17–19px, lh 1.6–1.7, ~68ch
+- [x] Cormorant italic on the one pull-quote only
+- [x] Vertical rhythm from the spacing scale
 - Commit: `feat: typography`
 
 ## M4 — The monogram + rail
-- [ ] EMA as inline SVG paths (not an image), `<title>` inside
-- [ ] Large gold monogram in the hero (direction C)
-- [ ] Sticky rail: three letters E · M · A as anchor links; active letter in gold; no descriptor text
-- [ ] Draw-in animation on load, letters draw in E → M → A
+- [x] EMA as inline SVG paths (not an image), `<title>` inside
+- [x] Large gold monogram in the hero (direction C)
+- [x] Sticky rail: three letters E · M · A as anchor links; active letter in gold; no descriptor text
+- [x] Draw-in animation on load, letters draw in E → M → A
 - Commit: `feat: monogram hero and rail nav`
 
 ## M5 — Motion system
-- [ ] One `IntersectionObserver`, reveal once, stagger via `transition-delay`
-- [ ] Link underlines draw in from the left; 
-- [ ] Links: colour via a `--link` token (gold in dark, eucalyptus in light), no underline at rest, underline draws in on hover — "handfinish" is the test case 
-- [ ] Cards lift with a strengthened --line hairline on hover; never gold
-- [ ] `prefers-reduced-motion` collapses everything
+- [x] One `IntersectionObserver`, reveal once, stagger via `transition-delay`
+- [x] Link underlines draw in from the left; 
+- [x] Links: colour via a `--link` token (gold in dark, eucalyptus in light), no underline at rest, underline draws in on hover — "handfinish" is the test case 
+- [x] Cards lift with a strengthened --line hairline on hover; never gold
+- [x] `prefers-reduced-motion` collapses everything
 - Commit: `feat: scroll reveals`
 
 ## M6 — Make: data-driven project grid
-- [ ] `projects` array → cards. Featured (larger): Parkgate, Verbarium, Bank-a-Win. Tight row: Forecast, Lingua Daily, Pagine, Tip Calculator
-- [ ] teal band in light mode; glass panels (`backdrop-filter: blur`) on teal
-- [ ] Tall-band reveal check: a band taller than ~6.7 screen heights never reaches the 0.15 reveal threshold. If the stacked grid on a phone gets there, observe the cards instead of the band
+- [x] `projects` array → cards. Featured (larger): Parkgate, Verbarium, Bank-a-Win. Tight row: Forecast, Lingua Daily, Pagine, Tip Calculator
+- [x] teal band in light mode; glass panels (`backdrop-filter: blur`) on teal
+- [x] Tall-band reveal check: a band taller than ~6.7 screen heights never reaches the 0.15 reveal threshold. If the stacked grid on a phone gets there, observe the cards instead of the band
 - Commit: `feat: project grid from data`
-- [ ] Check aubergine meta text on cream against the teal; if it clashes, `--text-muted` and `--label` move to eucalyptus in light mode
+- [x] Check aubergine meta text on cream against the teal; if it clashes, `--text-muted` and `--label` move to eucalyptus in light mode
 
 ## M7 — Envision
 - [ ] Positioning line + three principles: restraint, evidence, shipping
@@ -62,6 +62,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 - [ ] Line: "I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit."
 - [ ] Three-step pipeline graphic: draft → schema-matched entry → published issue
 - [ ] Latest Promptwrought issue as a static card (no iframe)
+- [ ] Contact: icon + label row; muted colour; aria-labels not needed because labels are visible.
 - Commit: `feat: automate section`
 
 ## M9 — Light/dark toggle
