@@ -149,6 +149,8 @@
         --card-lift:      calc(var(--space-1) * -1); /* how far a hovered card rises */
         --glass-fill:     var(--glass-on-dark); /* card tint: flips with the page theme */
         --glass-blur:     12px;  /* frosted-glass blur behind a card      */
+        --pipeline-gap:   var(--space-6); /* space (and connector) between pipeline steps */
+        --icon-size:      1.125rem; /* 18px: contact icons, beside their labels */
         --target-min:     44px;  /* minimum tap/click target (accessibility)   */
 
         /* --- Radii: the design is deliberately square-cornered --- */
@@ -861,11 +863,123 @@
         }
       }
 
-      /* ---------- Case-study card ----------
+      /* ---------- Single feature cards ----------
          One card on its own would stretch the full width of the page, so
-         it is held to reading width instead. */
-      .case-study {
+         it is held to reading width instead: the Parkgate case study here,
+         and the latest Promptwrought issue in Automate. */
+      .case-study,
+      .latest-issue {
         max-width: var(--measure);
+      }
+
+      /* ============================================================
+         AUTOMATE AND CONTACT  (Milestone 8)
+         The newsletter pipeline, drawn as a list, and the contact row.
+         ============================================================ */
+
+      /* ---------- Pipeline ----------
+         Three steps as boxes joined by a short hairline: a column on
+         phones, a row from 768px. The connector is drawn in the gap
+         before each step after the first, so its length is the gap.
+         Only the inline and bottom margins are reset; the top margin is
+         left to the rhythm rule so the list keeps its space above. */
+      .pipeline {
+        display: flex;
+        flex-direction: column;
+        gap: var(--pipeline-gap);
+        margin-inline: 0;
+        margin-block-end: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .pipeline li {
+        position: relative;
+        padding: var(--space-3) var(--space-4);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        font-size: var(--fs-small);
+      }
+
+      /* Vertical connector, centred above each later step. An absolutely
+         placed line is measured from inside the box's 1px border, so the
+         offset adds that 1px to meet the previous box exactly. */
+      .pipeline li + li::before {
+        content: "";
+        position: absolute;
+        inset-block-start: calc(var(--pipeline-gap) * -1 - 1px);
+        inset-inline-start: 50%;
+        width: 1px;
+        height: var(--pipeline-gap);
+        background: var(--line-strong);
+      }
+
+      @media (min-width: 768px) {
+        .pipeline {
+          flex-direction: row;
+          align-items: stretch;
+        }
+
+        .pipeline li {
+          flex: 1;
+        }
+
+        /* In a row the connector turns horizontal, joining the sides. */
+        .pipeline li + li::before {
+          inset-block-start: 50%;
+          inset-inline-start: calc(var(--pipeline-gap) * -1 - 1px);
+          width: var(--pipeline-gap);
+          height: 1px;
+        }
+      }
+
+      /* ---------- Contact row ----------
+         Icon + label links in the muted colour rather than the link
+         colour: setting --link here recolours the text AND the drawn-in
+         underline, and keeps gold off these four links. Muted is
+         lavender on teal (8.1:1) and aubergine on cream (11.7:1).
+         The .container prefix outranks the prose-list rules from M3. */
+      .container > .contact-links {
+        --link: var(--text-muted);
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2) var(--space-6);
+        padding: 0;
+        list-style: none;
+      }
+
+      .container > .contact-links > li + li {
+        margin-block-start: 0;
+      }
+
+      /* Each link is at least 44px tall to tap, with the icon beside
+         the label. The underline moves from the link to the label only,
+         so it runs under the word and not under the icon. */
+      .contact-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        min-height: var(--target-min);
+        background-image: none;
+      }
+
+      .contact-links a > span {
+        background-image: linear-gradient(var(--link), var(--link));
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-size: 0 1px;
+        transition: background-size var(--dur) var(--ease);
+      }
+
+      .contact-links a:hover > span,
+      .contact-links a:focus-visible > span {
+        background-size: 100% 1px;
+      }
+
+      .icon {
+        flex: none;
+        width: var(--icon-size);
+        height: var(--icon-size);
       }
 
       /* ============================================================
@@ -1094,7 +1208,7 @@
 
           <p class="reveal-item">I design for the person on the other side of the screen — usually on a phone, usually in a hurry. Every choice on a page has to earn its place, and I'd rather ship something quiet and finished than something loud and half-built.</p>
 
-          <ul class="principles">
+          <ul class="principles" role="list">
             <li class="reveal-item">
               <h3>Restraint</h3>
               <p>One accent colour, and it has exactly four jobs on this page. If a design needs more than that to work, the problem isn't the palette.</p>
@@ -1132,23 +1246,56 @@
       </section>
 
       <!-- AUTOMATE: agentic-AI line, pipeline graphic, latest issue card (M8) -->
+      <!-- AUTOMATE: how the newsletter gets made, then the latest issue.
+           The pipeline is an ordered list drawn with CSS, so it reads in
+           order to screen readers too. The issue card is built by the
+           script from the latestIssue object. -->
       <section id="automate" class="reveal">
         <div class="container">
           <h2>Automate</h2>
           <p>I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit.</p>
-          <p><a href="https://promptwrought.com" target="_blank" rel="noopener noreferrer">Promptwrought</a></p>
+
+          <ol class="pipeline" role="list">
+            <li>Draft</li>
+            <li>Schema-matched entry</li>
+            <li>Published issue</li>
+          </ol>
+
+          <div class="latest-issue"></div>
         </div>
       </section>
 
-      <!-- CONTACT: plain text links for now -->
+      <!-- CONTACT: icon + label links in the muted colour. The labels are
+           visible, so the icons are hidden from screen readers and no
+           aria-label is needed. -->
       <section id="contact" class="reveal">
         <div class="container">
           <h2>Contact</h2>
-          <ul>
-            <li><a href="mailto:hello@emmadarling.dev">Email</a></li>
-            <li><a href="https://www.linkedin.com/in/emmadarling-dev/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-            <li><a href="https://github.com/emmadarlingt-hue" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            <li><a href="https://promptwrought.com" target="_blank" rel="noopener noreferrer">Promptwrought</a></li>
+          <ul class="contact-links" role="list">
+            <li>
+              <a href="mailto:hello@emmadarling.dev">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M3 5.25h18v13.5H3z M3 5.25l9 7.5 9-7.5"/></svg>
+                <span>Email</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/emmadarling-dev/" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <span>LinkedIn</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/emmadarlingt-hue" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                <span>GitHub</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://promptwrought.com" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                <span>Promptwrought</span>
+              </a>
+            </li>
           </ul>
           <p>Open to London / hybrid / remote.</p>
         </div>
@@ -1210,6 +1357,20 @@
           stack: ["HTML", "CSS", "JavaScript"],
           url: "https://tipcalculatorv2.netlify.app", repo: "https://github.com/emmadarlingt-hue/tip-calculatorV2" },
       ];
+
+      /* The latest Promptwrought issue, shown as a card in Automate.
+         Update this every Tuesday: the card rebuilds from it.
+         - number: the issue number (left off the card while null)
+         - word, definition: the coinage and its one-line definition
+         - date: publication date as YYYY-MM-DD
+         - url: the Substack post */
+      const latestIssue = {
+        number: 8,
+        word: "truthflinch",
+        definition: "The small jolt of discovering that a smooth, plausible machine answer is false; the moment trust recalibrates.",
+        date: "2026-09-15",
+        url: "https://promptwrought.substack.com/p/truthflinch",
+      };
 
       /* A small helper: make an element with a class and some text.
          textContent (rather than innerHTML) means the text is always
@@ -1290,16 +1451,73 @@
         const href = project.caseStudy || project.url;
         if (href) {
           const label = project.caseStudy ? 'Read the case study' : 'Visit the live site';
-          const link = makeCardLink(label, href, project.name);
-          // The arrow is decoration: hidden from screen readers, so the
-          // link is announced as its words, not "right arrow".
-          const arrow = makeElement('span', null, ' →');
-          arrow.setAttribute('aria-hidden', 'true');
-          link.append(arrow);
+          card.append(makeArrowLink(label, href, project.name));
+        }
 
-          const links = makeElement('p', 'card-links');
-          links.append(link);
-          card.append(links);
+        slot.append(card);
+      }
+
+      /* A card's single call-to-action: a card link with a trailing arrow,
+         wrapped in the card-links line. The arrow is decoration, hidden
+         from screen readers, so the link is announced as its words and
+         not as "right arrow". Used by the case-study and issue cards. */
+      function makeArrowLink(label, href, name) {
+        const link = makeCardLink(label, href, name);
+        const arrow = makeElement('span', null, ' →');
+        arrow.setAttribute('aria-hidden', 'true');
+        link.append(arrow);
+
+        const line = makeElement('p', 'card-links');
+        line.append(link);
+        return line;
+      }
+
+      /* Turn "2026-09-15" into "15 Sept 2026", Substack's style. The date
+         is split by hand rather than given to new Date(), which reads a
+         bare date as midnight UTC: anywhere west of London that is still
+         the evening before, and the card would show the 14th. */
+      function formatIssueDate(isoDate) {
+        // Anything not shaped YYYY-MM-DD (a typo in the weekly edit)
+        // returns null, and the card simply leaves the date off.
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return null;
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
+                        'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+        const [year, month, day] = isoDate.split('-').map(Number);
+        if (month < 1 || month > 12) return null;
+        return `${day} ${months[month - 1]} ${year}`;
+      }
+
+      /* Fill the Automate issue card from latestIssue, with the same card
+         classes as the others: eyebrow, the word, its definition, then
+         "Issue 012 · 15 Sept 2026" (the number is left off while it's
+         null) and a link to the post. The date sits in a <time> element
+         so machines can read it as a date too. */
+      function renderLatestIssue() {
+        const slot = document.querySelector('.latest-issue');
+        if (!slot || !latestIssue || !latestIssue.word) return;
+
+        const card = makeElement('article', 'card');
+        card.append(makeElement('p', 'eyebrow', 'Latest issue'));
+        card.append(makeElement('h3', null, latestIssue.word));
+        if (latestIssue.definition) {
+          card.append(makeElement('p', 'card-summary', latestIssue.definition));
+        }
+
+        const meta = makeElement('p', 'card-meta');
+        if (latestIssue.number) {
+          meta.append(`Issue ${String(latestIssue.number).padStart(3, '0')}`);
+        }
+        const shownDate = latestIssue.date ? formatIssueDate(latestIssue.date) : null;
+        if (shownDate) {
+          if (meta.childNodes.length) meta.append(' · ');
+          const time = makeElement('time', null, shownDate);
+          time.dateTime = latestIssue.date;
+          meta.append(time);
+        }
+        if (meta.childNodes.length) card.append(meta);
+
+        if (latestIssue.url) {
+          card.append(makeArrowLink('Read the issue', latestIssue.url, latestIssue.word));
         }
 
         slot.append(card);
@@ -1321,6 +1539,9 @@
         groups.forEach((group) => {
           if (!group.items.length) return;
           const list = makeElement('ul', group.className);
+          // Safari's VoiceOver stops announcing a list once its bullets are
+          // removed with CSS; role="list" gives it back.
+          list.setAttribute('role', 'list');
           group.items.forEach((project) => {
             const item = makeElement('li', 'reveal-item');
             item.append(makeCard(project));
@@ -1462,6 +1683,12 @@
         renderCaseStudy();
       } catch (error) {
         console.error('Case-study card failed to render:', error);
+      }
+
+      try {
+        renderLatestIssue();
+      } catch (error) {
+        console.error('Latest-issue card failed to render:', error);
       }
 
       // Reveals next, then the rail: nothing else should stand in the way
