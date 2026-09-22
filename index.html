@@ -43,6 +43,8 @@
         --line-on-cream: rgba(14, 42, 53, 0.18); /* teal hairline at 18% for cream surfaces */
         --line-on-dark-strong:  rgba(245, 237, 214, 0.4); /* the same hairlines at 40%, */
         --line-on-cream-strong: rgba(14, 42, 53, 0.4);    /* for hovered cards          */
+        --glass-on-dark:  rgba(245, 237, 214, 0.06); /* cream at 6%: a raised tint on teal  */
+        --glass-on-cream: rgba(14, 42, 53, 0.04);    /* teal at 4%: a raised tint on cream  */
 
         /* --- Colour roles: what each colour DOES. These are the ones
                that flip when the light theme is switched on. --- */
@@ -70,6 +72,7 @@
         --surface-dark-muted: var(--lavender); /* meta text and labels on teal, ~8:1   */
         --surface-dark-line-strong: var(--line-on-dark-strong); /* hovered outlines on teal */
         --surface-dark-shadow-lift: 0 8px 24px rgba(0, 0, 0, 0.35); /* a teal shadow can't show on teal */
+        --surface-dark-glass: var(--glass-on-dark); /* card tint on teal, both themes */
 
         /* --- Fonts: four weights total, nothing else --- */
         --font-display: "Playfair Display", Georgia, serif;      /* headings, monogram, nav letters */
@@ -144,7 +147,7 @@
         --card-pad:       var(--space-6); /* inside a featured project card     */
         --card-pad-tight: var(--space-4); /* inside a card in the tight row     */
         --card-lift:      calc(var(--space-1) * -1); /* how far a hovered card rises */
-        --glass-fill:     rgba(245, 237, 214, 0.06); /* cream at 6%: a raised tint on teal */
+        --glass-fill:     var(--glass-on-dark); /* card tint: flips with the page theme */
         --glass-blur:     12px;  /* frosted-glass blur behind a card      */
         --target-min:     44px;  /* minimum tap/click target (accessibility)   */
 
@@ -181,6 +184,7 @@
         --focus:       var(--teal);     /* focus ring goes teal: gold on cream is only ~2.4:1 */
         --line:        var(--line-on-cream);
         --line-strong: var(--line-on-cream-strong);
+        --glass-fill:  var(--glass-on-cream); /* a cream tint can't show on cream */
         --mark:        var(--teal);     /* monogram goes teal on cream: gold is never text on cream */
         --rail-active: var(--eucalyptus); /* 5.5:1 on cream, and gold is never text on cream */
         --link:        var(--eucalyptus); /* same reason: links on cream go eucalyptus */
@@ -261,6 +265,7 @@
         --line:        var(--surface-dark-line);
         --line-strong: var(--surface-dark-line-strong);
         --shadow-lift: var(--surface-dark-shadow-lift);
+        --glass-fill:  var(--surface-dark-glass);
       }
 
       /* The header is teal in both themes, so the monogram stays gold there.
@@ -744,8 +749,11 @@
         border-color: var(--line-strong);
       }
 
-      /* ---------- What's inside a card ---------- */
-      .card h3 {
+      /* ---------- What's inside a card ----------
+         The principle headings in Envision share the card heading style,
+         so every h3 on the page looks the same. */
+      .card h3,
+      .principles h3 {
         margin: 0;
         font-family: var(--font-display);
         font-weight: var(--weight-display);
@@ -800,6 +808,64 @@
         display: inline-block;
         padding-block: var(--space-3);
         background-origin: content-box;
+      }
+
+      /* ============================================================
+         ENVISION  (Milestone 7)
+         Eyebrow labels, the three principles, and the width of the
+         case-study card. The card itself is the M6 .card, unchanged.
+         ============================================================ */
+
+      /* ---------- Eyebrow ----------
+         The small uppercase label above a heading, using the tokens set
+         aside for eyebrows (--fs-small, --ls-eyebrow), in the label
+         colour: aubergine on cream (11.7:1) and lavender on teal (8.1:1). */
+      .eyebrow {
+        font-size: var(--fs-small);
+        font-weight: var(--weight-medium);
+        letter-spacing: var(--ls-eyebrow);
+        text-transform: uppercase;
+        color: var(--label);
+      }
+
+      /* An eyebrow belongs to the heading under it, so it sits close. */
+      .eyebrow + h2,
+      .eyebrow + h3 {
+        margin-block-start: var(--space-2);
+      }
+
+      /* ---------- Principles ----------
+         A plain list laid out as a grid: stacked on phones and tablets,
+         three across from 1100px. At 768px three columns would leave about
+         20 characters a line, too cramped to read comfortably; at 1100px
+         each column holds roughly 35–40. The .container prefix is needed
+         to outrank the prose-list rules from M3. */
+      .container > .principles {
+        display: grid;
+        gap: var(--space-stack);
+        padding: 0;
+        list-style: none;
+      }
+
+      .container > .principles > li + li {
+        margin-block-start: 0;
+      }
+
+      .principles h3 + p {
+        margin-block-start: var(--space-2);
+      }
+
+      @media (min-width: 1100px) {
+        .container > .principles {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      /* ---------- Case-study card ----------
+         One card on its own would stretch the full width of the page, so
+         it is held to reading width instead. */
+      .case-study {
+        max-width: var(--measure);
       }
 
       /* ============================================================
@@ -866,8 +932,9 @@
            band's colour is there from the first frame.
          The monogram is left out: it has its own draw-in and hand-off.
 
-         --i is each item's position in its band (0, 1, 2…), set by the
-         script; multiplying it by the step staggers them. */
+         --i is set by the script and multiplied by the step to stagger:
+         inside a band it's each item's position (0, 1, 2…); for single
+         items it's the order they came into view together, capped at 3. */
       @media (prefers-reduced-motion: no-preference) {
         .js .reveal .container > :not(.monogram) {
           opacity: 0;
@@ -888,8 +955,10 @@
         }
 
         /* Single items that reveal on their own rather than with a whole
-           band: the Make heading and each project card. Same look, same
-           timing; the only difference is what the observer watches. */
+           band: everything in Envision and Make (headings, statement,
+           principles, pull-quote, case-study card, project cards). Same
+           look, same timing; the only difference is what the observer
+           watches. */
         .js .reveal-item {
           opacity: 0;
           transform: translateY(var(--reveal-y));
@@ -1015,17 +1084,38 @@
     </header>
 
     <main>
-      <!-- ENVISION: positioning, three principles, Parkgate case study (M7) -->
-      <section id="envision" class="reveal">
+      <!-- ENVISION: how I approach a brief. Not a whole-band reveal: each
+           part reveals on its own, so the principles and the case-study
+           card can stagger in as they arrive. -->
+      <section id="envision">
         <div class="container">
-          <h2>Envision</h2>
-          <p class="pull-quote">Restraint is a design decision. The art is in the <a href="https://verbarium-mmxxvi.netlify.app" target="_blank" rel="noopener noreferrer">handfinish</a>.</p>
-          <ul>
-            <li>Restraint</li>
-            <li>Evidence</li>
-            <li>Shipping</li>
+          <p class="eyebrow reveal-item">How I see a brief</p>
+          <h2 class="reveal-item">Envision</h2>
+
+          <p class="reveal-item">I design for the person on the other side of the screen — usually on a phone, usually in a hurry. Every choice on a page has to earn its place, and I'd rather ship something quiet and finished than something loud and half-built.</p>
+
+          <ul class="principles">
+            <li class="reveal-item">
+              <h3>Restraint</h3>
+              <p>One accent colour, and it has exactly four jobs on this page. If a design needs more than that to work, the problem isn't the palette.</p>
+            </li>
+            <li class="reveal-item">
+              <h3>Evidence</h3>
+              <p>Nothing goes on a page that can't be checked. Real projects, real links, real dates; when two sources disagree, the published record wins.</p>
+            </li>
+            <li class="reveal-item">
+              <h3>Shipping</h3>
+              <p>Every project below is live at a real URL. A design that never reaches one is a sketch, and a sketch can't be judged.</p>
+            </li>
           </ul>
-          <p>Parkgate Construction — one-page site for a London construction firm; brief → brand → build → custom domain.</p>
+
+          <p class="pull-quote reveal-item">Restraint is a design decision. The art is in the <a href="https://verbarium-mmxxvi.netlify.app" target="_blank" rel="noopener noreferrer">handfinish</a>.</p>
+
+          <!-- The case-study entry card. The script fills it from the
+               project named in data-project, so it can never drift from the
+               projects array. The wrapper does the scroll reveal; the card
+               inside does the hover lift, so the two never share a transform. -->
+          <div class="case-study reveal-item" data-project="Parkgate Construction"></div>
         </div>
       </section>
 
@@ -1175,10 +1265,50 @@
         return card;
       }
 
+      /* Fill the Envision case-study card from the projects array. It
+         finds the project named in the wrapper's data-project and uses the
+         same card classes as the grid, with an eyebrow on top and the year
+         and stack joined into one meta line.
+         The link follows the data: while caseStudy is null it points at the
+         live site; once caseStudy holds a path (M10), the same card becomes
+         "Read the case study →" with no markup change. */
+      function renderCaseStudy() {
+        const slot = document.querySelector('.case-study[data-project]');
+        if (!slot) return;
+
+        const project = projects.find((p) => p.name === slot.dataset.project);
+        if (!project) return;
+
+        const card = makeElement('article', 'card');
+        card.append(makeElement('p', 'eyebrow', 'Case study'));
+        card.append(makeElement('h3', null, project.name));
+        card.append(makeElement('p', 'card-summary', project.summary));
+
+        const meta = [project.year, ...(project.stack || [])].filter(Boolean).join(' · ');
+        if (meta) card.append(makeElement('p', 'card-meta', meta));
+
+        const href = project.caseStudy || project.url;
+        if (href) {
+          const label = project.caseStudy ? 'Read the case study' : 'Visit the live site';
+          const link = makeCardLink(label, href, project.name);
+          // The arrow is decoration: hidden from screen readers, so the
+          // link is announced as its words, not "right arrow".
+          const arrow = makeElement('span', null, ' →');
+          arrow.setAttribute('aria-hidden', 'true');
+          link.append(arrow);
+
+          const links = makeElement('p', 'card-links');
+          links.append(link);
+          card.append(links);
+        }
+
+        slot.append(card);
+      }
+
       /* Fill the Make grid: featured projects in one list, the rest in
          another. Each card sits in a list item that the scroll reveal
-         watches on its own, numbered with --i so cards in the same list
-         arrive one after another. */
+         watches on its own; cards that come into view together stagger
+         in the order they arrive. */
       function renderProjects() {
         const grid = document.getElementById('project-grid');
         if (!grid) return;
@@ -1191,9 +1321,8 @@
         groups.forEach((group) => {
           if (!group.items.length) return;
           const list = makeElement('ul', group.className);
-          group.items.forEach((project, index) => {
+          group.items.forEach((project) => {
             const item = makeElement('li', 'reveal-item');
-            item.style.setProperty('--i', index);
             item.append(makeCard(project));
             list.append(item);
           });
@@ -1269,9 +1398,9 @@
          It watches two kinds of thing:
          - bands marked .reveal, whose content is numbered here so the CSS
            can stagger it, and which reveal all at once;
-         - single .reveal-item elements (the Make heading and each project
-           card), which reveal on their own. A tall band could never be
-           15% on screen; a single card always can.
+         - single .reveal-item elements (every part of Envision and Make,
+           including each card), which reveal on their own. A tall band
+           could never be 15% on screen; a single item always can.
          When 15% of either is on screen it gets the is-revealed class,
          which lets it rise into place, and stops being watched: each
          reveals once and stays revealed. */
@@ -1291,8 +1420,22 @@
 
         const observer = new IntersectionObserver(
           (entries) => {
+            // Single items are staggered by the order they arrive in THIS
+            // batch, not by where they sit in the HTML. Items that come into
+            // view together (the three principles, a row of cards) follow
+            // each other 80ms apart; an item that scrolls in alone gets
+            // --i = 0 and appears straight away instead of waiting its turn.
+            // The stagger is capped at 3 steps (240ms): on a tall screen a
+            // dozen items can arrive at once, and nothing should wait over a
+            // second to appear just because it was twelfth in the queue.
+            const MAX_STAGGER = 3;
+            let arrival = 0;
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
+                if (entry.target.classList.contains('reveal-item')) {
+                  entry.target.style.setProperty('--i', Math.min(arrival, MAX_STAGGER));
+                  arrival += 1;
+                }
                 entry.target.classList.add('is-revealed');
                 observer.unobserve(entry.target);
               }
@@ -1313,6 +1456,12 @@
         renderProjects();
       } catch (error) {
         console.error('Project grid failed to render:', error);
+      }
+
+      try {
+        renderCaseStudy();
+      } catch (error) {
+        console.error('Case-study card failed to render:', error);
       }
 
       // Reveals next, then the rail: nothing else should stand in the way
