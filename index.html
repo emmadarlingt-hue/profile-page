@@ -10,6 +10,47 @@
          connection to Google early so the fonts arrive sooner. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- ============================================================
+         THEME, BEFORE FIRST PAINT  (Milestone 9)
+         The one exception to the single-script rule — see CLAUDE.md.
+
+         The page has one set of tokens and [data-theme="light"]
+         overrides it. Something has to decide which, and it has to
+         decide before the browser paints: otherwise someone who wants
+         the light theme sees a flash of teal on the way in.
+
+         It sits ABOVE the font stylesheet deliberately. A stylesheet
+         that is still loading blocks the scripts below it from running,
+         so anything under that <link> would be waiting on Google before
+         it could set a colour.
+         ============================================================ -->
+    <script>
+      (function () {
+        // Reading localStorage throws, rather than returning null, in
+        // some privacy modes — so every touch of it is wrapped.
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (error) {
+          // No storage to read: fall through to the operating system.
+        }
+
+        // Only these two words are trusted. Anything else that ends up
+        // in storage — an old value, a typo, something another script
+        // wrote — is ignored rather than written onto the element.
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark';
+
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=DM+Sans:wght@400;500&family=Playfair+Display:wght@600&display=swap">
 
     <title>Emma Darling - Profile</title>
@@ -31,6 +72,12 @@
     <style>
       /* ---------- 2a · DARK (default) ---------- */
       :root {
+        /* --- Tells the browser which way round the page is, so the
+               furniture it draws itself — scrollbars, form controls,
+               the blank canvas before anything has painted — matches
+               the theme instead of staying stubbornly light. --- */
+        color-scheme: dark;
+
         /* --- Palette: the raw paint pots, named by what they look like.
                Only the "role" tokens further down should use these. --- */
         --teal:      #0E2A35;                 /* deep teal, the dark surface              */
@@ -180,6 +227,7 @@
          Only the ROLE tokens change. The palette, type, spacing,
          radii and motion above are shared by both themes. */
       [data-theme="light"] {
+        color-scheme: light;   /* the other half of the pair in :root */
         --bg:          var(--cream);
         --text:        var(--teal);
         --text-muted:  var(--aubergine);
@@ -284,12 +332,21 @@
         margin-inline: auto;
       }
 
-      /* ---------- Rail: list layout ----------
-         The E · M · A links in a row. Each link is at least 44px square so
-         it is easy to tap. Colour, type and the fixed layout are in M4. */
+      /* ---------- Rail: layout ----------
+         The rail holds two things: the E · M · A nav and the theme
+         toggle. They share one axis — a row on phones, a column in the
+         fixed pill from 768px — so the rail and the list inside it are
+         both flex and both turn at the same breakpoint. Each link and
+         the button are at least 44px so they are easy to tap. Colour and
+         type are in M4; the toggle's own styles are in M9. */
+      .rail,
       .rail ul {
         display: flex;
+        align-items: center;
         gap: var(--space-2);
+      }
+
+      .rail ul {
         margin: 0;
         padding: 0;
         list-style: none;
@@ -583,13 +640,19 @@
       /* ---------- Rail ----------
          A centred row of letters on phones. The list's flex layout and 44px
          targets come from the rail rules further up. */
+      /* On phones the nav and the toggle centre together as one cluster,
+         rather than the letters holding the centre and the button being
+         pushed off to the edge.
+
+         The wider gap is the rail's own, and overrides the 8px it shares
+         with the list: the letters stay 8px apart, while the nav and the
+         button get 16px — room for the divider to sit in with air on
+         both sides. */
       .rail {
         padding-block: var(--space-4);
         padding-inline: var(--space-section-x);
-      }
-
-      .rail ul {
         justify-content: center;
+        gap: var(--space-4);
       }
 
       /* One rule for the letters: the 44px target, the type, and position
@@ -649,6 +712,7 @@
           border-radius: var(--radius-pill);
         }
 
+        .rail,
         .rail ul {
           flex-direction: column;
         }
@@ -671,6 +735,147 @@
         .site-footer {
           padding-inline-end: calc(var(--space-section-x) + var(--rail-gutter));
         }
+      }
+
+      /* ============================================================
+         THEME TOGGLE  (Milestone 9)
+         One button, living in the rail, so it is on screen in both
+         layouts: the centred row on phones, the fixed pill from 768px.
+         Not the top bar — that only exists where scroll-driven
+         animations do, is hidden until you have scrolled a third of a
+         screen, and is switched off entirely under reduced motion. A
+         control for the whole page has to be reachable on the whole page.
+
+         It is deliberately muted and never gold: the page's four gold
+         jobs (hero monogram, top-bar copy, active rail letter, text
+         links) are already spoken for.
+         ============================================================ */
+
+      /* The button is written into the HTML with a hidden attribute and
+         the script takes it off once the click is wired up, so the page
+         never shows a control that does nothing. This rule is what makes
+         hidden stick — without it the display below would win. */
+      .theme-toggle[hidden] {
+        display: none;
+      }
+
+      /* A grid of exactly one cell. Both icons are put in that cell, so
+         they sit on top of each other and the button is the same size
+         whichever one is showing. */
+      .theme-toggle {
+        display: grid;
+        place-items: center;
+        position: relative;   /* so the divider below can be placed against it */
+        min-width: var(--target-min);
+        min-height: var(--target-min);
+        padding: 0;
+        border: none;
+        border-radius: var(--radius-pill);
+        background: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color var(--dur-fast) var(--ease);
+      }
+
+      /* Muted at rest, full strength when you reach for it. */
+      .theme-toggle:hover,
+      .theme-toggle:focus-visible {
+        color: var(--text);
+      }
+
+      /* The hairline between the letters and the toggle. It belongs to
+         the BUTTON, not the nav: when the button is hidden — JavaScript
+         off, or the moment before the script wires it up — display: none
+         stops it generating a box, and an element with no box generates
+         no pseudo-element either. The divider leaves with it, so nothing
+         has to remember to ask whether the toggle is there.
+
+         A pseudo-element rather than border-inline-start because the
+         button is a circle, and a one-sided border on a pill radius is
+         drawn as an arc sweeping round the edge rather than as a
+         straight line. This sits outside the button's box instead, dead
+         centre of the gap the rail already leaves, which also keeps the
+         icon centred in its 44px target. */
+      .theme-toggle::before {
+        content: "";
+        position: absolute;
+        inset-inline-start: calc(var(--space-4) / -2);
+        inset-block: var(--space-2);
+        border-inline-start: 1px solid var(--line);
+      }
+
+      /* Upright, the divider turns with the rail: a horizontal line above
+         the button rather than a vertical one beside it.
+
+         This lives here, next to the rule it overrides, rather than up in
+         the rail's own 768px block — a media query adds no specificity, so
+         of two rules this alike the LATER one wins, and up there it would
+         have been the earlier one and quietly done nothing.
+
+         Inside it the shorthand comes first and the longhand after, so
+         inset-block: auto clears both block insets and inset-block-start
+         then sets just the one. */
+      @media (min-width: 768px) {
+        .theme-toggle::before {
+          inset-block: auto;
+          inset-inline: var(--space-2);
+          inset-block-start: calc(var(--space-4) / -2);
+          border-inline-start: none;
+          border-block-start: 1px solid var(--line);
+        }
+      }
+
+      .theme-toggle-icon {
+        grid-area: 1 / 1;
+        width: var(--icon-size);
+        height: var(--icon-size);
+        transition:
+          opacity var(--dur-fast) var(--ease),
+          rotate var(--dur-fast) var(--ease),
+          visibility var(--dur-fast) var(--ease);
+      }
+
+      /* The icon shows the theme you would GET, not the one you are in,
+         so it says the same thing as the button's label: a sun while the
+         page is dark, a moon while it is light.
+
+         The one you can't get is turned off with visibility as well as
+         opacity. A merely transparent icon is still there — it can still
+         be read aloud and still catches the pointer. visibility is also
+         why nothing flickers: it holds off until the fade has finished
+         when hiding, and lifts immediately when showing. */
+      .theme-toggle-moon,
+      [data-theme="light"] .theme-toggle-sun {
+        opacity: 0;
+        visibility: hidden;
+        rotate: -90deg;
+      }
+
+      [data-theme="light"] .theme-toggle-moon {
+        opacity: 1;
+        visibility: visible;
+        rotate: none;
+      }
+
+      /* ---------- The swap itself ----------
+         For the moment the theme changes, nothing on the page may
+         animate: every band, card and hairline changes colour in the
+         same frame. Without this the two cards sitting on bands that
+         flip — the case study in Envision and the latest issue in
+         Automate — would fade their outlines 200ms behind everything
+         else, and the page would visibly change in two stages.
+
+         The icons are the one exception, because swapping them IS the
+         animation. What protects them is not strength but reach: the
+         selector never matches an icon, so there is nothing to win back
+         and no second !important needed. Worth being exact, because the
+         strength goes the other way — :not() is scored by what's inside
+         it, so this is (0,2,0), one class STRONGER than the bare * it
+         replaces, not weaker. */
+      .theme-switching *:not(.theme-toggle-icon),
+      .theme-switching *::before,
+      .theme-switching *::after {
+        transition: none !important;
       }
 
       /* ============================================================
@@ -1160,13 +1365,36 @@
     <!-- The rail sits outside the header so it can stay on screen as the page
          scrolls: a static row on phones, a fixed column from 768px up. Each
          label starts with the visible letter, so voice control can reach it. -->
-    <nav class="rail" aria-label="Sections">
-      <ul>
-        <li><a href="#envision" aria-label="E, Envision">E</a></li>
-        <li><a href="#make" aria-label="M, Make">M</a></li>
-        <li><a href="#automate" aria-label="A, Automate">A</a></li>
-      </ul>
-    </nav>
+    <div class="rail">
+      <nav aria-label="Sections">
+        <ul>
+          <li><a href="#envision" aria-label="E, Envision">E</a></li>
+          <li><a href="#make" aria-label="M, Make">M</a></li>
+          <li><a href="#automate" aria-label="A, Automate">A</a></li>
+        </ul>
+      </nav>
+
+      <!-- The theme toggle. It rides in the rail because the rail is the
+           one thing on screen in both layouts. It is a real <button>, not
+           a link: it does something to this page rather than going
+           anywhere, so it answers to Space as well as Enter.
+
+           It starts hidden and the script reveals it, so it can never be
+           a control that does nothing. The label says what the click will
+           DO, and the script rewrites it on every flip. Both icons are
+           decoration — the label carries the whole meaning. -->
+      <button class="theme-toggle" type="button" hidden aria-label="Switch to light theme">
+        <svg class="theme-toggle-icon theme-toggle-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.2 5.2l1.9 1.9M16.9 16.9l1.9 1.9M18.8 5.2l-1.9 1.9M7.1 16.9l-1.9 1.9"/>
+        </svg>
+        <svg class="theme-toggle-icon theme-toggle-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"
+                d="M20.1 14.3A8.6 8.6 0 0 1 9.7 3.9a8.6 8.6 0 1 0 10.4 10.4z"/>
+        </svg>
+      </button>
+    </div>
 
     <header class="site-header reveal" id="top">
       <div class="container">
@@ -1319,8 +1547,10 @@
 
       /* ============================================================
          PAGE SCRIPT
-         The projects (M6), the rail scroll-spy (M4) and the scroll
-         reveals (M5). The theme toggle (M9) comes later.
+         The projects (M6), the rail scroll-spy (M4), the scroll
+         reveals (M5) and the theme toggle (M9). The theme was already
+         CHOSEN before the page painted, by the small script in <head>;
+         everything here is what happens after that.
          ============================================================ */
 
       /* The projects: the one place project content lives. The Make
@@ -1371,6 +1601,132 @@
         date: "2026-09-22",
         url: "https://promptwrought.substack.com/p/verifidget",
       };
+
+      /* ============================================================
+         THEME  (Milestone 9)
+         The <head> script has already picked a theme and written it to
+         <html>. This is everything afterwards: the button that flips it,
+         remembering the choice, and following the operating system right
+         up until a choice is made.
+         ============================================================ */
+
+      /* One place for the storage key, so a typo can't make the page
+         save under one name and read back under another. */
+      const THEME_KEY = 'theme';
+
+      /* True once the visitor has clicked the toggle during this visit.
+         readStoredTheme() answers almost the same question, but not when
+         the localStorage write failed — in a private window the choice is
+         still a real choice and must still beat the operating system. It
+         just can't outlive the tab. */
+      let hasChosenTheme = false;
+
+      /* What the visitor chose on an earlier visit, or null if they
+         never have. Only the two words the page understands come back;
+         anything else in storage is treated as nothing at all. Same
+         try/catch as the <head> script, and for the same reason. */
+      function readStoredTheme() {
+        try {
+          const stored = localStorage.getItem(THEME_KEY);
+          return stored === 'light' || stored === 'dark' ? stored : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      /* The theme on the page right now, read off the element rather
+         than kept in a variable of its own. The attribute is the single
+         source of truth — the <head> script set it before this script
+         existed, so there is nothing else it could be read from. */
+      function currentTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'light'
+          ? 'light'
+          : 'dark';
+      }
+
+      /* Make a change with every animation on the page switched off, so
+         the whole page changes colour in one frame. Without this, the
+         two cards that sit on bands which flip would fade their outlines
+         200ms behind everything else and the change would arrive in two
+         stages.
+
+         The odd-looking line in the middle is the point of the whole
+         function: reading a layout value forces the browser to apply the
+         class NOW, instead of quietly batching it together with the
+         change that follows and so applying neither in time. Two frames
+         later the class comes off and ordinary hovers animate again. */
+      function withoutTransitions(change) {
+        const root = document.documentElement;
+        root.classList.add('theme-switching');
+        void root.offsetHeight;
+        change();
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => root.classList.remove('theme-switching'));
+        });
+      }
+
+      /* Put a theme on the page and tell the button what it now does.
+         The label describes the ACTION rather than the state, and the
+         icon is chosen from the same attribute, so the two can never
+         drift apart and say different things. */
+      function applyTheme(theme, button) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (button) {
+          button.setAttribute(
+            'aria-label',
+            theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+          );
+        }
+      }
+
+      /* Wire the toggle up, then reveal it. Saving the choice is what
+         makes it stick — both across reloads, and against the operating
+         system changing underneath it later. */
+      function setUpThemeToggle() {
+        const button = document.querySelector('.theme-toggle');
+        if (!button) return;
+
+        // Give the button the right label for the theme already on the
+        // page, and only then let it be seen. This is the moment it
+        // starts working, so this is the moment it appears.
+        applyTheme(currentTheme(), button);
+        button.hidden = false;
+
+        button.addEventListener('click', () => {
+          // Set first, before anything that could throw: from here on
+          // the theme is theirs, whether or not it reaches storage.
+          hasChosenTheme = true;
+
+          const next = currentTheme() === 'dark' ? 'light' : 'dark';
+          withoutTransitions(() => applyTheme(next, button));
+
+          try {
+            localStorage.setItem(THEME_KEY, next);
+          } catch (error) {
+            // No storage: the theme still changes for this visit, it
+            // just won't be remembered after a reload.
+          }
+        });
+
+        followSystemTheme(button);
+      }
+
+      /* Until the visitor has clicked the button, the page belongs to
+         their operating system: switch the Mac to Light with this tab
+         open and the page should follow, live. The moment they click,
+         the page belongs to them and the system stops being consulted. */
+      function followSystemTheme(button) {
+        if (!window.matchMedia) return;
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+
+        const updateForSystemTheme = (event) => {
+          if (hasChosenTheme || readStoredTheme() !== null) return;
+          const theme = event.matches ? 'light' : 'dark';
+          withoutTransitions(() => applyTheme(theme, button));
+        };
+
+        prefersLight.addEventListener('change', updateForSystemTheme);
+      }
 
       /* A small helper: make an element with a class and some text.
          textContent (rather than innerHTML) means the text is always
@@ -1667,6 +2023,15 @@
 
         bands.forEach((band) => observer.observe(band));
         singles.forEach((single) => observer.observe(single));
+      }
+
+      // The theme first: it is the most visible thing on the page and it
+      // depends on nothing else having rendered. Wrapped like the rest,
+      // so a problem here can never stop the content being built.
+      try {
+        setUpThemeToggle();
+      } catch (error) {
+        console.error('Theme toggle failed to start:', error);
       }
 
       // The cards have to exist before the reveal observer can watch them,

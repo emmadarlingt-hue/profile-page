@@ -7,12 +7,22 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 
 ## Stack — non-negotiable
 - One index.html, one <style> block in <head>, one <script> block before </body>.
+- One exception to the single-script rule: a short inline script in <head> sets
+  data-theme on <html> before first paint. It reads localStorage 'theme' inside
+  try/catch, trusts only the words "light" and "dark", and otherwise falls back to
+  prefers-color-scheme. It sits above the Google Fonts <link> on purpose — a
+  stylesheet still loading blocks the scripts after it from running, and this one
+  has to beat the first paint. Nothing else may go in it.
 - Google Fonts via <link>. No framework, no build step, no npm, no CDN libraries.
 - Case-study pages at /work/<slug>/index.html, same tokens and header.
 
 ## Tokens
 - Every colour, font, size, space, radius, shadow and easing declared once in :root.
 - Light mode is a [data-theme="light"] override set. Nothing hard-coded below :root.
+- No prefers-color-scheme media query anywhere: the theme is chosen by script and
+  written to <html>, so there is one token set rather than two kept in sync. With
+  JavaScript off the dark default stands, color-scheme: dark included, and the
+  toggle stays hidden. Deliberate, decided 22 Sep — not an oversight to "fix".
 - Fonts: Playfair Display 600 (display), DM Sans 400/500 (body, labels),
   Cormorant Garamond 400 italic (pull-quote only). Four weights total. Nothing else.
 - Gold #C8922A has at most four roles per page: the hero monogram, the top-bar
