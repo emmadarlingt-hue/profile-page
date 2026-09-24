@@ -10,14 +10,18 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 - One exception to the single-script rule: a short inline script in <head> sets
   data-theme on <html> before first paint. It reads localStorage 'theme' inside
   try/catch, trusts only the words "light" and "dark", and otherwise falls back to
-  prefers-color-scheme. It sits above the Google Fonts <link> on purpose — a
+  prefers-color-scheme. It sits above every stylesheet <link> on purpose — a
   stylesheet still loading blocks the scripts after it from running, and this one
   has to beat the first paint. Nothing else may go in it.
+- Second exception: tokens live in /tokens.css, linked by every page straight
+  after the theme script and before Google Fonts. It holds only :root and
+  [data-theme="light"] — no selectors, no components. Decided 24 Sep (M10) so
+  tokens are declared once across pages.
 - Google Fonts via <link>. No framework, no build step, no npm, no CDN libraries.
 - Case-study pages at /work/<slug>/index.html, same tokens and header.
 
 ## Tokens
-- Every colour, font, size, space, radius, shadow and easing declared once in :root.
+- Every colour, font, size, space, radius, shadow and easing declared once, in :root in /tokens.css.
 - Light mode is a [data-theme="light"] override set. Nothing hard-coded below :root.
 - No prefers-color-scheme media query anywhere: the theme is chosen by script and
   written to <html>, so there is one token set rather than two kept in sync. With
@@ -31,6 +35,8 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 ## Design decisions
 - Monogram: E·M·A in Noto Serif Display, tightly tracked, matching the LinkedIn
   banner. No shared stroke. Source: images/ema-monogram.svg.
+- Case-study header: compact. A top-bar-size monogram links home and still draws
+  in; no shrink or top bar. Rail letters link to /#section, with E marked current.
 
 ## Rules of the build
 - One milestone per session, one commit per milestone. Do not start the next.

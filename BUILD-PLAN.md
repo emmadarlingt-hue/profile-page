@@ -54,15 +54,15 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 - [x] Check aubergine meta text on cream against the teal; if it clashes, `--text-muted` and `--label` move to eucalyptus in light mode
 
 ## M7 — Envision
-- [ ] Positioning line + three principles: restraint, evidence, shipping
-- [ ] Parkgate case-study entry card → `/work/parkgate/`
+- [x] Positioning line + three principles: restraint, evidence, shipping
+- [x] Parkgate case-study entry card → `/work/parkgate/`
 - Commit: `feat: envision section`
 
 ## M8 — Automate
-- [ ] Line: "I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit."
-- [ ] Three-step pipeline graphic: draft → schema-matched entry → published issue
-- [ ] Latest Promptwrought issue as a static card (no iframe)
-- [ ] Contact: icon + label row; muted colour; aria-labels not needed because labels are visible.
+- [x] Line: "I work with agentic AI tools — Claude Code, Cowork — as a controlled, reviewed part of how I build: permissions on, every change read before commit."
+- [x] Three-step pipeline graphic: draft → schema-matched entry → published issue
+- [x] Latest Promptwrought issue as a static card (no iframe)
+- [x] Contact: icon + label row; muted colour; aria-labels not needed because labels are visible.
 - Commit: `feat: automate section`
 
 ## M9 — Light/dark toggle
@@ -74,7 +74,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 
 ## M10 — Parkgate case study
 - [ ] `/work/parkgate/index.html` sharing tokens + header
-- [ ] Structure: brief → constraints → three decisions and why → what shipped → what next. Before/after screenshots
+- [ ] Structure: brief → constraints → three decisions and why → what shipped → what next. Live-site captures, desktop 1440 + phone 390, full page, details solid-blocked as Emma marks. No "before": Parkgate had no website (decided 24 Sep).
 - Commit: `feat: parkgate case study`
 
 ## M11 — Polish and ship
@@ -107,3 +107,53 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 **Automate.** The line above + pipeline graphic + latest Promptwrought issue (title, one line, link to promptwrought.com).
 
 **Contact.** Email · LinkedIn · GitHub · Promptwrought · "Open to London / hybrid / remote."
+
+
+### Parkgate case study
+
+**The brief**
+Parkgate Construction had a domain name and nothing else: no website, no
+business email, no brand. The owner wanted the company to look established,
+something he could point a client to with confidence. I took on all of it,
+from the logo to the last DNS record.
+
+**Constraints**
+No fixed budget and no deadline. The starting kit was one domain login, so
+every word, colour and email address had to be made from scratch. The owner
+had little time to spare, so I wrote the copy myself from short
+conversations. He was new to having a website, so the result had to feel
+manageable rather than technical. And it was my first client site.
+
+**Three decisions and why**
+
+1. Foundations before the website.
+Before designing a single page, I set up Google Workspace on his domain:
+his own address, plus hello@ and admin@. Looking established starts with
+the email a client receives. It also meant suppliers could send receipts
+straight to the business, which made the bookkeeping far smoother.
+
+2. A green built to last.
+I designed the logo in Canva first, in a neutral, trustworthy green: a
+clean break from the navy and orange of his previous business. I kept
+design trends out of it. It needed to be understated and minimal, to
+stand the test of time, and to have a quiet Britishness that suits the
+man behind it.
+
+3. Type that had to earn its place.
+The first draft was set in Garet throughout, and the owner didn't take to
+it. I rebuilt it with DM Serif Display for headings, classic and steady,
+and DM Sans for everything else, plain and practical.
+
+**What shipped**
+A logo, business email on Google Workspace, a one-page website deployed on
+Netlify with the custom domain pointed via DNS, and a minimal invoice
+template that carries the brand, with green only in the wordmark. The
+owner was impressed with the site and happy with the wording.
+
+**What's next**
+Say less. Seeing his business live on the web was a lot for the owner, and
+some details I drafted as placeholders still need confirming. The next
+version keeps only confirmed facts, moves contact to email rather than
+phone, and may carry a short availability note while current work runs.
+On the working side, I'd set up shared access from day one, so fixes and
+invoices don't wait on a single laptop.
