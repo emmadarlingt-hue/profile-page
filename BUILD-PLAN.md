@@ -66,9 +66,9 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 - Commit: `feat: automate section`
 
 ## M9 — Light/dark toggle
-- [ ] Respect `prefers-color-scheme` on first load; toggle writes `data-theme`, persists to `localStorage`
-- [ ] Swap token sets only — no per-element overrides
-- [ ] Light mode check: cream page, teal hero, teal Make band, zero gold text on cream
+- [x] Respect `prefers-color-scheme` on first load; toggle writes `data-theme`, persists to `localStorage`
+- [x] Swap token sets only — no per-element overrides
+- [x] Light mode check: cream page, teal hero, teal Make band, zero gold text on cream
 - Decided 22 Sep: theme set by script, not media query — one token set. A three-line script in <head> reads localStorage (else prefers-color-scheme) and sets data-theme before paint; documented in CLAUDE.md as the one exception to the single-script rule. The toggle reuses the same function.
 - Commit: `feat: theme toggle`
 
