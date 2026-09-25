@@ -19,6 +19,9 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
   tokens are declared once across pages.
 - Google Fonts via <link>. No framework, no build step, no npm, no CDN libraries.
 - Case-study pages at /work/<slug>/index.html, same tokens and header.
+- Internal links are root-absolute (/, /#envision, /work/<slug>/): the site is
+  always served, so navigation is tested through a local server, never file://.
+  Decided 25 Sep (M10).
 
 ## Tokens
 - Every colour, font, size, space, radius, shadow and easing declared once, in :root in /tokens.css.

@@ -77,6 +77,14 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 - [ ] Structure: brief → constraints → three decisions and why → what shipped → what next. Live-site captures, desktop 1440 + phone 390, full page, details solid-blocked as Emma marks. No "before": Parkgate had no website (decided 24 Sep).
 - Commit: `feat: parkgate case study`
 
+## M10.5 — Shared base
+Deferred from the M10 review (#1, #3/#10, #12). The home page and the case page repeat the same CSS and script, and the case page repeats Parkgate's data by hand.
+- [ ] First, record the decision in `CLAUDE.md`: shared files beyond `tokens.css` are an exception to the single-file rules, as M10 recorded for tokens
+- [ ] `/base.css`: the skeleton, rail, theme toggle, links and reveals that both pages carry today
+- [ ] `/site.js`: the theme toggle and reveals, written once. Includes the back/forward-cache fix: on `pageshow` with `event.persisted`, and on the `storage` event, re-read the saved theme and apply it without transitions
+- [ ] `/projects.js`: the `projects` array, read by both pages. The case page builds its name, `caseSummary` lead, year/stack line and links from it. Settle the stack first: the case page lists Canva and Google Workspace, the array doesn't. The meta description stays in the HTML, because link previews don't run scripts
+- Commit: `refactor: shared base`
+
 ## M11 — Polish and ship
 - [ ] Accessibility pass (contrast, focus, 44px targets, alt/`<title>`)
 - [ ] OG image 1200×630 (monogram on teal); `<title>`, meta description, OG tags
@@ -110,6 +118,8 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 
 
 ### Parkgate case study
+   **Case summary** (Envision card and case-page header):
+   From a domain name and nothing else to a brand, a business inbox and a live website.
 
 **The brief**
 Parkgate Construction had a domain name and nothing else: no website, no
@@ -151,9 +161,9 @@ template that carries the brand, with green only in the wordmark. The
 owner was impressed with the site and happy with the wording.
 
 **What's next**
-Say less. Seeing his business live on the web was a lot for the owner, and
-some details I drafted as placeholders still need confirming. The next
-version keeps only confirmed facts, moves contact to email rather than
-phone, and may carry a short availability note while current work runs.
-On the working side, I'd set up shared access from day one, so fixes and
-invoices don't wait on a single laptop.
+Say less. Seeing his business live on the web was a lot for the owner,
+and some details I drafted as placeholders still need confirming. The
+next version keeps only confirmed facts, moves contact to email rather
+than phone, and may carry a short availability note while current work
+runs. On the working side, I'd set up shared access from day one, so
+fixes and invoices don't wait on a single laptop.

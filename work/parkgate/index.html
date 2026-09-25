@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+
+    <!-- This tells phones: "don't zoom out, display at normal size" -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts: exactly the four weights in tokens.css. preconnect opens the
+         connection to Google early so the fonts arrive sooner. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- ============================================================
+         THEME, BEFORE FIRST PAINT
+         The same script as index.html, word for word; the full
+         explanation lives there. It picks light or dark before the
+         browser paints, so there is no flash of the wrong theme, and
+         it sits ABOVE both stylesheets because a stylesheet that is
+         still loading blocks the scripts after it from running.
+         ============================================================ -->
+    <script>
+      (function () {
+        // Reading localStorage throws, rather than returning null, in
+        // some privacy modes — so every touch of it is wrapped.
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (error) {
+          // No storage to read: fall through to the operating system.
+        }
+
+        // Only these two words are trusted. Anything else that ends up
+        // in storage — an old value, a typo, something another script
+        // wrote — is ignored rather than written onto the element.
+        var theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark';
+
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+
+    <!-- DESIGN TOKENS: the same file index.html links. Two folders up,
+         because this page lives at /work/parkgate/. A relative path also
+         works when the file is opened straight from disk, and with or
+         without a trailing slash on the address. -->
+    <link rel="stylesheet" href="../../tokens.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=DM+Sans:wght@400;500&family=Playfair+Display:wght@600&display=swap">
+
+    <title>Parkgate Construction — case study · Emma Darling</title>
+    <meta name="description" content="From a domain name and nothing else to a brand, a business inbox and a live website.">
+
+    <!-- Everything below only READS the tokens, with var(--name).
+         Most blocks are copied from index.html; each one names the
+         section it came from, so a change there can be found here. -->
+    <style>
+      /* ============================================================
+         PAGE SKELETON  (from index.html, Milestone 2)
+         ============================================================ */
+
+      /* ---------- Base ----------
+         border-box means padding is counted INSIDE an element's width.
+         body has no margin, so each band's colour reaches the edges. */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-weight: var(--weight-regular);
+        font-size: var(--fs-body);
+        line-height: var(--lh-body);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      /* Keyboard users see a clear 2px ring on whatever has focus.
+         Its colour comes from --focus, which changes per theme and per band. */
+      :focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: var(--space-1);
+      }
+
+      /* ---------- Full-bleed bands ----------
+         The header, each section and the footer stretch the full width
+         of the window and carry the padding. Colour lives on the band,
+         never on .container. */
+      .site-header,
+      main > section,
+      .site-footer {
+        padding-block: var(--space-section-y);
+        padding-inline: var(--space-section-x);
+      }
+
+      /* ---------- Section surfaces ----------
+         The header and "What shipped" stay teal in both themes, like the
+         home page's hero and Make band. Everything else follows the
+         theme's page colour. */
+      .site-header,
+      #shipped {
+        background: var(--surface-dark);
+        color: var(--surface-dark-text);
+      }
+
+      #brief,
+      #constraints,
+      #decisions,
+      #next,
+      .site-footer {
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      /* Teal bands stay teal in light mode, so everything on them keeps
+         its teal-band colours: lavender focus ring, gold links, lavender
+         meta text and cream hairlines. Same list as #make at home. */
+      .site-header,
+      #shipped {
+        --focus: var(--surface-dark-focus);
+        --link: var(--surface-dark-link);
+        --text-muted:  var(--surface-dark-muted);
+        --label:       var(--surface-dark-muted);
+        --line:        var(--surface-dark-line);
+        --line-strong: var(--surface-dark-line-strong);
+        --shadow-lift: var(--surface-dark-shadow-lift);
+        --glass-fill:  var(--surface-dark-glass);
+      }
+
+      /* The header is teal in both themes, so the monogram stays gold. */
+      .site-header {
+        --mark: var(--surface-dark-mark);
+      }
+
+      /* ---------- Container ----------
+         The centred column inside each band. No background of its own. */
+      .container {
+        max-width: var(--container-max);
+        margin-inline: auto;
+      }
+
+      /* ---------- Rail: layout ----------
+         The E · M · A letters and the theme toggle share one axis: a row
+         on phones, a column in the fixed pill from 768px. */
+      .rail,
+      .rail ul {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .rail ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      /* ============================================================
+         TYPOGRAPHY AND RHYTHM  (from index.html, Milestone 3)
+         ============================================================ */
+
+      /* ---------- Headings ----------
+         Playfair Display at 600, set explicitly: browsers default
+         headings to bold (700), which isn't loaded. h3 is the decision
+         titles, styled like the principle and card titles at home. */
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: var(--weight-display);
+      }
+
+      h1 {
+        font-size: var(--fs-h1);
+        line-height: var(--lh-h1);
+        letter-spacing: var(--ls-h1);
+      }
+
+      h2 {
+        font-size: var(--fs-h2);
+        line-height: var(--lh-heading);
+      }
+
+      h3 {
+        font-size: var(--fs-h3);
+        line-height: var(--lh-heading);
+      }
+
+      /* The one-sentence summary under the title: bigger, and kept narrow
+         so it breaks into a few short lines. */
+      .hero-lead {
+        font-size: var(--fs-lead);
+        line-height: var(--lh-lead);
+        max-width: var(--measure-narrow);
+      }
+
+      /* Year and tools, in the muted colour: lavender on the teal header. */
+      .case-meta {
+        font-size: var(--fs-small);
+        color: var(--text-muted);
+      }
+
+      /* ---------- Prose ----------
+         No browser-default margins, and lines stop at about 68 characters. */
+      p,
+      ul,
+      ol {
+        margin: 0;
+      }
+
+      p,
+      li {
+        max-width: var(--measure);
+      }
+
+      /* ---------- Vertical rhythm ----------
+         Each item directly inside a .container gets the same gap above it;
+         headings get a bigger one, so they belong to what follows. */
+      .container > * + * {
+        margin-block-start: var(--space-flow);
+      }
+
+      .container > h1 + *,
+      .container > h2 + * {
+        margin-block-start: var(--space-stack);
+      }
+
+      /* ---------- Footer ---------- */
+      .site-footer p {
+        font-size: var(--fs-small);
+      }
+
+      /* ============================================================
+         MONOGRAM  (from index.html, Milestone 4, compact form)
+         The case-study header keeps the E → M → A draw-in, but at
+         top-bar size, and it never shrinks: there is no top bar here.
+         ============================================================ */
+
+      /* The link wraps the letters and is at least 44px tall to tap. */
+      .monogram {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--target-min);
+        color: var(--mark);
+      }
+
+      /* A little more room under the monogram than between the lines of
+         text, so it reads as a mark rather than as the first line. */
+      .container > .monogram + * {
+        margin-block-start: var(--space-stack);
+      }
+
+      .mark {
+        display: block;
+        height: var(--mark-shrink-end);
+        width: auto;
+        max-width: 100%;
+      }
+
+      /* The same draw-in as home: each outline draws itself, then fills.
+         Only the stroke is thicker, because at 36px tall a stroke of 1
+         SVG unit would be well under a pixel and never be seen. */
+      .mark-letter {
+        fill-opacity: 0;
+        stroke: currentColor;
+        stroke-width: var(--mark-stroke-compact);
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation:
+          mark-draw var(--dur-slow) var(--ease) forwards,
+          mark-ink  var(--dur-mid)  var(--ease) forwards;
+      }
+
+      .mark-e {
+        animation-delay: 0ms, var(--dur-slow);
+      }
+
+      .mark-m {
+        animation-delay: var(--dur-fast), calc(var(--dur-slow) + var(--dur-fast));
+      }
+
+      .mark-a {
+        animation-delay: calc(var(--dur-fast) * 2), calc(var(--dur-slow) + var(--dur-fast) * 2);
+      }
+
+      @keyframes mark-draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes mark-ink {
+        to {
+          fill-opacity: 1;
+          stroke-opacity: 0;
+        }
+      }
+
+      /* ============================================================
+         RAIL  (from index.html, Milestone 4)
+         The letters point back to the home page's sections. E is
+         marked current in the HTML: this case study belongs to
+         Envision. There is no scroll-spy on this page.
+         ============================================================ */
+      .rail {
+        padding-block: var(--space-4);
+        padding-inline: var(--space-section-x);
+        justify-content: center;
+        gap: var(--space-4);
+      }
+
+      .rail a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        min-width: var(--target-min);
+        min-height: var(--target-min);
+        font-family: var(--font-display);
+        font-weight: var(--weight-display);
+        letter-spacing: var(--ls-nav);
+        text-decoration: none;
+      }
+
+      .rail a[aria-current="true"] {
+        color: var(--rail-active);
+      }
+
+      /* A small dot as well as the colour, so the cue doesn't depend on
+         colour alone. Under the letter on phones, beside it in the pill. */
+      .rail a[aria-current="true"]::after {
+        content: "";
+        position: absolute;
+        inset-block-end: var(--space-1);
+        inset-inline-start: 50%;
+        width: var(--space-1);
+        height: var(--space-1);
+        margin-inline-start: calc(var(--space-1) / -2);
+        border-radius: var(--radius-pill);
+        background: var(--text);
+      }
+
+      @media (min-width: 768px) {
+        .rail {
+          position: fixed;
+          top: 50%;
+          right: var(--space-6);
+          transform: translateY(-50%);
+          padding: var(--space-2);
+          z-index: 1;
+          background: var(--bg);
+          border: 1px solid var(--line);
+          border-radius: var(--radius-pill);
+        }
+
+        .rail,
+        .rail ul {
+          flex-direction: column;
+        }
+
+        .rail a[aria-current="true"]::after {
+          inset-block-end: auto;
+          inset-inline-start: var(--space-1);
+          top: 50%;
+          margin-block-start: calc(var(--space-1) / -2);
+          margin-inline-start: 0;
+        }
+      }
+
+      /* The fixed rail would otherwise sit on top of the content. */
+      @media (min-width: 768px) {
+        .site-header,
+        main > section,
+        .site-footer {
+          padding-inline-end: calc(var(--space-section-x) + var(--rail-gutter));
+        }
+      }
+
+      /* ============================================================
+         THEME TOGGLE  (from index.html, Milestone 9)
+         One button in the rail. Muted, never gold.
+         ============================================================ */
+
+      /* Hidden until the script has wired it up. */
+      .theme-toggle[hidden] {
+        display: none;
+      }
+
+      /* A one-cell grid: both icons share the cell, so the button is the
+         same size whichever one is showing. */
+      .theme-toggle {
+        display: grid;
+        place-items: center;
+        position: relative;
+        min-width: var(--target-min);
+        min-height: var(--target-min);
+        padding: 0;
+        border: none;
+        border-radius: var(--radius-pill);
+        background: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color var(--dur-fast) var(--ease);
+      }
+
+      .theme-toggle:hover,
+      .theme-toggle:focus-visible {
+        color: var(--text);
+      }
+
+      /* The hairline between the letters and the toggle. It belongs to the
+         button, so it disappears with it when the button is hidden. */
+      .theme-toggle::before {
+        content: "";
+        position: absolute;
+        inset-inline-start: calc(var(--space-4) / -2);
+        inset-block: var(--space-2);
+        border-inline-start: 1px solid var(--line);
+      }
+
+      @media (min-width: 768px) {
+        .theme-toggle::before {
+          inset-block: auto;
+          inset-inline: var(--space-2);
+          inset-block-start: calc(var(--space-4) / -2);
+          border-inline-start: none;
+          border-block-start: 1px solid var(--line);
+        }
+      }
+
+      .theme-toggle-icon {
+        grid-area: 1 / 1;
+        width: var(--icon-size);
+        height: var(--icon-size);
+        transition:
+          opacity var(--dur-fast) var(--ease),
+          rotate var(--dur-fast) var(--ease),
+          visibility var(--dur-fast) var(--ease);
+      }
+
+      /* The icon shows the theme you would GET: a sun while the page is
+         dark, a moon while it is light. */
+      .theme-toggle-moon,
+      [data-theme="light"] .theme-toggle-sun {
+        opacity: 0;
+        visibility: hidden;
+        rotate: -90deg;
+      }
+
+      [data-theme="light"] .theme-toggle-moon {
+        opacity: 1;
+        visibility: visible;
+        rotate: none;
+      }
+
+      /* For the moment the theme changes, nothing may animate except the
+         icons, so the whole page changes colour in one frame. */
+      .theme-switching *:not(.theme-toggle-icon),
+      .theme-switching *::before,
+      .theme-switching *::after {
+        transition: none !important;
+      }
+
+      /* ============================================================
+         CASE STUDY  (Milestone 10)
+         The eyebrow, the three decisions, the screenshots and the
+         link lines. Only the screenshots are new; the rest are the
+         home page's patterns.
+         ============================================================ */
+
+      /* ---------- Eyebrow (from index.html, Milestone 7) ----------
+         The small uppercase label above a heading, sitting close to it. */
+      .eyebrow {
+        font-size: var(--fs-small);
+        font-weight: var(--weight-medium);
+        letter-spacing: var(--ls-eyebrow);
+        text-transform: uppercase;
+        color: var(--label);
+      }
+
+      .eyebrow + h1,
+      .eyebrow + h2 {
+        margin-block-start: var(--space-2);
+      }
+
+      /* ---------- The three decisions ----------
+         An ordered list with its bullets off. The numbers come back as a
+         counter written in front of each title, so they are set in the
+         heading's own typeface instead of the browser's list font. The
+         .container prefix outranks the rhythm rules above. */
+      .container > .decisions {
+        display: grid;
+        gap: var(--space-stack);
+        padding: 0;
+        list-style: none;
+        counter-reset: decision;
+      }
+
+      .decisions > li {
+        counter-increment: decision;
+      }
+
+      .decisions h3::before {
+        content: counter(decision) ". ";
+      }
+
+      .decisions h3 + p {
+        margin-block-start: var(--space-2);
+      }
+
+      /* ---------- Screenshots ----------
+         Each capture sits in a frame the shape of one screen, showing the
+         top of the page as a visitor first sees it. The frame is a link
+         to the whole capture. Hover and focus lift it like a card. */
+      .shot {
+        margin: 0;
+      }
+
+      .shot-frame {
+        display: block;
+        aspect-ratio: var(--shot-ratio-desktop);
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        background-image: none; /* no drawn-in underline under a picture */
+        transition:
+          transform var(--dur) var(--ease),
+          box-shadow var(--dur) var(--ease),
+          border-color var(--dur) var(--ease);
+      }
+
+      .shot--phone .shot-frame {
+        aspect-ratio: var(--shot-ratio-phone);
+      }
+
+      .shot-frame:hover,
+      .shot-frame:focus-visible {
+        transform: translateY(var(--card-lift));
+        box-shadow: var(--shadow-lift);
+        border-color: var(--line-strong);
+      }
+
+      /* The image fills its frame from the top down; the rest of the page
+         is cropped off here and seen in full when the frame is opened. */
+      .shot-frame img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+      }
+
+      .shot figcaption {
+        margin-block-start: var(--space-2);
+        font-size: var(--fs-small);
+        color: var(--text-muted);
+      }
+
+      /* ---------- The two captures together ----------
+         Stacked below 1100px, side by side from 1100px. */
+      .shots {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-grid);
+      }
+
+      /* Stacked, the phone frame is capped so it looks like a phone, not
+         two screens of scrolling. Its width is set outright (the whole
+         column, up to the cap) instead of being worked out from what is
+         inside it, so the frame is already the right size before the
+         lazy-loaded image arrives. The auto margins centre it. */
+      .shot--phone {
+        width: 100%;
+        max-width: var(--shot-phone-max);
+        margin-inline: auto;
+      }
+
+      /* Side by side, the two frames must come out the same height. A
+         frame's height is its width divided by its ratio, so their widths
+         have to be in the same proportion as their ratios. flex-basis: 0
+         with flex-grow set to each ratio does exactly that: the row is
+         shared out between the two in proportion to their grow numbers,
+         so the heights follow the tokens with nothing to recalculate.
+         calc() turns the token's "1440 / 900" into the single number
+         flex-grow needs; aspect-ratio can read it as it stands.
+         min-width: 0 stops what is inside a figure from holding it wider
+         than its share. */
+      @media (min-width: 1100px) {
+        .shots {
+          flex-direction: row;
+          align-items: flex-start;
+        }
+
+        .shot {
+          flex-basis: 0;
+          min-width: 0;
+        }
+
+        .shot--desktop {
+          flex-grow: calc(var(--shot-ratio-desktop));
+        }
+
+        .shot--phone {
+          flex-grow: calc(var(--shot-ratio-phone));
+          max-width: none;
+        }
+      }
+
+      /* ---------- Link lines (from index.html, Milestone 6) ----------
+         The live site, the code and the way back. Small text makes a
+         small link, so padding brings each one up to the 44px target. */
+      .card-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-4);
+        font-size: var(--fs-small);
+      }
+
+      .card-links a {
+        display: inline-block;
+        padding-block: var(--space-3);
+        background-origin: content-box;
+      }
+
+      /* ============================================================
+         LINKS AND REVEALS  (from index.html, Milestone 5)
+         ============================================================ */
+
+      /* ---------- Links ----------
+         A one-pixel line the colour of the link, 0 wide at rest, drawn
+         in from the left on hover or keyboard focus. */
+      main a,
+      .site-footer a {
+        color: var(--link);
+        text-decoration: none;
+        background-image: linear-gradient(var(--link), var(--link));
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-size: 0 1px;
+        transition: background-size var(--dur) var(--ease);
+      }
+
+      main a:hover,
+      main a:focus-visible,
+      .site-footer a:hover,
+      .site-footer a:focus-visible {
+        background-size: 100% 1px;
+      }
+
+      /* Links inside a line of text also carry a faint underline at rest,
+         so they can be told apart from the words around them. */
+      main p a {
+        background-image:
+          linear-gradient(var(--link), var(--link)),
+          linear-gradient(
+            color-mix(in srgb, var(--link) var(--link-rest-strength), transparent),
+            color-mix(in srgb, var(--link) var(--link-rest-strength), transparent)
+          );
+        background-size: 0 1px, 100% 1px;
+      }
+
+      main p a:hover,
+      main p a:focus-visible {
+        background-size: 100% 1px, 100% 1px;
+      }
+
+      /* ---------- Reveals ----------
+         Each band's content rises into place the first time it is seen.
+         Only with JavaScript running (html.js), only for people who
+         haven't asked for less motion, and never the band itself, so its
+         colour is there from the first frame. The monogram is left out:
+         it has its own draw-in. */
+      @media (prefers-reduced-motion: no-preference) {
+        .js .reveal .container > :not(.monogram) {
+          opacity: 0;
+          transform: translateY(var(--reveal-y));
+        }
+
+        .js .reveal.is-revealed .container > :not(.monogram) {
+          opacity: 1;
+          transform: none;
+          transition:
+            opacity var(--dur-reveal) var(--ease),
+            transform var(--dur-reveal) var(--ease);
+          transition-delay: calc(var(--i, 0) * var(--reveal-step));
+        }
+      }
+
+      /* ---------- Reduced motion ----------
+         Everything arrives in its finished state: the monogram already
+         drawn, nothing hidden, no animation or transition anywhere. */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-delay: 0ms !important;
+          transition-duration: 0.01ms !important;
+          transition-delay: 0ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- The rail: the same letters and toggle as the home page. Here the
+         letters lead back to the home page's sections, and E carries
+         aria-current because this case study is part of Envision. -->
+    <div class="rail">
+      <nav aria-label="Sections">
+        <ul>
+          <li><a href="/#envision" aria-label="E, Envision" aria-current="true">E</a></li>
+          <li><a href="/#make" aria-label="M, Make">M</a></li>
+          <li><a href="/#automate" aria-label="A, Automate">A</a></li>
+        </ul>
+      </nav>
+
+      <!-- The theme toggle, as on the home page: a real button, hidden
+           until the script wires it up, labelled with what a click will do. -->
+      <button class="theme-toggle" type="button" hidden aria-label="Switch to light theme">
+        <svg class="theme-toggle-icon theme-toggle-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.2 5.2l1.9 1.9M16.9 16.9l1.9 1.9M18.8 5.2l-1.9 1.9M7.1 16.9l-1.9 1.9"/>
+        </svg>
+        <svg class="theme-toggle-icon theme-toggle-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"
+                d="M20.1 14.3A8.6 8.6 0 0 1 9.7 3.9a8.6 8.6 0 1 0 10.4 10.4z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- ============================================================
+         HEADER
+         Teal in both themes. The monogram is the way home: the same
+         letters as the home page's hero, at the size of its top bar.
+         The lead line (and the meta description) is Parkgate's
+         caseSummary from the projects array in index.html, typed out
+         by hand here until M10.5 gives both pages projects.js.
+         ============================================================ -->
+    <header class="site-header reveal">
+      <div class="container">
+        <a class="monogram" href="/" aria-label="EMA, home">
+          <svg class="mark" viewBox="264.9 462.8 284.5 92.8" focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <g fill="currentColor">
+              <g transform="translate(262.568923, 553.601577)">
+                <path class="mark-letter mark-e" pathLength="1" d="M 4.34375 0 L 4.34375 -1.25 L 6.96875 -1.25 C 9.863281 -1.25 12.117188 -1.910156 13.734375 -3.234375 C 15.347656 -4.554688 16.15625 -6.753906 16.15625 -9.828125 L 16.15625 -79.203125 C 16.15625 -82.179688 15.347656 -84.3125 13.734375 -85.59375 C 12.117188 -86.882812 9.863281 -87.53125 6.96875 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 68.625 -88.765625 L 69.375 -66.765625 L 68.125 -66.765625 L 67.890625 -70.859375 C 67.472656 -77.078125 65.914062 -81.410156 63.21875 -83.859375 C 60.53125 -86.304688 56.035156 -87.53125 49.734375 -87.53125 L 30.703125 -87.53125 L 30.703125 -47.125 L 61.421875 -47.125 L 61.421875 -45.875 L 30.703125 -45.875 L 30.703125 -1.25 L 53.09375 -1.25 C 59.71875 -1.25 64.4375 -2.46875 67.25 -4.90625 C 70.070312 -7.351562 71.691406 -11.6875 72.109375 -17.90625 L 72.359375 -22 L 73.609375 -22 L 72.734375 0 Z M 4.34375 0 "/>
+              </g>
+              <g transform="translate(341.023163, 553.601577)">
+                <path class="mark-letter mark-m" pathLength="1" d="M 4.34375 0 L 4.34375 -1.25 L 10.4375 -1.25 C 13.257812 -1.25 15.476562 -1.910156 17.09375 -3.234375 C 18.707031 -4.554688 19.515625 -6.753906 19.515625 -9.828125 L 19.515625 -79.328125 C 19.515625 -82.222656 18.707031 -84.3125 17.09375 -85.59375 C 15.476562 -86.882812 13.257812 -87.53125 10.4375 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 32.078125 -88.765625 L 62.046875 -15.90625 L 87.78125 -88.765625 L 112.765625 -88.765625 L 112.765625 -87.53125 L 110.15625 -87.53125 C 107.164062 -87.53125 104.882812 -86.863281 103.3125 -85.53125 C 101.738281 -84.207031 100.953125 -81.972656 100.953125 -78.828125 L 100.953125 -9.953125 C 100.953125 -6.796875 101.738281 -4.554688 103.3125 -3.234375 C 104.882812 -1.910156 107.164062 -1.25 110.15625 -1.25 L 112.765625 -1.25 L 112.765625 0 L 77.828125 0 L 77.828125 -1.25 L 78.453125 -1.25 C 81.097656 -1.25 83.1875 -1.890625 84.71875 -3.171875 C 86.257812 -4.453125 87.03125 -6.628906 87.03125 -9.703125 L 87.03125 -82.796875 L 57.9375 0 L 54.078125 0 L 20.765625 -81.4375 L 20.765625 -9.953125 C 20.765625 -6.796875 21.59375 -4.554688 23.25 -3.234375 C 24.90625 -1.910156 27.390625 -1.25 30.703125 -1.25 L 33.6875 -1.25 L 33.6875 0 Z M 4.34375 0 "/>
+              </g>
+              <g transform="translate(458.145013, 553.601577)">
+                <path class="mark-letter mark-a" pathLength="1" d="M 0.125 0 L 0.125 -1.25 L 4.109375 -1.25 C 6.671875 -1.25 8.695312 -1.953125 10.1875 -3.359375 C 11.6875 -4.765625 13.054688 -7.25 14.296875 -10.8125 L 41.90625 -88.765625 L 49.859375 -88.765625 L 80.0625 -8.453125 C 81.144531 -5.710938 82.265625 -3.828125 83.421875 -2.796875 C 84.585938 -1.765625 86.125 -1.25 88.03125 -1.25 L 89.265625 -1.25 L 89.265625 0 L 53.21875 0 L 53.21875 -1.25 L 57.1875 -1.25 C 60.007812 -1.25 62.039062 -1.597656 63.28125 -2.296875 C 64.519531 -3.003906 65.140625 -4.269531 65.140625 -6.09375 C 65.140625 -6.757812 65.054688 -7.566406 64.890625 -8.515625 C 64.734375 -9.472656 64.445312 -10.53125 64.03125 -11.6875 L 56.5625 -32.328125 L 23.375 -32.328125 L 16.40625 -12.8125 C 16 -11.5625 15.671875 -10.457031 15.421875 -9.5 C 15.171875 -8.550781 15.046875 -7.664062 15.046875 -6.84375 C 15.046875 -4.769531 15.894531 -3.316406 17.59375 -2.484375 C 19.289062 -1.660156 22.046875 -1.25 25.859375 -1.25 L 30.34375 -1.25 L 30.34375 0 Z M 23.75 -33.5625 L 56.078125 -33.5625 L 47.375 -57.4375 C 45.957031 -61.332031 44.585938 -65.25 43.265625 -69.1875 C 41.941406 -73.125 40.863281 -76.75 40.03125 -80.0625 C 38.875 -76.582031 37.734375 -73.265625 36.609375 -70.109375 C 35.492188 -66.960938 34.234375 -63.359375 32.828125 -59.296875 Z M 23.75 -33.5625 "/>
+              </g>
+            </g>
+          </svg>
+        </a>
+
+        <p class="eyebrow">Case study</p>
+        <h1>Parkgate Construction</h1>
+        <p class="hero-lead">From a domain name and nothing else to a brand, a business inbox and a live website.</p>
+        <p class="case-meta">2026 · Canva · Google Workspace · HTML · CSS · JavaScript · Netlify · DNS</p>
+      </div>
+    </header>
+
+    <!-- The five parts of the story, in the order BUILD-PLAN gives them.
+         All copy is word for word from BUILD-PLAN's Content section. -->
+    <main>
+      <section id="brief" class="reveal">
+        <div class="container">
+          <h2>The brief</h2>
+          <p>Parkgate Construction had a domain name and nothing else: no website, no business email, no brand. The owner wanted the company to look established, something he could point a client to with confidence. I took on all of it, from the logo to the last DNS record.</p>
+        </div>
+      </section>
+
+      <section id="constraints" class="reveal">
+        <div class="container">
+          <h2>Constraints</h2>
+          <p>No fixed budget and no deadline. The starting kit was one domain login, so every word, colour and email address had to be made from scratch. The owner had little time to spare, so I wrote the copy myself from short conversations. He was new to having a website, so the result had to feel manageable rather than technical. And it was my first client site.</p>
+        </div>
+      </section>
+
+      <!-- The numbers in front of each title come from the CSS counter.
+           role="list" keeps the list announced in Safari once its
+           bullets are removed. -->
+      <section id="decisions" class="reveal">
+        <div class="container">
+          <h2>Three decisions and why</h2>
+          <ol class="decisions" role="list">
+            <li>
+              <h3>Foundations before the website.</h3>
+              <p>Before designing a single page, I set up Google Workspace on his domain: his own address, plus hello@ and admin@. Looking established starts with the email a client receives. It also meant suppliers could send receipts straight to the business, which made the bookkeeping far smoother.</p>
+            </li>
+            <li>
+              <h3>A green built to last.</h3>
+              <p>I designed the logo in Canva first, in a neutral, trustworthy green: a clean break from the navy and orange of his previous business. I kept design trends out of it. It needed to be understated and minimal, to stand the test of time, and to have a quiet Britishness that suits the man behind it.</p>
+            </li>
+            <li>
+              <h3>Type that had to earn its place.</h3>
+              <p>The first draft was set in Garet throughout, and the owner didn't take to it. I rebuilt it with DM Serif Display for headings, classic and steady, and DM Sans for everything else, plain and practical.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- WHAT SHIPPED: teal in both themes, echoing the home page's Make
+           band. The captures are the live site's first screens, with
+           unconfirmed figures and claims blocked out in grey.
+           Each frame is a link to the whole capture, and its caption says
+           so where everyone can see it. aria-describedby hands the same
+           words to screen readers: they announce the image's alt text as
+           the link's name, then the caption's note on what it opens. -->
+      <section id="shipped" class="reveal">
+        <div class="container">
+          <h2>What shipped</h2>
+          <p>A logo, business email on Google Workspace, a one-page website deployed on Netlify with the custom domain pointed via DNS, and a minimal invoice template that carries the brand, with green only in the wordmark. The owner was impressed with the site and happy with the wording.</p>
+
+          <div class="shots">
+            <figure class="shot shot--desktop">
+              <a class="shot-frame" href="../../images/parkgate/parkgate-desktop-1440.webp" aria-describedby="shot-desktop-hint">
+                <img src="../../images/parkgate/parkgate-desktop-1440.webp" width="1440" height="1929" loading="lazy" decoding="async"
+                     alt="The Parkgate Construction homepage on a desktop screen: a cream panel with the headline &quot;Built to last. Finished to impress.&quot; in black and green serif type and a green &quot;Request a quote&quot; button, beside a dark panel with a faint architectural grid. Grey blocks cover unconfirmed figures.">
+              </a>
+              <figcaption>Desktop · 1440px · <span id="shot-desktop-hint">opens the full-size image</span></figcaption>
+            </figure>
+            <figure class="shot shot--phone">
+              <a class="shot-frame" href="../../images/parkgate/parkgate-phone-390.webp" aria-describedby="shot-phone-hint">
+                <img src="../../images/parkgate/parkgate-phone-390.webp" width="780" height="5984" loading="lazy" decoding="async"
+                     alt="The same homepage on a phone: the Parkgate Construction wordmark and a green &quot;Get a quote&quot; button above the headline, introduction and &quot;Request a quote&quot; button. Grey blocks cover unconfirmed figures further down.">
+              </a>
+              <figcaption>Phone · 390px · <span id="shot-phone-hint">opens the full-size image</span></figcaption>
+            </figure>
+          </div>
+
+          <p class="card-links">
+            <a href="https://parkgate-construction.com" target="_blank" rel="noopener noreferrer">Visit the live site<span aria-hidden="true"> →</span></a>
+            <a href="https://github.com/emmadarlingt-hue/parkgate-construction" target="_blank" rel="noopener noreferrer">Code<span aria-hidden="true"> →</span></a>
+          </p>
+        </div>
+      </section>
+
+      <section id="next" class="reveal">
+        <div class="container">
+          <h2>What's next</h2>
+          <p>Say less. Seeing his business live on the web was a lot for the owner, and some details I drafted as placeholders still need confirming. The next version keeps only confirmed facts, moves contact to email rather than phone, and may carry a short availability note while current work runs. On the working side, I'd set up shared access from day one, so fixes and invoices don't wait on a single laptop.</p>
+
+          <p class="card-links">
+            <a href="/#envision"><span aria-hidden="true">← </span>Back to Envision</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 2026 Emma Darling</p>
+      </div>
+    </footer>
+
+    <script>
+      // First thing: tell the CSS that JavaScript is running AND that the
+      // browser can do reveals. The reveal styles only hide content under
+      // html.js, so without IntersectionObserver — or if this script never
+      // runs — nothing on the page is ever hidden.
+      if ('IntersectionObserver' in window) {
+        document.documentElement.classList.add('js');
+      }
+
+      /* ============================================================
+         PAGE SCRIPT
+         The theme toggle (from index.html, Milestone 9) and the scroll
+         reveals (from index.html, Milestone 5). Nothing else: there are
+         no projects to render, and no scroll-spy, because the rail's
+         letters point at the home page, not at anything here.
+         ============================================================ */
+
+      /* ============================================================
+         THEME  (Milestone 9)
+         The <head> script has already picked a theme and written it to
+         <html>. This is everything afterwards: the button that flips it,
+         remembering the choice, and following the operating system right
+         up until a choice is made. The choice is shared with the home
+         page: both read and write the same 'theme' key.
+         ============================================================ */
+
+      /* One place for the storage key, so a typo can't make the page
+         save under one name and read back under another. */
+      const THEME_KEY = 'theme';
+
+      /* True once the visitor has clicked the toggle during this visit.
+         readStoredTheme() answers almost the same question, but not when
+         the localStorage write failed — in a private window the choice is
+         still a real choice and must still beat the operating system. It
+         just can't outlive the tab. */
+      let hasChosenTheme = false;
+
+      /* What the visitor chose on an earlier visit, or null if they
+         never have. Only the two words the page understands come back;
+         anything else in storage is treated as nothing at all. Same
+         try/catch as the <head> script, and for the same reason. */
+      function readStoredTheme() {
+        try {
+          const stored = localStorage.getItem(THEME_KEY);
+          return stored === 'light' || stored === 'dark' ? stored : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      /* The theme on the page right now, read off the element rather
+         than kept in a variable of its own. The attribute is the single
+         source of truth — the <head> script set it before this script
+         existed, so there is nothing else it could be read from. */
+      function currentTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'light'
+          ? 'light'
+          : 'dark';
+      }
+
+      /* Make a change with every animation on the page switched off, so
+         the whole page changes colour in one frame instead of some
+         outlines and underlines fading in a beat behind the rest.
+
+         The odd-looking line in the middle is the point of the whole
+         function: reading a layout value forces the browser to apply the
+         class NOW, instead of quietly batching it together with the
+         change that follows and so applying neither in time. Two frames
+         later the class comes off and ordinary hovers animate again. */
+      function withoutTransitions(change) {
+        const root = document.documentElement;
+        root.classList.add('theme-switching');
+        void root.offsetHeight;
+        change();
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => root.classList.remove('theme-switching'));
+        });
+      }
+
+      /* Put a theme on the page and tell the button what it now does.
+         The label describes the ACTION rather than the state, and the
+         icon is chosen from the same attribute, so the two can never
+         drift apart and say different things. */
+      function applyTheme(theme, button) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (button) {
+          button.setAttribute(
+            'aria-label',
+            theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+          );
+        }
+      }
+
+      /* Wire the toggle up, then reveal it. Saving the choice is what
+         makes it stick — both across reloads, and against the operating
+         system changing underneath it later. */
+      function setUpThemeToggle() {
+        const button = document.querySelector('.theme-toggle');
+        if (!button) return;
+
+        // Give the button the right label for the theme already on the
+        // page, and only then let it be seen. This is the moment it
+        // starts working, so this is the moment it appears.
+        applyTheme(currentTheme(), button);
+        button.hidden = false;
+
+        button.addEventListener('click', () => {
+          // Set first, before anything that could throw: from here on
+          // the theme is theirs, whether or not it reaches storage.
+          hasChosenTheme = true;
+
+          const next = currentTheme() === 'dark' ? 'light' : 'dark';
+          withoutTransitions(() => applyTheme(next, button));
+
+          try {
+            localStorage.setItem(THEME_KEY, next);
+          } catch (error) {
+            // No storage: the theme still changes for this visit, it
+            // just won't be remembered after a reload.
+          }
+        });
+
+        followSystemTheme(button);
+      }
+
+      /* Until the visitor has clicked the button, the page belongs to
+         their operating system: switch the Mac to Light with this tab
+         open and the page should follow, live. The moment they click,
+         the page belongs to them and the system stops being consulted. */
+      function followSystemTheme(button) {
+        if (!window.matchMedia) return;
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+
+        const updateForSystemTheme = (event) => {
+          if (hasChosenTheme || readStoredTheme() !== null) return;
+          const theme = event.matches ? 'light' : 'dark';
+          withoutTransitions(() => applyTheme(theme, button));
+        };
+
+        prefersLight.addEventListener('change', updateForSystemTheme);
+      }
+
+      /* Scroll reveals — the only IntersectionObserver on this page
+         (CLAUDE.md allows two; the rail's scroll-spy isn't needed here).
+         Every band here is marked .reveal: its content is numbered so the
+         CSS can stagger it, and it all rises in once 15% of the band is
+         on screen. Then the band stops being watched: each reveals once.
+         The home page's version also reveals single .reveal-item
+         elements one by one; nothing here needs that, so it is left out. */
+      function revealOnScroll() {
+        const bands = document.querySelectorAll('.reveal');
+
+        // Number each band's revealable items 0, 1, 2… as --i. The
+        // monogram is skipped, to match the CSS, so the stagger starts
+        // with the first item that actually moves.
+        bands.forEach((band) => {
+          const items = band.querySelectorAll('.container > :not(.monogram)');
+          items.forEach((item, index) => {
+            item.style.setProperty('--i', index);
+          });
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+
+        bands.forEach((band) => observer.observe(band));
+      }
+
+      // The theme first: it is the most visible thing on the page and it
+      // depends on nothing else. Wrapped, so a problem here can never
+      // stop the reveals below from running and leave content hidden.
+      try {
+        setUpThemeToggle();
+      } catch (error) {
+        console.error('Theme toggle failed to start:', error);
+      }
+
+      if ('IntersectionObserver' in window) {
+        revealOnScroll();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+/* ============================================================
+   DESIGN TOKENS  (Milestone 1; its own file since Milestone 10)
+   Every colour, font, size, space, radius, shadow and easing
+   is declared ONCE here as a CSS custom property (a "variable").
+   Each page's stylesheet only ever says var(--name), so a
+   change here ripples through every page.
+
+   Shared by index.html and each case study in /work/<slug>/.
+   Every page links it straight after its theme script and
+   before Google Fonts. It holds only :root and the light
+   override: no selectors, no components (see CLAUDE.md).
+
+   Values come from design/Emma Darling Portfolio.html:
+     :root                -> direction 2a (dark, the default)
+     [data-theme="light"] -> direction 2b (light override)
+   ============================================================ */
+
+/* ---------- 2a · DARK (default) ---------- */
+:root {
+  /* --- Tells the browser which way round the page is, so the
+         furniture it draws itself — scrollbars, form controls,
+         the blank canvas before anything has painted — matches
+         the theme instead of staying stubbornly light. --- */
+  color-scheme: dark;
+
+  /* --- Palette: the raw paint pots, named by what they look like.
+         Only the "role" tokens further down should use these. --- */
+  --teal:      #0E2A35;                 /* deep teal, the dark surface              */
+  --cream:         #F5EDD6;                 /* warm cream, the light surface            */
+  --lavender:      #C9B8D8;                 /* soft lavender, muted text on dark        */
+  --aubergine:          #4A1A4A;                 /* deep aubergine, muted text on cream           */
+  --eucalyptus:          #3A6357;                 /* eucalyptus green, small labels on cream        */
+  --gold:          #C8922A;                 /* accent gold: max 4 uses, never text on cream */
+  --line-on-dark:  rgba(245, 237, 214, 0.18); /* cream hairline at 18% for dark surfaces */
+  --line-on-cream: rgba(14, 42, 53, 0.18); /* teal hairline at 18% for cream surfaces */
+  --line-on-dark-strong:  rgba(245, 237, 214, 0.4); /* the same hairlines at 40%, */
+  --line-on-cream-strong: rgba(14, 42, 53, 0.4);    /* for hovered cards          */
+  --glass-on-dark:  rgba(245, 237, 214, 0.06); /* cream at 6%: a raised tint on teal  */
+  --glass-on-cream: rgba(14, 42, 53, 0.04);    /* teal at 4%: a raised tint on cream  */
+
+  /* --- Colour roles: what each colour DOES. These are the ones
+         that flip when the light theme is switched on. --- */
+  --bg:         var(--teal);   /* page background                     */
+  --text:       var(--cream);      /* body copy and headings              */
+  --text-muted: var(--lavender);   /* secondary copy, captions, meta      */
+  --line:       var(--line-on-dark); /* borders, dividers, card outlines  */
+  --line-strong: var(--line-on-dark-strong); /* hovered card outlines     */
+  --accent:     var(--gold);       /* hover hairlines, small highlights   */
+  --focus:      var(--lavender);   /* keyboard focus ring (never gold)    */
+  --link:       var(--gold);       /* text links and their underline      */
+  --mark:       var(--gold);       /* the big "EMA" monogram              */
+  --label:      var(--lavender);   /* uppercase eyebrow labels            */
+
+  /* --- Fixed surfaces: sections alternate dark / cream in BOTH
+         themes, so these never flip. --- */
+  --surface-dark:       var(--teal);
+  --surface-dark-text:  var(--cream);
+  --surface-cream:      var(--cream);
+  --surface-cream-text: var(--teal);
+  --surface-dark-focus: var(--lavender); /* focus ring on teal bands, both themes */
+  --surface-dark-mark:  var(--gold);     /* monogram on teal bands, both themes   */
+  --surface-dark-line:  var(--line-on-dark); /* hairline on teal, both themes     */
+  --surface-dark-link:  var(--gold);     /* links on teal bands, both themes     */
+  --surface-dark-muted: var(--lavender); /* meta text and labels on teal, ~8:1   */
+  --surface-dark-line-strong: var(--line-on-dark-strong); /* hovered outlines on teal */
+  --surface-dark-shadow-lift: 0 8px 24px rgba(0, 0, 0, 0.35); /* a teal shadow can't show on teal */
+  --surface-dark-glass: var(--glass-on-dark); /* card tint on teal, both themes */
+
+  /* --- Fonts: four weights total, nothing else --- */
+  --font-display: "Playfair Display", Georgia, serif;      /* headings, monogram, nav letters */
+  --font-body:    "DM Sans", system-ui, sans-serif;         /* body copy and labels            */
+  --font-quote:   "Cormorant Garamond", Georgia, serif;     /* the one italic pull-quote       */
+  --weight-regular: 400;   /* DM Sans body                  */
+  --weight-medium:  500;   /* DM Sans labels and emphasis   */
+  --weight-display: 600;   /* Playfair Display headings     */
+
+  /* --- Fluid type scale: clamp(minimum, preferred, maximum).
+         The middle value grows with the viewport width (vw), so text
+         scales smoothly between phone and desktop with no breakpoints.
+         1rem = 16px at the browser default; px equivalents in comments. --- */
+  --fs-label: clamp(0.75rem,   0.72rem + 0.12vw, 0.8125rem); /* 12 -> 13px  tiny uppercase labels   */
+  --fs-small: clamp(0.875rem,  0.85rem + 0.12vw, 0.9375rem); /* 14 -> 15px  eyebrows, meta, footer  */
+  --fs-body:  clamp(1.0625rem, 0.8125rem + 1.2vw, 1.1875rem); /* 17 -> 19px  body copy              */
+  --fs-sub:   clamp(1.0625rem, 0.98rem + 0.36vw,  1.25rem);  /* 17 -> 20px  hero subtitle           */
+  --fs-lead:  clamp(1.1875rem, 1.05rem + 0.6vw,   1.5rem);   /* 19 -> 24px  hero lead sentence      */
+  --fs-h3:    clamp(1.375rem,  1.21rem + 0.71vw,  1.75rem);  /* 22 -> 28px  card titles             */
+  --fs-quote: clamp(1.4375rem, 1.25rem + 0.83vw,  1.875rem); /* 23 -> 30px  italic pull-quote       */
+  --fs-h2:    clamp(1.875rem,  1.5rem + 1.67vw,   2.75rem);  /* 30 -> 44px  section headings        */
+  --fs-h1:    clamp(2.5rem,    1.64rem + 3.81vw,  4.5rem);   /* 40 -> 72px  name in the hero        */
+  --fs-mark:  clamp(7.5rem,    3.2rem + 19vw,     17.5rem);  /* 120 -> 280px the "EMA" monogram     */
+
+  /* --- Line heights and letter spacing --- */
+  --lh-h1:      1.02;
+  --lh-heading: 1.12;   /* h2 and h3                    */
+  --lh-quote:   1.35;
+  --lh-lead:    1.5;
+  --lh-body:    1.65;
+  --ls-h1:      -0.01em; /* slightly tighter display size */
+  --ls-nav:     0.04em;
+  --mark-stroke:       1;      /* draw-in stroke width, in SVG user units */
+  --mark-stroke-compact: 2.5;  /* the same at 36px tall (case-study header):
+                                  1 unit is ~0.39px there, so 1 would vanish */
+  --mark-shrink-end:   2.25rem; /* monogram height once it sits in the bar */
+  --mark-shrink-range: 30vh;   /* scroll distance over which it shrinks   */
+  --mark-scale-min:    0.15;   /* how far the hero monogram shrinks       */
+  --bar-height:        4rem;   /* the slim top bar it shrinks into        */
+  --rail-active:     var(--gold); /* the current section's letter        */
+  --ls-label:   0.14em;  /* uppercase labels need air     */
+  --ls-eyebrow: 0.18em;
+
+  /* --- Spacing: a 4px scale. The number is how many 4px steps.
+         Use these for padding, margin and gap; nothing off-grid. --- */
+  --space-1:  0.25rem;  /*   4px */
+  --space-2:  0.5rem;   /*   8px */
+  --space-3:  0.75rem;  /*  12px */
+  --space-4:  1rem;     /*  16px */
+  --space-5:  1.25rem;  /*  20px */
+  --space-6:  1.5rem;   /*  24px */
+  --space-8:  2rem;     /*  32px */
+  --space-10: 2.5rem;   /*  40px */
+  --space-12: 3rem;     /*  48px */
+  --space-16: 4rem;     /*  64px */
+  --space-20: 5rem;     /*  80px */
+  --space-24: 6rem;     /*  96px */
+  --space-32: 8rem;     /* 128px */
+
+  /* --- Fluid spacing for section rhythm (also clamp, also 4px-aligned at the ends) --- */
+  --space-section-y: clamp(3.5rem,  8vw,   6.5rem);  /* 56 -> 104px section top/bottom padding */
+  --space-section-x: clamp(1.25rem, 5vw,   5rem);    /* 20 -> 80px  section side padding       */
+  --space-stack:     clamp(1.5rem,  3vw,   2.5rem);  /* 24 -> 40px  gap between section parts  */
+  --space-flow:      clamp(1.25rem, 2.4vw, 1.75rem); /* 20 -> 28px  gap inside a text column   */
+  --space-grid:      clamp(1rem,    1.8vw, 1.25rem); /* 16 -> 20px  gap between cards          */
+
+  /* --- Layout --- */
+  --measure:        68ch;  /* comfortable reading width for text columns */
+  --measure-narrow: 30ch;  /* hero lead line                             */
+  --rail-gutter:    calc(var(--target-min) + var(--space-6) * 2); /* space the fixed rail needs */
+  /* breakpoints: 768, 1100 — media queries can't read custom properties,
+     so these live here as a note and are typed literally in the queries */
+  --container-max:  72rem; /* 1152px: widest the content inside a section gets */
+  --card-pad:       var(--space-6); /* inside a featured project card     */
+  --card-pad-tight: var(--space-4); /* inside a card in the tight row     */
+  --card-lift:      calc(var(--space-1) * -1); /* how far a hovered card rises */
+  --glass-fill:     var(--glass-on-dark); /* card tint: flips with the page theme */
+  --glass-blur:     12px;  /* frosted-glass blur behind a card      */
+  --pipeline-gap:   var(--space-6); /* space (and connector) between pipeline steps */
+  --icon-size:      1.125rem; /* 18px: contact icons, beside their labels */
+  --shot-ratio-desktop: 1440 / 900; /* case-study screenshot frames: each shows */
+  --shot-ratio-phone:   390 / 844;  /* one screen, as a visitor first sees it   */
+  --shot-phone-max:     20rem;      /* 320px: widest the stacked phone frame gets */
+  --target-min:     44px;  /* minimum tap/click target (accessibility)   */
+
+  /* --- Radii: the design is deliberately square-cornered --- */
+  --radius-none: 0;
+  --radius-sm:   2px;   /* buttons, theme toggle */
+  --radius-md:   4px;
+  --radius-pill: 999px; /* fully rounded pills   */
+
+  /* --- Shadows --- */
+  --shadow-none:        none;
+  --shadow-accent-line: 0 1px 0 var(--accent);            /* 1px gold hairline under a hovered card */
+  --shadow-lift:        0 8px 24px rgba(14, 42, 53, 0.35); /* soft lift for hovered cards            */
+
+  /* --- Motion: one easing curve for everything, plus a few durations --- */
+  --ease:       cubic-bezier(0.16, 1, 0.3, 1); /* fast start, long gentle settle */
+  --dur-fast:   200ms;  /* hovers, focus                  */
+  --dur-mid:    300ms;  /* opacity fades                  */
+  --dur-slow:   600ms;  /* hero rise-in                   */
+  --dur-reveal: 700ms;  /* scroll reveal of sections      */
+  --dur:        var(--dur-fast); /* link underline draw-in     */
+  --reveal-y:   var(--space-6);  /* how far revealed items rise */
+  --reveal-step: 80ms;  /* delay between staggered items  */
+  --link-rest-strength: 35%; /* in-sentence underline at rest */
+}
+
+/* ---------- 2b · LIGHT (override set) ----------
+   Only the ROLE tokens change. The palette, type, spacing,
+   radii and motion above are shared by both themes. */
+[data-theme="light"] {
+  color-scheme: light;   /* the other half of the pair in :root */
+  --bg:          var(--cream);
+  --text:        var(--teal);
+  --text-muted:  var(--aubergine);
+  --focus:       var(--teal);     /* focus ring goes teal: gold on cream is only ~2.4:1 */
+  --line:        var(--line-on-cream);
+  --line-strong: var(--line-on-cream-strong);
+  --glass-fill:  var(--glass-on-cream); /* a cream tint can't show on cream */
+  --mark:        var(--teal);     /* monogram goes teal on cream: gold is never text on cream */
+  --rail-active: var(--eucalyptus); /* 5.5:1 on cream, and gold is never text on cream */
+  --link:        var(--eucalyptus); /* same reason: links on cream go eucalyptus */
+  --label:       var(--aubergine);
+  --shadow-lift: 0 8px 24px rgba(14, 42, 53, 0.12); /* lighter lift on a cream page */
+}
