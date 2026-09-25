@@ -161,9 +161,4 @@ template that carries the brand, with green only in the wordmark. The
 owner was impressed with the site and happy with the wording.
 
 **What's next**
-Say less. Seeing his business live on the web was a lot for the owner,
-and some details I drafted as placeholders still need confirming. The
-next version keeps only confirmed facts, moves contact to email rather
-than phone, and may carry a short availability note while current work
-runs. On the working side, I'd set up shared access from day one, so
-fixes and invoices don't wait on a single laptop.
+Say less. Seeing his business live on the web was a lot for the owner, so the first revision took things away: the phone number came off in favour of email, placeholder figures became plain statements, and the emoji icons became simple line icons in the brand green. Enquiries from the form now land in the business inbox. Next, I'd set up shared access from day one, so fixes and invoices don't wait on a single laptop.
