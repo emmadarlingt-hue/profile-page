@@ -22,6 +22,7 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 - Internal links are root-absolute (/, /#envision, /work/<slug>/): the site is
   always served, so navigation is tested through a local server, never file://.
   Decided 25 Sep (M10).
+- Asset paths (stylesheets, images) are relative; navigation links are root-absolute.
 
 ## Tokens
 - Every colour, font, size, space, radius, shadow and easing declared once, in :root in /tokens.css.
