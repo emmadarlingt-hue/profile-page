@@ -73,8 +73,9 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 - Commit: `feat: theme toggle`
 
 ## M10 — Parkgate case study
-- [ ] `/work/parkgate/index.html` sharing tokens + header
-- [ ] Structure: brief → constraints → three decisions and why → what shipped → what next. Live-site captures, desktop 1440 + phone 390, full page, details solid-blocked as Emma marks. No "before": Parkgate had no website (decided 24 Sep).
+- [x] `/work/parkgate/index.html` sharing tokens + header
+- [x] Structure: brief → constraints → three decisions and why → what shipped → what next. Live-site captures, desktop 1440 + phone 390, full page, details solid-blocked as Emma marks. No "before": Parkgate had no website (decided 24 Sep).
+- Decided 25 Sep: the claims were removed from the live site instead, so the captures carry no grey blocks.
 - Commit: `feat: parkgate case study`
 
 ## M10.5 — Shared base
