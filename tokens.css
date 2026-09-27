@@ -104,8 +104,8 @@
   --mark-shrink-range: 30vh;   /* scroll distance over which it shrinks   */
   --mark-scale-min:    0.15;   /* how far the hero monogram shrinks       */
   --bar-height:        4rem;   /* the slim top bar it shrinks into        */
-  --anchor-offset:     calc(var(--bar-height) + var(--space-4)); /* where a jump to a
-                                  section stops: clear of the bar, plus 16px of air */
+  --focus-clearance:   calc(var(--bar-height) + var(--space-4)); /* where keyboard focus
+                                  stops a link or button: clear of the bar, plus 16px */
   --rail-active:     var(--gold); /* the current section's letter        */
   --ls-label:   0.14em;  /* uppercase labels need air     */
   --ls-eyebrow: 0.18em;
