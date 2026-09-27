@@ -41,7 +41,7 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 ## M5 — Motion system
 - [x] One `IntersectionObserver`, reveal once, stagger via `transition-delay`
 - [x] Link underlines draw in from the left; 
-- [x] Links: colour via a `--link` token (gold in dark, eucalyptus in light), no underline at rest, underline draws in on hover — "handfinish" is the test case 
+- [x] Links: colour via a `--link` token (gold in dark, eucalyptus in light). In-sentence links keep a faint underline at rest; standalone links have none. The full underline draws in on hover and focus — "handfinish" is the test case (line corrected 27 Sep to match the code)
 - [x] Cards lift with a strengthened --line hairline on hover; never gold
 - [x] `prefers-reduced-motion` collapses everything
 - Commit: `feat: scroll reveals`
@@ -87,12 +87,18 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 
 ## M11 — Polish and ship
 - Decided 27 Sep: M11 ships ahead of M10.5 so the site can launch tonight; M10.5 follows launch. Committed one step at a time, each pushed to `revamp` for a preview check.
-- [ ] Accessibility pass (contrast, focus, 44px targets, alt/`<title>`)
-- [ ] OG image 1200×630 (monogram on teal); `<title>`, meta description, OG tags
-- [ ] Lighthouse ≥ 90 across the board
-- [ ] Merge `revamp` → `main`; Netlify deploys production
-- [ ] Same day: LinkedIn headline → "Web Designer & Front-End Developer · Envision · Make · Automate"; add the site to the Evidence Inventory
-- Commit: `feat: polish and launch`
+- [x] Accessibility pass (contrast, focus, 44px targets, alt/`<title>`). Both pages, both themes, 390 and 1440, reduced motion on and off: lowest text contrast 4.63:1, a 2px ring on every Tab stop in both directions, one h1 each, real alt text and monogram `<title>`. Fixed:
+  - the "Code" links widened to 44px;
+  - rail jumps land sections flush under the top bar in Safari too (scroll-margin, not scroll-padding), and Shift+Tab keeps focus clear of the bar;
+  - Parkgate's decision numbers no longer read as ". Foundations…".
+
+  "handfinish" keeps its faint underline at rest (WCAG 1.4.1).
+- [x] OG image 1200×630 (monogram on teal); `<title>`, meta description, OG tags. Also canonical, og:image width/height/alt, twitter:card summary_large_image, an SVG favicon (the E, outlined) and a 180px apple-touch-icon. `/seo-check` passed both pages. Two suggestions wait for Emma: longer descriptions (they're Content copy, 125 and 84 characters) and JSON-LD (it would be a third `<script>`).
+- [x] Image weight (finding 10): the Parkgate captures are already WebP q80 (84,018 B and 157,886 B), lazy-loaded and below the fold. Left as they are, decided 27 Sep.
+- [ ] Lighthouse ≥ 90 across the board. Emma runs it in Chrome DevTools on the preview; Lighthouse needs npm, so it can't run here.
+- [ ] Merge `revamp` → `main`; Netlify deploys production (Emma). Link previews show the new OG image only after this, because og:image points at production.
+- [ ] Same day: LinkedIn headline → "Web Designer & Front-End Developer · Envision · Make · Automate"; add the site to the Evidence Inventory (Emma)
+- Commits: `docs: M11 before M10.5`, `feat: head metadata and og image`, `fix: accessibility pass`, `fix: sections land flush under the bar`, `chore: tick M11`
 
 ## M10.5 — Shared base (after launch)
 - Decided 27 Sep: follows M11, once the site is live.

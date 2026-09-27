@@ -19,10 +19,17 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
   tokens are declared once across pages.
 - Google Fonts via <link>. No framework, no build step, no npm, no CDN libraries.
 - Case-study pages at /work/<slug>/index.html, same tokens and header.
+- Every page's <head> carries: title, meta description, canonical, og:type
+  (website for home, article for a case study), og:url, og:title,
+  og:description, og:image with width 1200, height 630 and alt,
+  twitter:card summary_large_image, an SVG icon and an apple-touch-icon.
+  Decided 27 Sep (M11).
 - Internal links are root-absolute (/, /#envision, /work/<slug>/): the site is
   always served, so navigation is tested through a local server, never file://.
   Decided 25 Sep (M10).
-- Asset paths (stylesheets, images) are relative; navigation links are root-absolute.
+- Asset paths (stylesheets, images, icons) are relative; navigation links are root-absolute.
+  Metadata URLs (canonical, og:url, og:image) are absolute https://emmadarling.dev/…,
+  because crawlers read them without knowing which page they came from. Decided 27 Sep (M11).
 
 ## Tokens
 - Every colour, font, size, space, radius, shadow and easing declared once, in :root in /tokens.css.
@@ -35,12 +42,28 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
   Cormorant Garamond 400 italic (pull-quote only). Four weights total. Nothing else.
 - Gold #C8922A has at most four roles per page: the hero monogram, the top-bar
   monogram copy, the active rail letter, and text links. Never as text on cream.
+- Files outside the page can't read tokens.css. The OG image, favicon and
+  apple-touch-icon hard-code teal #0E2A35, cream #F5EDD6 and the monogram's
+  source gold #c18439 (the Canva export; the page's token gold is #C8922A).
+  Their letters are only ever the paths from images/ema-monogram.svg, moved and
+  scaled, never redrawn. Sources: images/og-image.svg and images/favicon.svg
+  (the E, outlined so its hairlines survive at 16px); apple-touch-icon.png is
+  the same E at 180px without the outline. Decided 27 Sep (M11).
 
 ## Design decisions
 - Monogram: E·M·A in Noto Serif Display, tightly tracked, matching the LinkedIn
   banner. No shared stroke. Source: images/ema-monogram.svg.
 - Case-study header: compact. A top-bar-size monogram links home and still draws
   in; no shrink or top bar. Rail letters link to /#section, with E marked current.
+- Links: in-sentence links keep a faint underline at rest (WCAG 1.4.1 — their
+  colour alone is under 3:1 against the text around them); standalone links
+  have none. Both draw the full underline in on hover and focus.
+- Under the fixed top bar: sections a rail letter jumps to stop flush under it
+  (scroll-margin-top: var(--bar-height)); links and buttons stop
+  var(--focus-clearance) below it, so Shift+Tab never hides focus. Offsets live
+  on the elements as scroll-margin, never as scroll-padding on html, which
+  Safari doesn't reliably apply to anchor jumps. Both reset to 0 under reduced
+  motion, where there is no bar. Decided 27 Sep (M11).
 
 ## Rules of the build
 - One milestone per session, one commit per milestone. Do not start the next.
@@ -53,5 +76,11 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 - Accessibility: contrast ≥ 4.5:1, :focus-visible 2px outline in var(--focus), 44px targets.
   --focus is lavender in dark mode and on teal #0E2A35 bands in both themes, teal #0E2A35 on cream — never gold.
   External links: target="_blank" rel="noopener noreferrer".
+  44px means width as well as height: a short link widens with padding-inline and
+  a matching negative margin, so nothing visibly moves.
+  Generated content that is only for the eye (CSS counters) gets empty alt text —
+  content: x / "" — after a plain declaration as the fallback.
+- Images: every <img> keeps its width and height. Images below the fold get
+  loading="lazy" decoding="async"; the first image in view never does.
 - Comment CSS sections and JS functions in plain English — I'm learning from this code.
 - Ask before running commands. Never force-push. Never touch main.
