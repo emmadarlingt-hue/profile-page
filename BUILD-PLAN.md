@@ -85,21 +85,25 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
   - Save to a scratch folder first. After Emma approves: replace the same filenames in `images/parkgate/`, set each `<img>` width/height from `sips -g pixelWidth -g pixelHeight`, and update the alt text below if what the frames show has changed.
 - Commit: `feat: parkgate case study`
 
-## M10.5 — Shared base
-Deferred from the M10 review (#1, #3/#10, #12). The home page and the case page repeat the same CSS and script, and the case page repeats Parkgate's data by hand.
-- [ ] First, record the decision in `CLAUDE.md`: shared files beyond `tokens.css` are an exception to the single-file rules, as M10 recorded for tokens
-- [ ] `/base.css`: the skeleton, rail, theme toggle, links and reveals that both pages carry today
-- [ ] `/site.js`: the theme toggle and reveals, written once. Includes the back/forward-cache fix: on `pageshow` with `event.persisted`, and on the `storage` event, re-read the saved theme and apply it without transitions
-- [ ] `/projects.js`: the `projects` array, read by both pages. The case page builds its name, `caseSummary` lead, year/stack line and links from it. Settle the stack first: the case page lists Canva and Google Workspace, the array doesn't. The meta description stays in the HTML, because link previews don't run scripts
-- Commit: `refactor: shared base`
-
 ## M11 — Polish and ship
+- Decided 27 Sep: M11 ships ahead of M10.5 so the site can launch tonight; M10.5 follows launch. Committed one step at a time, each pushed to `revamp` for a preview check.
 - [ ] Accessibility pass (contrast, focus, 44px targets, alt/`<title>`)
 - [ ] OG image 1200×630 (monogram on teal); `<title>`, meta description, OG tags
 - [ ] Lighthouse ≥ 90 across the board
 - [ ] Merge `revamp` → `main`; Netlify deploys production
 - [ ] Same day: LinkedIn headline → "Web Designer & Front-End Developer · Envision · Make · Automate"; add the site to the Evidence Inventory
 - Commit: `feat: polish and launch`
+
+## M10.5 — Shared base (after launch)
+- Decided 27 Sep: follows M11, once the site is live.
+
+Deferred from the M10 review (#1, #3/#10, #12). The home page and the case page repeat the same CSS and script, and the case page repeats Parkgate's data by hand.
+- [ ] First, record the decision in `CLAUDE.md`: shared files beyond `tokens.css` are an exception to the single-file rules, as M10 recorded for tokens
+- [ ] `/base.css`: the skeleton, rail, theme toggle, links and reveals that both pages carry today
+- [ ] `/site.js`: the theme toggle and reveals, written once. Includes the back/forward-cache fix: on `pageshow` with `event.persisted`, and on the `storage` event, re-read the saved theme and apply it without transitions
+- [ ] `/projects.js`: the `projects` array, read by both pages. The case page builds its name, `caseSummary` lead, year/stack line and links from it. Settle the stack first: the case page lists Canva and Google Workspace, the array doesn't. The meta description stays in the HTML, because link previews don't run scripts
+- Known bug at launch, fixed by the `/site.js` item above: change the theme on one page, then press Back or Forward. The page the browser restores from its back/forward cache keeps the theme it had, because the `<head>` script doesn't run again on a restore, so it shows the old theme until it's reloaded. A second open tab doesn't follow a change either, because nothing listens for the `storage` event.
+- Commit: `refactor: shared base`
 
 ---
 
