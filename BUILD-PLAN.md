@@ -74,8 +74,15 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
 
 ## M10 — Parkgate case study
 - [x] `/work/parkgate/index.html` sharing tokens + header
-- [x] Structure: brief → constraints → three decisions and why → what shipped → what next. Live-site captures, desktop 1440 + phone 390, full page, details solid-blocked as Emma marks. No "before": Parkgate had no website (decided 24 Sep).
+- [x] Structure: brief → constraints → three decisions and why → what shipped → what next. Live-site captures, desktop 1440 + phone 390, from the top of the page to the bottom of "What we do", details solid-blocked as Emma marks. No "before": Parkgate had no website (decided 24 Sep).
 - Decided 25 Sep: the claims were removed from the live site instead, so the captures carry no grey blocks.
+- Capture method (used 25 and 27 Sep):
+  - Before capturing, fetch the live HTML fresh (cache-buster; Netlify's `cache-status` should say `fwd=miss`) and check the removed claims are still gone. If any are back, list them and stop.
+  - Headless Chrome, driven over the DevTools Protocol pipe from a small Node script. In Claude Code it has to run outside the sandbox; inside, Chrome aborts.
+  - Desktop: viewport 1440×900 at device pixel ratio 1 → file 1440px wide. Phone: viewport 390×844 at ratio 2 → file 780px wide. The same ratios as the case page's frames (`--shot-ratio-desktop`, `--shot-ratio-phone`).
+  - Reduced motion on. Wait for fonts, scroll down to the bottom of "What we do" so every reveal fires, then back to the top and let it settle, so the fixed nav sits at the top.
+  - Crop at the bottom of `#services` ("What we do"). WebP, quality 80.
+  - Save to a scratch folder first. After Emma approves: replace the same filenames in `images/parkgate/`, set each `<img>` width/height from `sips -g pixelWidth -g pixelHeight`, and update the alt text below if what the frames show has changed.
 - Commit: `feat: parkgate case study`
 
 ## M10.5 — Shared base
@@ -160,6 +167,10 @@ A logo, business email on Google Workspace, a one-page website deployed on
 Netlify with the custom domain pointed via DNS, and a minimal invoice
 template that carries the brand, with green only in the wordmark. The
 owner was impressed with the site and happy with the wording.
+
+**Screenshot alt text** (What shipped; describes only what each frame shows)
+- Desktop: Parkgate Construction homepage on desktop: the headline 'Built to last. Finished to impress.' beside a dark grid panel.
+- Phone: Parkgate Construction homepage on a phone: the headline, introduction and green 'Request a quote' button.
 
 **What's next**
 Say less. Seeing his business live on the web was a lot for the owner, so the first revision took things away: the phone number came off in favour of email, placeholder figures became plain statements, and the emoji icons became simple line icons in the brand green. Enquiries from the form now land in the business inbox. Next, I'd set up shared access from day one, so fixes and invoices don't wait on a single laptop.
