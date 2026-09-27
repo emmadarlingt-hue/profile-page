@@ -95,10 +95,10 @@ Locked direction: **B rail + C monogram hero + A rhythm.** Playfair 600 headings
   "handfinish" keeps its faint underline at rest (WCAG 1.4.1).
 - [x] OG image 1200×630 (monogram on teal); `<title>`, meta description, OG tags. Also canonical, og:image width/height/alt, twitter:card summary_large_image, an SVG favicon (the E, outlined) and a 180px apple-touch-icon. `/seo-check` passed both pages. Two suggestions wait for Emma: longer descriptions (they're Content copy, 125 and 84 characters) and JSON-LD (it would be a third `<script>`).
 - [x] Image weight (finding 10): the Parkgate captures are already WebP q80 (84,018 B and 157,886 B), lazy-loaded and below the fold. Left as they are, decided 27 Sep.
-- [ ] Lighthouse ≥ 90 across the board. Emma runs it in Chrome DevTools on the preview; Lighthouse needs npm, so it can't run here.
+- [ ] Lighthouse ≥ 90 across the board. Run by Emma on 27 Sep, home page (Performance / Accessibility / Best Practices / SEO): desktop 99 / 100 / 100 / 100, mobile 61 / 100 / 100 / 100. Left unticked because mobile Performance is under 90; the findings are under "Mobile performance (after launch)" below.
 - [ ] Merge `revamp` → `main`; Netlify deploys production (Emma). Link previews show the new OG image only after this, because og:image points at production.
 - [ ] Same day: LinkedIn headline → "Web Designer & Front-End Developer · Envision · Make · Automate"; add the site to the Evidence Inventory (Emma)
-- Commits: `docs: M11 before M10.5`, `feat: head metadata and og image`, `fix: accessibility pass`, `fix: sections land flush under the bar`, `chore: tick M11`
+- Commits: `docs: M11 before M10.5`, `feat: head metadata and og image`, `fix: accessibility pass`, `fix: sections land flush under the bar`, `chore: tick M11`, `docs: record lighthouse scores`
 
 ## M10.5 — Shared base (after launch)
 - Decided 27 Sep: follows M11, once the site is live.
@@ -110,6 +110,12 @@ Deferred from the M10 review (#1, #3/#10, #12). The home page and the case page 
 - [ ] `/projects.js`: the `projects` array, read by both pages. The case page builds its name, `caseSummary` lead, year/stack line and links from it. Settle the stack first: the case page lists Canva and Google Workspace, the array doesn't. The meta description stays in the HTML, because link previews don't run scripts
 - Known bug at launch, fixed by the `/site.js` item above: change the theme on one page, then press Back or Forward. The page the browser restores from its back/forward cache keeps the theme it had, because the `<head>` script doesn't run again on a restore, so it shows the old theme until it's reloaded. A second open tab doesn't follow a change either, because nothing listens for the `storage` event.
 - Commit: `refactor: shared base`
+
+## Mobile performance (after launch)
+- Found 27 Sep by Lighthouse on the home page, mobile: Performance 61 (desktop 99). This is what keeps M11's Lighthouse box unticked.
+- [ ] Render-blocking requests: about 2.8s, mostly Google Fonts
+- [ ] Largest Contentful Paint: 5.8s
+- Done when mobile Performance is 90 or more; then tick M11's Lighthouse box.
 
 ---
 
