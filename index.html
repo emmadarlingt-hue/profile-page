@@ -455,9 +455,21 @@
           animation-range: 0 var(--mark-shrink-range);
         }
 
-        /* Only needed while there is a bar to jump underneath. */
-        html {
-          scroll-padding-top: var(--bar-height);
+        /* The bar is fixed over the top of the window, so anything the
+           browser scrolls to must stop short of it: the bar's height plus
+           a little air. Two kinds of thing get scrolled to:
+           - the sections, when a rail letter jumps to one;
+           - links and buttons, when keyboard focus moves backwards
+             (Shift+Tab) and the browser brings one down from above —
+             without this it would stop right under the bar, hidden.
+           The offset sits on those elements themselves (scroll-margin)
+           rather than on the page (scroll-padding on html): Safari
+           doesn't reliably apply the page's padding to anchor jumps, but
+           every browser honours the element's own margin. */
+        main > section,
+        main a,
+        main button {
+          scroll-margin-top: var(--anchor-offset);
         }
       }
 
@@ -873,6 +885,10 @@
         display: inline-block;
         padding-block: var(--space-3);
         background-origin: content-box;
+       /* Wider tap area: padding grows the box by 8px each side;
+        the matching negative margin cancels it, so nothing moves. */
+        padding-inline: var(--space-2);
+        margin-inline: calc(var(--space-2) * -1);
       }
 
       /* ============================================================
@@ -1183,8 +1199,10 @@
           display: none;
         }
 
-        html {
-          scroll-padding-top: 0;
+        main > section,
+        main a,
+        main button {
+          scroll-margin-top: 0;
         }
       }
     </style>

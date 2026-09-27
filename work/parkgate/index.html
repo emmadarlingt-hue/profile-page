@@ -533,8 +533,16 @@
         counter-increment: decision;
       }
 
+      /* The number is for the eye only. The list already tells a screen
+         reader "1 of 3", and Chrome reads a counter's number as nothing,
+         which left each title announced as ". Foundations…". The second
+         declaration gives the number empty alt text (the part after the
+         slash), so it's skipped. The first stays as the fallback: a
+         browser that doesn't know the slash drops that whole line and
+         keeps this one, so the numbers never vanish. */
       .decisions h3::before {
         content: counter(decision) ". ";
+        content: counter(decision) ". " / "";
       }
 
       .decisions h3 + p {
@@ -653,6 +661,10 @@
         display: inline-block;
         padding-block: var(--space-3);
         background-origin: content-box;
+        /* Wider tap area: padding grows the box by 8px each side;
+           the matching negative margin cancels it, so nothing moves. */
+        padding-inline: var(--space-2);
+        margin-inline: calc(var(--space-2) * -1);
       }
 
       /* ============================================================
