@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Favicon for emmadarling.dev (Milestone 11): the E from
+       images/ema-monogram.svg, path copied exactly, gold on teal.
+       A gold outline round the path thickens its hairline arms and serifs
+       so they survive at 16px; the path data itself is unchanged.
+       apple-touch-icon.png is the same E WITHOUT the outline, rendered at
+       180 x 180, where the hairlines are wide enough to show. -->
+  <rect width="120" height="120" fill="#0E2A35"/>
+  <g fill="#c18439" stroke="#c18439" stroke-width="4" stroke-linejoin="round" transform="translate(27.227 18) scale(0.946312) translate(-266.912673 -464.835952)">
+    <g transform="translate(262.568923, 553.601577)"><g><path d="M 4.34375 0 L 4.34375 -1.25 L 6.96875 -1.25 C 9.863281 -1.25 12.117188 -1.910156 13.734375 -3.234375 C 15.347656 -4.554688 16.15625 -6.753906 16.15625 -9.828125 L 16.15625 -79.203125 C 16.15625 -82.179688 15.347656 -84.3125 13.734375 -85.59375 C 12.117188 -86.882812 9.863281 -87.53125 6.96875 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 68.625 -88.765625 L 69.375 -66.765625 L 68.125 -66.765625 L 67.890625 -70.859375 C 67.472656 -77.078125 65.914062 -81.410156 63.21875 -83.859375 C 60.53125 -86.304688 56.035156 -87.53125 49.734375 -87.53125 L 30.703125 -87.53125 L 30.703125 -47.125 L 61.421875 -47.125 L 61.421875 -45.875 L 30.703125 -45.875 L 30.703125 -1.25 L 53.09375 -1.25 C 59.71875 -1.25 64.4375 -2.46875 67.25 -4.90625 C 70.070312 -7.351562 71.691406 -11.6875 72.109375 -17.90625 L 72.359375 -22 L 73.609375 -22 L 72.734375 0 Z M 4.34375 0 "/></g></g>
+  </g>
+</svg>
