@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Open Graph image for /work/parkgate/, rendered to og-parkgate.png
+       at 1200 x 630 with headless Chrome, the same way as
+       images/og-image.png (a browser is needed: it draws the WebP and the
+       web fonts). Re-render it whenever the capture is replaced.
+       The E·M·A paths are copied exactly from images/ema-monogram.svg and
+       only moved and scaled by the outer transform, to 36px tall like the
+       case page's header monogram. Colours are written out because this
+       file can't read tokens.css: teal, cream, lavender (the muted text
+       colour on teal) and the cream hairline are the token values; the
+       gold is the monogram's own source colour and appears nowhere else.
+       On the right, the case page's desktop capture, shown as the page
+       frames it: the first 1440 x 900 screen, scaled to fit inside a
+       1px hairline with a 4px corner, and no shadow. The image box is
+       deliberately tall: with "xMidYMin meet" the smaller scale wins, so
+       the width alone sets it, the picture hangs from the top and the
+       clip trims it to one screen, like the page's object-fit: cover
+       and object-position: top. A re-shot capture of any height up to
+       about 5,100px still fills the frame. ("slice" would too, but
+       Chrome draws it with a rougher downscale.)
+       Parkgate's logo is only ever the one in the screenshot. Every mark
+       stays at least 60px from the edges. -->
+  <style><![CDATA[
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&family=Playfair+Display:wght@600&display=block');
+    .title { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: 64px; letter-spacing: -0.01em; }
+    .label { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; font-size: 20px; letter-spacing: 0.18em; }
+  ]]></style>
+  <defs>
+    <clipPath id="frame"><rect x="575" y="140" width="560" height="350" rx="3"/></clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="#0E2A35"/>
+  <g id="mark" fill="#c18439" transform="translate(96 196) scale(0.405562) translate(-266.912673 -464.835952)">
+    <g transform="translate(262.568923, 553.601577)"><g><path d="M 4.34375 0 L 4.34375 -1.25 L 6.96875 -1.25 C 9.863281 -1.25 12.117188 -1.910156 13.734375 -3.234375 C 15.347656 -4.554688 16.15625 -6.753906 16.15625 -9.828125 L 16.15625 -79.203125 C 16.15625 -82.179688 15.347656 -84.3125 13.734375 -85.59375 C 12.117188 -86.882812 9.863281 -87.53125 6.96875 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 68.625 -88.765625 L 69.375 -66.765625 L 68.125 -66.765625 L 67.890625 -70.859375 C 67.472656 -77.078125 65.914062 -81.410156 63.21875 -83.859375 C 60.53125 -86.304688 56.035156 -87.53125 49.734375 -87.53125 L 30.703125 -87.53125 L 30.703125 -47.125 L 61.421875 -47.125 L 61.421875 -45.875 L 30.703125 -45.875 L 30.703125 -1.25 L 53.09375 -1.25 C 59.71875 -1.25 64.4375 -2.46875 67.25 -4.90625 C 70.070312 -7.351562 71.691406 -11.6875 72.109375 -17.90625 L 72.359375 -22 L 73.609375 -22 L 72.734375 0 Z M 4.34375 0 "/></g></g>
+    <g transform="translate(341.023163, 553.601577)"><g><path d="M 4.34375 0 L 4.34375 -1.25 L 10.4375 -1.25 C 13.257812 -1.25 15.476562 -1.910156 17.09375 -3.234375 C 18.707031 -4.554688 19.515625 -6.753906 19.515625 -9.828125 L 19.515625 -79.328125 C 19.515625 -82.222656 18.707031 -84.3125 17.09375 -85.59375 C 15.476562 -86.882812 13.257812 -87.53125 10.4375 -87.53125 L 4.34375 -87.53125 L 4.34375 -88.765625 L 32.078125 -88.765625 L 62.046875 -15.90625 L 87.78125 -88.765625 L 112.765625 -88.765625 L 112.765625 -87.53125 L 110.15625 -87.53125 C 107.164062 -87.53125 104.882812 -86.863281 103.3125 -85.53125 C 101.738281 -84.207031 100.953125 -81.972656 100.953125 -78.828125 L 100.953125 -9.953125 C 100.953125 -6.796875 101.738281 -4.554688 103.3125 -3.234375 C 104.882812 -1.910156 107.164062 -1.25 110.15625 -1.25 L 112.765625 -1.25 L 112.765625 0 L 77.828125 0 L 77.828125 -1.25 L 78.453125 -1.25 C 81.097656 -1.25 83.1875 -1.890625 84.71875 -3.171875 C 86.257812 -4.453125 87.03125 -6.628906 87.03125 -9.703125 L 87.03125 -82.796875 L 57.9375 0 L 54.078125 0 L 20.765625 -81.4375 L 20.765625 -9.953125 C 20.765625 -6.796875 21.59375 -4.554688 23.25 -3.234375 C 24.90625 -1.910156 27.390625 -1.25 30.703125 -1.25 L 33.6875 -1.25 L 33.6875 0 Z M 4.34375 0 "/></g></g>
+    <g transform="translate(458.145013, 553.601577)"><g><path d="M 0.125 0 L 0.125 -1.25 L 4.109375 -1.25 C 6.671875 -1.25 8.695312 -1.953125 10.1875 -3.359375 C 11.6875 -4.765625 13.054688 -7.25 14.296875 -10.8125 L 41.90625 -88.765625 L 49.859375 -88.765625 L 80.0625 -8.453125 C 81.144531 -5.710938 82.265625 -3.828125 83.421875 -2.796875 C 84.585938 -1.765625 86.125 -1.25 88.03125 -1.25 L 89.265625 -1.25 L 89.265625 0 L 53.21875 0 L 53.21875 -1.25 L 57.1875 -1.25 C 60.007812 -1.25 62.039062 -1.597656 63.28125 -2.296875 C 64.519531 -3.003906 65.140625 -4.269531 65.140625 -6.09375 C 65.140625 -6.757812 65.054688 -7.566406 64.890625 -8.515625 C 64.734375 -9.472656 64.445312 -10.53125 64.03125 -11.6875 L 56.5625 -32.328125 L 23.375 -32.328125 L 16.40625 -12.8125 C 16 -11.5625 15.671875 -10.457031 15.421875 -9.5 C 15.171875 -8.550781 15.046875 -7.664062 15.046875 -6.84375 C 15.046875 -4.769531 15.894531 -3.316406 17.59375 -2.484375 C 19.289062 -1.660156 22.046875 -1.25 25.859375 -1.25 L 30.34375 -1.25 L 30.34375 0 Z M 23.75 -33.5625 L 56.078125 -33.5625 L 47.375 -57.4375 C 45.957031 -61.332031 44.585938 -65.25 43.265625 -69.1875 C 41.941406 -73.125 40.863281 -76.75 40.03125 -80.0625 C 38.875 -76.582031 37.734375 -73.265625 36.609375 -70.109375 C 35.492188 -66.960938 34.234375 -63.359375 32.828125 -59.296875 Z M 23.75 -33.5625 "/></g></g>
+  </g>
+  <text class="title" fill="#F5EDD6"><tspan x="96" y="317">Parkgate</tspan><tspan x="96" y="387">Construction</tspan></text>
+  <text class="label" x="96" y="433" fill="#C9B8D8">CASE STUDY · EMMADARLING.DEV</text>
+  <image href="../../images/parkgate/parkgate-desktop-1440.webp" x="575" y="140" width="560" height="2000" preserveAspectRatio="xMidYMin meet" clip-path="url(#frame)"/>
+  <rect x="574.5" y="139.5" width="561" height="351" rx="3.5" fill="none" stroke="rgba(245, 237, 214, 0.18)"/>
+</svg>
