@@ -1377,13 +1377,24 @@
 
       <!-- CONTACT: icon + label links in the muted colour. The labels are
            visible, so the icons are hidden from screen readers and no
-           aria-label is needed. -->
+           aria-label is needed.
+           The Pw is drawn, not typed: the P and w outlines from Playfair
+           Display Bold (Google Fonts v40), so no fifth font weight loads.
+           P's path is the font's exactly; the w's is shifted right by 691
+           (P's 641-unit width plus 50 of spacing). The transform scales
+           the pair to 60% of the square (0.009769 = 14.4 / 1474, the ink
+           width with its outline), flips it upright and centres it: the
+           capital height on the middle line, and 0.25 right of true
+           centre, set by eye, because the w's open lower corner makes an
+           exactly centred pair look left-heavy. Like the favicon E, a thin
+           outline in the same colour (30 font units, about 0.2px at 18px)
+           thickens the hairlines. -->
       <section id="contact" class="reveal">
         <div class="container">
           <h2>Contact</h2>
           <ul class="contact-links" role="list">
             <li>
-              <a href="mailto:hello@emmadarling.dev">
+              <a href="mailto:emma@emmadarling.dev">
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" d="M3 5.25h18v13.5H3z M3 5.25l9 7.5 9-7.5"/></svg>
                 <span>Email</span>
               </a>
@@ -1402,7 +1413,7 @@
             </li>
             <li>
               <a href="https://promptwrought.com" target="_blank" rel="noopener noreferrer">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="0.75" y="0.75" width="22.5" height="22.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path fill="currentColor" stroke="currentColor" stroke-width="30" stroke-linejoin="round" transform="translate(4.86 15.46) scale(0.009769 -0.009769)" d="M34 708Q59 707 101.5 706Q144 705 186 705Q234 705 279 706Q324 707 343 707Q482 707 551 652Q620 597 620 510Q620 474 606 434.5Q592 395 558.5 361.5Q525 328 467 307Q409 286 321 286H219V306H311Q370 306 400.5 333Q431 360 442.5 404Q454 448 454 499Q454 594 426 641Q398 688 330 688Q291 688 279.5 671Q268 654 268 602V112Q268 73 276 54Q284 35 307 29Q330 23 375 22V0Q344 1 295 2Q246 3 192 3Q149 3 108 2Q67 1 34 0V20Q66 22 82 28Q98 34 103.5 52Q109 70 109 106V602Q109 639 103.5 656.5Q98 674 81.5 680.5Q65 687 34 688ZM956 517V496Q934 496 917.5 493.5Q901 491 895.5 479Q890 467 899 440L994 143L981 129L1098 518L1118 509L965 -2Q949 -1 933 -1Q917 -1 900 -2L742 440Q728 480 711.5 488Q695 496 684 496V517Q716 514 750.5 512.5Q785 511 826 511Q857 511 891.5 513Q926 515 956 517ZM1478 517V497Q1459 492 1442 474Q1425 456 1410 411L1277 -2Q1261 -1 1244.5 -1Q1228 -1 1212 -2L1071 383L1098 518Q1116 517 1134.5 517.5Q1153 518 1171 518L1308 114L1297 125L1364 337Q1381 392 1377 426Q1373 460 1353 477Q1333 494 1299 497V517Q1315 516 1333.5 515.5Q1352 515 1370.5 514.5Q1389 514 1402 514Q1422 514 1443.5 515Q1465 516 1478 517Z"/></svg>
                 <span>Promptwrought</span>
               </a>
             </li>
