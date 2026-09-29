@@ -1,0 +1,146 @@
+# Keeps the "Latest issue" card in index.html in step with the newsletter.
+#
+# On Tuesdays it runs tools/update-latest-issue.py against main. When the
+# card changes, it opens a pull request for Emma to merge; when nothing
+# is new, it does nothing. It never pushes to main itself.
+#
+# Needs one repository setting, switched on once: Settings → Actions →
+# General → "Allow GitHub Actions to create and approve pull requests".
+# The schedule and the Run workflow button only exist once this file is
+# on main.
+
+name: Latest issue card
+
+on:
+  schedule:
+    # All times UTC. Posts go out around 13:30 London time: 12:30 UTC in
+    # summer (BST), 13:30 UTC in winter (GMT). Runs sit at :07 because
+    # GitHub delays or drops the most scheduled runs right on the hour.
+    # The issue file in promptwrought-site sometimes lands after the post
+    # (22 Sep: 14:46 UTC), so later runs catch up; a run with nothing new
+    # does nothing.
+    - cron: "7 13 * * 2"   # Tue 14:07 BST / 13:07 GMT
+    - cron: "7 14 * * 2"   # Tue 15:07 BST / 14:07 GMT
+    - cron: "7 17 * * 2"   # catch-up
+    - cron: "7 20 * * 2"   # catch-up
+    - cron: "7 8 * * 3"    # last catch-up, Wednesday morning
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run: show the card it would write, open no pull request"
+        type: boolean
+        default: false
+
+# Two runs never overlap; a second one waits for the first to finish.
+concurrency:
+  group: latest-issue
+  cancel-in-progress: false
+
+jobs:
+  update:
+    # Only ever from main: a manual run on another branch would open a
+    # pull request carrying that branch's unfinished work too.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10      # a stalled download can't hold up the next run for hours
+    permissions:
+      contents: write        # push the pull request's branch
+      pull-requests: write   # open it, and close ones it replaces
+    steps:
+      - name: Check out main
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          ref: main
+
+      # Exit 0: updated or already current. Exit 75: the post is out but
+      # its issue file isn't there yet; that's a warning, except on the
+      # last catch-up or a real manual run, when it's a failure. Any other
+      # exit (1 for a failed check, or Python's own errors) fails the run,
+      # and GitHub emails.
+      - name: Update the card from the feed
+        id: card
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          args=()
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          set +e
+          python3 tools/update-latest-issue.py "${args[@]}"
+          code=$?
+          set -e
+          if [ "$code" -eq 75 ]; then
+            if [ "$SCHEDULE" = "7 8 * * 3" ] || { [ -z "$SCHEDULE" ] && [ "$DRY_RUN" != "true" ]; }; then
+              echo "::error::The newest post's issue file still isn't in promptwrought-site/issues."
+              exit 1
+            fi
+            echo "::warning::The newest post's issue file isn't in promptwrought-site/issues yet. A later run will try again."
+            exit 0
+          fi
+          exit "$code"
+
+      # One branch per version of the card: latest-issue/<word>-<card id>.
+      # - A pull request for that exact card is open, or was closed
+      #   unmerged: nothing to do (an earlier run opened it, or Emma
+      #   closed it on purpose).
+      # - One was merged, yet main shows an older card: main must have
+      #   gone backwards (a merge from revamp, say). Warn, don't guess.
+      # - Otherwise open one, reusing the branch if an earlier run pushed
+      #   it but couldn't open the pull request, and close any older
+      #   latest-issue pull requests it replaces.
+      # Every value reaches the shell through env, never pasted into the
+      # script itself.
+      - name: Open a pull request if the card changed
+        if: steps.card.outputs.status == 'updated' && inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORD: ${{ steps.card.outputs.word }}
+          NUMBER: ${{ steps.card.outputs.number }}
+          CARD_ID: ${{ steps.card.outputs.card_id }}
+          LINK: ${{ steps.card.outputs.link }}
+        run: |
+          branch="latest-issue/${WORD}-${CARD_ID}"
+          states=$(gh pr list --head "$branch" --state all --json state --jq '.[].state')
+          if grep -qx -e OPEN -e CLOSED <<<"$states"; then
+            echo "A pull request for this card is already open or was closed ($branch); nothing to do."
+            exit 0
+          fi
+          if grep -qx MERGED <<<"$states"; then
+            echo "::warning::A pull request for this exact card was merged, but main shows an older card. Has main gone back to an older index.html?"
+            exit 0
+          fi
+
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
+            echo "Branch $branch is already on GitHub from an earlier run; opening its pull request."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git switch -c "$branch"
+            git add index.html
+            git commit -m "chore: latest issue, ${WORD} (Issue ${NUMBER})"
+            git push origin "$branch"
+          fi
+
+          cat > "$RUNNER_TEMP/pr-body.md" <<EOF
+          The newest Promptwrought post is **${WORD}**, Issue ${NUMBER}: ${LINK}
+
+          This updates the Latest issue card in index.html from the Substack feed. Merging it puts the new card on the live site.
+
+          Opened by the latest-issue workflow (tools/update-latest-issue.py).
+          EOF
+          url=$(gh pr create --base main --head "$branch" \
+            --title "Latest issue: ${WORD} (Issue ${NUMBER})" \
+            --body-file "$RUNNER_TEMP/pr-body.md")
+          echo "Opened $url"
+
+          new="${url##*/}"
+          gh pr list --state open --limit 100 --json number,headRefName \
+            --jq '.[] | "\(.number) \(.headRefName)"' |
+          while read -r number head; do
+            if [ "${head#latest-issue/}" != "$head" ] && [ "$head" != "$branch" ]; then
+              # A failure here mustn't undo a run whose real work is done.
+              gh pr close "$number" --comment "Superseded by #${new}." --delete-branch ||
+                echo "::warning::Couldn't close the older pull request #${number}; close it by hand."
+            fi
+          done

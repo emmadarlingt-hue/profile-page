@@ -30,6 +30,12 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
 - Asset paths (stylesheets, images, icons) are relative; navigation links are root-absolute.
   Metadata URLs (canonical, og:url, og:image) are absolute https://emmadarling.dev/…,
   because crawlers read them without knowing which page they came from. Decided 27 Sep (M11).
+- The latest-issue card is plain HTML between <!-- latest-issue:start --> and
+  <!-- latest-issue:end --> in index.html, rewritten from the Substack feed by
+  tools/update-latest-issue.py (Python standard library). .github/workflows/latest-issue.yml
+  runs it on Tuesdays and opens a pull request into main. Neither is part of the page or a
+  build step: the page is still one static file. Never hand-edit between the markers.
+  Netlify serves tools/ and .github/ publicly, which is harmless. Decided 29 Sep.
 
 ## Tokens
 - Every colour, font, size, space, radius, shadow and easing declared once, in :root in /tokens.css.

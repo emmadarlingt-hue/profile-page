@@ -1358,8 +1358,12 @@
       <!-- AUTOMATE: agentic-AI line, pipeline graphic, latest issue card (M8) -->
       <!-- AUTOMATE: how the newsletter gets made, then the latest issue.
            The pipeline is an ordered list drawn with CSS, so it reads in
-           order to screen readers too. The issue card is built by the
-           script from the latestIssue object. -->
+           order to screen readers too. The issue card is plain HTML,
+           written by tools/update-latest-issue.py from the Substack feed:
+           a GitHub Action runs it on Tuesdays and opens a pull request
+           when there's a new issue. Only the lines between its two
+           marker comments are ever replaced, so don't edit the card by
+           hand: the next run would overwrite it. -->
       <section id="automate" class="reveal">
         <div class="container">
           <h2>Automate</h2>
@@ -1371,7 +1375,17 @@
             <li>Published issue</li>
           </ol>
 
-          <div class="latest-issue"></div>
+          <div class="latest-issue">
+            <!-- latest-issue:start -->
+            <article class="card">
+              <p class="eyebrow">Latest issue</p>
+              <h3>ghostwrought</h3>
+              <p class="card-summary">Of work: produced entirely by a machine yet presented under a human name; ghostwritten by something that was never alive.</p>
+              <p class="card-meta">Issue 010 · <time datetime="2026-09-29">29 Sept 2026</time></p>
+              <p class="card-links"><a href="https://promptwrought.substack.com/p/ghostwrought" aria-label="Read the issue: ghostwrought" target="_blank" rel="noopener noreferrer">Read the issue<span aria-hidden="true"> →</span></a></p>
+            </article>
+            <!-- latest-issue:end -->
+          </div>
         </div>
       </section>
 
@@ -1486,20 +1500,6 @@
           stack: ["HTML", "CSS", "JavaScript"],
           url: "https://tipcalculatorv2.netlify.app", repo: "https://github.com/emmadarlingt-hue/tip-calculatorV2" },
       ];
-
-      /* The latest Promptwrought issue, shown as a card in Automate.
-         Update this every Tuesday: the card rebuilds from it.
-         - number: the issue number (left off the card while null)
-         - word, definition: the coinage and its one-line definition
-         - date: publication date as YYYY-MM-DD
-         - url: the Substack post */
-      const latestIssue = {
-        number: 9,
-        word: "verifidget",
-        definition: "To check machine output compulsively, switching between claim and source, unable to rest in trust.",
-        date: "2026-09-22",
-        url: "https://promptwrought.substack.com/p/verifidget",
-      };
 
       /* ============================================================
          THEME  (Milestone 9)
@@ -1717,7 +1717,10 @@
       /* A card's single call-to-action: a card link with a trailing arrow,
          wrapped in the card-links line. The arrow is decoration, hidden
          from screen readers, so the link is announced as its words and
-         not as "right arrow". Used by the case-study and issue cards. */
+         not as "right arrow". Used by the case-study card. The issue
+         card in Automate is plain HTML with the same link markup,
+         written by build_card() in tools/update-latest-issue.py: if
+         this pattern changes, change that too. */
       function makeArrowLink(label, href, name) {
         const link = makeCardLink(label, href, name);
         const arrow = makeElement('span', null, ' →');
@@ -1727,57 +1730,6 @@
         const line = makeElement('p', 'card-links');
         line.append(link);
         return line;
-      }
-
-      /* Turn "2026-09-15" into "15 Sept 2026", Substack's style. The date
-         is split by hand rather than given to new Date(), which reads a
-         bare date as midnight UTC: anywhere west of London that is still
-         the evening before, and the card would show the 14th. */
-      function formatIssueDate(isoDate) {
-        // Anything not shaped YYYY-MM-DD (a typo in the weekly edit)
-        // returns null, and the card simply leaves the date off.
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return null;
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
-                        'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-        const [year, month, day] = isoDate.split('-').map(Number);
-        if (month < 1 || month > 12) return null;
-        return `${day} ${months[month - 1]} ${year}`;
-      }
-
-      /* Fill the Automate issue card from latestIssue, with the same card
-         classes as the others: eyebrow, the word, its definition, then
-         "Issue 012 · 15 Sept 2026" (the number is left off while it's
-         null) and a link to the post. The date sits in a <time> element
-         so machines can read it as a date too. */
-      function renderLatestIssue() {
-        const slot = document.querySelector('.latest-issue');
-        if (!slot || !latestIssue || !latestIssue.word) return;
-
-        const card = makeElement('article', 'card');
-        card.append(makeElement('p', 'eyebrow', 'Latest issue'));
-        card.append(makeElement('h3', null, latestIssue.word));
-        if (latestIssue.definition) {
-          card.append(makeElement('p', 'card-summary', latestIssue.definition));
-        }
-
-        const meta = makeElement('p', 'card-meta');
-        if (latestIssue.number) {
-          meta.append(`Issue ${String(latestIssue.number).padStart(3, '0')}`);
-        }
-        const shownDate = latestIssue.date ? formatIssueDate(latestIssue.date) : null;
-        if (shownDate) {
-          if (meta.childNodes.length) meta.append(' · ');
-          const time = makeElement('time', null, shownDate);
-          time.dateTime = latestIssue.date;
-          meta.append(time);
-        }
-        if (meta.childNodes.length) card.append(meta);
-
-        if (latestIssue.url) {
-          card.append(makeArrowLink('Read the issue', latestIssue.url, latestIssue.word));
-        }
-
-        slot.append(card);
       }
 
       /* Fill the Make grid: featured projects in one list, the rest in
@@ -1949,12 +1901,6 @@
         renderCaseStudy();
       } catch (error) {
         console.error('Case-study card failed to render:', error);
-      }
-
-      try {
-        renderLatestIssue();
-      } catch (error) {
-        console.error('Latest-issue card failed to render:', error);
       }
 
       // Reveals next, then the rail: nothing else should stand in the way
