@@ -31,11 +31,19 @@ and **2b** (light). Ignore 1a/1b/1c and 3a/3b; they were explorations.
   Metadata URLs (canonical, og:url, og:image) are absolute https://emmadarling.dev/…,
   because crawlers read them without knowing which page they came from. Decided 27 Sep (M11).
 - The latest-issue card is plain HTML between <!-- latest-issue:start --> and
-  <!-- latest-issue:end --> in index.html, rewritten from the Substack feed by
-  tools/update-latest-issue.py (Python standard library). .github/workflows/latest-issue.yml
-  runs it on Tuesdays and opens a pull request into main. Neither is part of the page or a
-  build step: the page is still one static file. Never hand-edit between the markers.
-  Netlify serves tools/ and .github/ publicly, which is harmless. Decided 29 Sep.
+  <!-- latest-issue:end --> in index.html, rewritten by tools/update-latest-issue.py
+  (Python standard library). .github/workflows/latest-issue.yml runs it on Tuesdays and
+  opens a pull request into main. Neither is part of the page or a build step: the page is
+  still one static file. Never hand-edit between the markers. Netlify serves tools/ and
+  .github/ publicly, which is harmless. Decided 29 Sep.
+- Its source is promptwrought-site's issue files (issues/NNN-word.json on main): the
+  highest-numbered issue whose release moment has passed. Issue N goes out at 13:31 London
+  time on the Tuesday of ISO week N + 30, 2026, so numbers never slip. Those constants are
+  copied from promptwrought-site/tools/build-lexicon.py; change both together. The link is
+  built as https://promptwrought.substack.com/p/<word> and must match the file's issueUrl
+  whenever that's filled in (promptwrought-site lets it stay empty for a while).
+  Not the Substack feed: Substack answers GitHub's runners with HTTP 403, so the Action
+  can't read it (found 29 Sep). There is no feed fallback, deliberately.
 
 ## Tokens
 - Every colour, font, size, space, radius, shadow and easing declared once, in :root in /tokens.css.

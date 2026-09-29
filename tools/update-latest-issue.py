@@ -1,23 +1,27 @@
 #!/usr/bin/env python3
-"""Rewrite the "Latest issue" card in index.html from the Promptwrought feed.
+"""Rewrite the "Latest issue" card in index.html from promptwrought-site.
 
 Run by .github/workflows/latest-issue.yml on Tuesdays, or by hand:
 
     python3 tools/update-latest-issue.py            # update index.html
     python3 tools/update-latest-issue.py --dry-run  # show the card, change nothing
 
-It reads the newest post from the Substack feed, finds its issue number
-from the file names in promptwrought-site/issues, and replaces only what
-sits between the latest-issue start and end markers in index.html.
+It reads the issue files in the promptwrought-site repo (issues/NNN-word.json),
+takes the highest-numbered one whose release moment has passed, and replaces
+only what sits between the latest-issue start and end markers in index.html.
 If anything is missing or looks wrong it changes nothing, says what the
 problem is and exits with an error: a half-filled card is never written.
+
+Why not the Substack feed: Substack answers GitHub's runners with HTTP 403
+(found 29 Sep 2026), so the feed can't be read from the Action at all.
 
 Exit codes:
     0   the card was updated, or was already current
     1   a check failed, so nothing was changed
-    75  the post is out but its issue file isn't in promptwrought-site yet:
-        try again later. (75 is the usual "temporary failure" code, and
-        it can't be mistaken for Python's own errors, which use 1 and 2.)
+    75  an issue went out less than a day ago but its file isn't on
+        promptwrought-site's main yet: try again later. (75 is the usual
+        "temporary failure" code, and it can't be mistaken for Python's own
+        errors, which use 1 and 2.)
 
 Standard library only. It runs on the Mac's Python 3.9 as well as the
 newer Python on GitHub's runners.
@@ -36,15 +40,13 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-import xml.etree.ElementTree as ET
-from datetime import timezone
-from email.utils import parsedate_to_datetime
+from datetime import date, datetime, timedelta, time as clock_time
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 # ---------- Where things live ----------
-FEED_URL = "https://promptwrought.substack.com/feed"
 ISSUES_URL = "https://api.github.com/repos/emmadarlingt-hue/promptwrought-site/contents/issues"
+REF = "main"                               # read the issue files as they are on main
 POST_HOST = "promptwrought.substack.com"   # the only site the card may link to
 PAGE = Path(__file__).resolve().parent.parent / "index.html"
 
@@ -56,12 +58,26 @@ END = "<!-- latest-issue:end -->"
 # the word, ".json". Group 1 is the number, group 2 the word.
 ISSUE_FILE = re.compile(r"(\d{3,})-([a-z0-9-]+)\.json")
 
+# ---------- The release calendar ----------
+# Copied from promptwrought-site/tools/build-lexicon.py, where the same
+# numbers drive its publish guard. Change both together: nothing checks
+# that they still agree. Issue 1 is ISO week 31, so issue N is week N + 30,
+# and it goes out at 13:31 London time on that week's Tuesday.
+VOLUME_YEAR = 2026
+FIRST_ISSUE_WEEK = 31
+TOTAL_WEEKS = 52                   # the volume stops at week 52
+TUESDAY = 2                        # in ISO numbering Monday is 1
+RELEASE_TIME = clock_time(13, 31)  # the Substack send, to the minute
+LONDON = ZoneInfo("Europe/London")
+LAST_ISSUE = TOTAL_WEEKS - FIRST_ISSUE_WEEK + 1   # 22: the volume's last issue
+
+LATE_WINDOW = timedelta(hours=24)  # how long a missing file counts as "late"
+MAX_LISTING = 1000                 # GitHub lists at most this many files
+MAX_BYTES = 5_000_000              # far more than any issue file needs
+
 # Substack's month style, as the card has always shown it: "22 Sept 2026".
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June",
           "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
-
-LONDON = ZoneInfo("Europe/London")
-MAX_BYTES = 5_000_000   # far more than the feed needs; anything bigger is wrong
 
 
 class CheckFailed(Exception):
@@ -70,8 +86,8 @@ class CheckFailed(Exception):
 
 
 class IssueFileMissing(CheckFailed):
-    """The post is out, but its issue file hasn't been committed to
-    promptwrought-site yet. A later run will try again. Exit code 75."""
+    """An issue went out, but its file isn't on promptwrought-site's main
+    yet. A later run will try again. Exit code 75."""
     exit_code = 75
 
 
@@ -86,30 +102,61 @@ class KeepTokenOnGitHub(urllib.request.HTTPRedirectHandler):
         return new
 
 
+def warn(message):
+    """Say something worth knowing without stopping the run. In GitHub
+    Actions it becomes a yellow warning on the run's summary page (the
+    ::warning:: line is how a script asks for one); elsewhere it's a
+    plain line on stderr."""
+    if os.environ.get("GITHUB_ACTIONS") == "true":
+        print(f"::warning::{message}")
+    else:
+        print(f"Warning: {message}", file=sys.stderr)
+
+
 def parse_args():
-    """Read the command-line options. The defaults are the real feed,
-    GitHub's live list of issue files and this repo's index.html; the
-    options exist so the checks can be tried on saved test files."""
+    """Read the command-line options. The defaults are promptwrought-site
+    on GitHub, the real clock and this repo's index.html; the options exist
+    so the checks can be tried on a local folder of test files at any
+    pretend time."""
     parser = argparse.ArgumentParser(
-        description="Rewrite the Latest issue card in index.html from the Promptwrought feed.")
-    parser.add_argument("--feed", default=FEED_URL,
-                        help="feed address, or file:// for a saved copy")
+        description="Rewrite the Latest issue card in index.html from promptwrought-site.")
     parser.add_argument("--issues", default=ISSUES_URL,
-                        help="GitHub's list of issue files: an address or a saved JSON file")
+                        help="the issues folder: GitHub's contents API address (default) "
+                             "or a local folder, such as a clone of promptwrought-site")
     parser.add_argument("--page", default=str(PAGE),
                         help="the page to update (default: this repo's index.html)")
+    parser.add_argument("--now", default=None,
+                        help="pretend it's this time, e.g. 2026-10-06T13:31 (London time "
+                             "unless a zone is given); for testing")
     parser.add_argument("--dry-run", action="store_true",
                         help="print the card and change nothing")
     return parser.parse_args()
 
 
-def fetch(source, what):
+def parse_now(text):
+    """The moment to judge releases by: the real time, or --now for
+    tests. A time without a zone is read as London time. A trailing Z
+    (UTC) is accepted too, even on Python 3.9, which can't read one by
+    itself."""
+    if text is None:
+        return datetime.now(LONDON)
+    cleaned = text.strip()
+    if cleaned[-1:] in ("Z", "z"):
+        cleaned = cleaned[:-1] + "+00:00"
+    try:
+        when = datetime.fromisoformat(cleaned)
+    except ValueError:
+        raise CheckFailed(f"--now {text!r} isn't a date and time like 2026-10-06T13:31")
+    return when if when.tzinfo else when.replace(tzinfo=LONDON)
+
+
+def fetch(source, what, accept="application/vnd.github+json"):
     """Download an address (or read a local file) and return its bytes.
     It tries three times, a few seconds apart, because a runner's first
     request can fail for reasons that have nothing to do with us. The
     GitHub token, when there is one, is only ever sent to GitHub's API,
     and it is never printed."""
-    if "://" not in source:  # a plain file path, for testing
+    if "://" not in source:  # a plain file path: a local folder or a test
         try:
             return Path(source).read_bytes()
         except OSError as error:
@@ -117,7 +164,7 @@ def fetch(source, what):
 
     headers = {"User-Agent": "emmadarling.dev latest-issue updater"}
     if urllib.parse.urlsplit(source).hostname == "api.github.com":
-        headers["Accept"] = "application/vnd.github+json"
+        headers["Accept"] = accept
         token = os.environ.get("GITHUB_TOKEN")
         if token:
             headers["Authorization"] = f"Bearer {token}"
@@ -144,44 +191,104 @@ def fetch(source, what):
     raise CheckFailed(f"Couldn't read the {what} ({source}): {problem}")
 
 
-def parse_date(text):
-    """Turn an RSS date like "Tue, 22 Sep 2026 12:33:02 GMT" into a time
-    in UTC, or None if it's missing or can't be read. Python 3.9 and
-    newer versions fail in different ways on a bad date, so all of them
-    are caught. A date with no time zone is taken as UTC."""
-    if not text or not text.strip():
-        return None
+def github_url(source, name=None):
+    """The contents-API address for the issues folder, or for one file in
+    it, always asking for main, so a change of default branch can't
+    change what is read."""
+    parts = urllib.parse.urlsplit(source)
+    path = parts.path.rstrip("/") + (f"/{urllib.parse.quote(name)}" if name else "")
+    return urllib.parse.urlunsplit((parts.scheme, parts.netloc, path, f"ref={REF}", ""))
+
+
+def list_issue_files(source):
+    """Return the file names in the issues folder: from GitHub's listing,
+    or from a local folder. If GitHub sends something other than a list
+    of files (a rate-limit message, say), stop. GitHub lists 1,000 files
+    at most, so a listing that long can't be trusted to be complete."""
+    if "://" not in source:
+        try:
+            return sorted(n for n in os.listdir(source) if os.path.isfile(os.path.join(source, n)))
+        except OSError as error:
+            raise CheckFailed(f"Couldn't read the issues folder {source}: {error.strerror}")
+
     try:
-        when = parsedate_to_datetime(text.strip())
-    except (TypeError, ValueError, IndexError):
-        return None
-    if when.tzinfo is None:
-        when = when.replace(tzinfo=timezone.utc)
-    return when.astimezone(timezone.utc)
+        entries = json.loads(fetch(github_url(source), "list of issue files"))
+    except ValueError:
+        raise CheckFailed("GitHub's list of issue files isn't readable JSON")
+    if not isinstance(entries, list):
+        message = entries.get("message") if isinstance(entries, dict) else None
+        raise CheckFailed("GitHub didn't send the list of issue files"
+                          + (f": {message}" if message else ""))
+    if len(entries) >= MAX_LISTING:
+        raise CheckFailed(f"GitHub listed {len(entries)} files, its limit, so the newest "
+                          "issue file might be missing from the list")
+    return [entry.get("name", "") for entry in entries
+            if isinstance(entry, dict) and entry.get("type") == "file"]
 
 
-def clean_text(text, field):
-    """Tidy one field from the feed: turn entities like &#8212; into the
-    characters they stand for, squash runs of spaces and line breaks
-    into single spaces, and trim the ends. An empty result, or one that
-    still contains a tag, stops the update."""
-    tidy = " ".join(html.unescape(text or "").split())
+def read_issue(source, name):
+    """Read one issue file and return its fields. From GitHub it asks
+    for the raw file through the API, which is always up to date (the
+    raw.githubusercontent.com copy can lag by minutes)."""
+    if "://" in source:
+        raw = fetch(github_url(source, name), f"issue file {name}",
+                    accept="application/vnd.github.raw+json")
+    else:
+        raw = fetch(os.path.join(source, name), f"issue file {name}")
+    try:
+        fields = json.loads(raw)
+    except ValueError:
+        raise CheckFailed(f"{name} isn't readable JSON")
+    if not isinstance(fields, dict):
+        raise CheckFailed(f"{name} doesn't hold a set of fields (a JSON object)")
+    return fields
+
+
+def release_moment(number):
+    """When issue `number` goes out to subscribers: 13:31 London time on
+    the Tuesday of ISO week number + 30 of VOLUME_YEAR, as an aware
+    datetime. Issue 10 is week 40, so Tuesday 29 Sep 2026 at 13:31.
+
+    Raises CheckFailed if the week falls outside the volume (weeks 1 to
+    TOTAL_WEEKS): a second year needs its own VOLUME_YEAR, here and in
+    promptwrought-site."""
+    week = number + FIRST_ISSUE_WEEK - 1
+    if not 1 <= week <= TOTAL_WEEKS:
+        raise CheckFailed(f"Issue {number} would fall in week {week}, "
+                          f"outside weeks 1-{TOTAL_WEEKS} of {VOLUME_YEAR}")
+    day = date.fromisocalendar(VOLUME_YEAR, week, TUESDAY)
+    return datetime.combine(day, RELEASE_TIME, tzinfo=LONDON)
+
+
+def plain_text(value, field, name):
+    """A field from an issue file as the plain sentence a reader sees.
+    Issue files hold HTML fragments (<em>, &amp;), so, like
+    promptwrought-site's own plain(), tags come out and entities turn
+    back into characters; runs of spaces and line breaks become single
+    spaces. A missing or empty field stops the update, and so does a
+    bare "<" that isn't part of a tag: in an HTML fragment that means a
+    typo, and guessing would change the sentence. An escaped &lt; is
+    fine; it's just a "<" in the text."""
+    if not isinstance(value, str):
+        raise CheckFailed(f"{name} has no {field} (it's missing, or not text)")
+    untagged = re.sub(r"</?[A-Za-z][^<>]*>", "", value)
+    if "<" in untagged:
+        raise CheckFailed(f"{name}'s {field} has a '<' that isn't part of a tag "
+                          f"({value[:60]!r})")
+    tidy = " ".join(html.unescape(untagged).split())
     if not tidy:
-        raise CheckFailed(f"The newest post has no {field}: it's empty in the feed")
-    if "<" in tidy:
-        raise CheckFailed(f"The newest post's {field} contains markup ({tidy[:60]!r}), not plain text")
+        raise CheckFailed(f"{name} has an empty {field}")
     return tidy
 
 
-def check_word(title):
-    """The post's title is the coined word. It must start with a letter
-    and use only letters, digits and single hyphens (the same characters
-    the issue file names allow), because it ends up in a branch name and
-    a pull request title as well as on the page."""
-    word = title.lower()
-    if not re.fullmatch(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*", word):
-        raise CheckFailed(f"The newest post's title {title!r} isn't a single coined word "
-                          "(letters, digits and hyphens, starting with a letter)")
+def check_word(word):
+    """The word must start with a letter and use only letters, digits and
+    single hyphens (the same characters the issue file names allow),
+    because it ends up in a branch name, a pull request title and the
+    card's link as well as on the page."""
+    if not isinstance(word, str) or not re.fullmatch(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*", word):
+        raise CheckFailed(f"The issue's word {word!r} isn't a single coined word "
+                          "(lower-case letters, digits and hyphens, starting with a letter)")
     return word
 
 
@@ -193,58 +300,8 @@ def check_link(url):
     parts = urllib.parse.urlsplit(url)
     if (parts.scheme != "https" or parts.hostname != POST_HOST
             or not re.fullmatch(r"/p/[a-z0-9-]+/?", parts.path)):
-        raise CheckFailed(f"The newest post's link {url!r} isn't an https link to a post on {POST_HOST}")
-    return urllib.parse.urlunsplit(("https", POST_HOST, parts.path, "", ""))
-
-
-def read_newest_post(feed):
-    """Find the newest post in the RSS feed and return its word,
-    definition, link and publication time, each cleaned and checked.
-    The feed lists the newest first, but the dates are compared anyway,
-    so every post needs a readable date."""
-    if b"<!doctype" in feed[:2000].lower():
-        raise CheckFailed("The feed starts with a DOCTYPE: that's a web page (an error or a "
-                          "robot check), not Substack's RSS")
-    try:
-        root = ET.fromstring(feed)
-    except ET.ParseError as error:
-        raise CheckFailed(f"The feed isn't readable XML ({error})")
-
-    items = root.findall("./channel/item")
-    if not items:
-        raise CheckFailed("The feed has no posts in it")
-    dated = []
-    for item in items:
-        published = parse_date(item.findtext("pubDate"))
-        if published is None:
-            title = (item.findtext("title") or "").strip() or "(untitled)"
-            raise CheckFailed(f"The post {title!r} has no readable date (pubDate), "
-                              "so the newest post can't be picked safely")
-        dated.append((published, item))
-    published, newest = max(dated, key=lambda pair: pair[0])
-
-    return {
-        "word": check_word(clean_text(newest.findtext("title"), "title")),
-        "definition": clean_text(newest.findtext("description"), "definition (description)"),
-        "link": check_link(clean_text(newest.findtext("link"), "link")),
-        "published": published,
-    }
-
-
-def list_issue_files(listing):
-    """Read GitHub's listing of promptwrought-site/issues and return the
-    file names. If GitHub sent something other than a list of files
-    (a rate-limit message, say), stop."""
-    try:
-        entries = json.loads(listing)
-    except ValueError:
-        raise CheckFailed("GitHub's list of issue files isn't readable JSON")
-    if not isinstance(entries, list):
-        message = entries.get("message") if isinstance(entries, dict) else None
-        raise CheckFailed("GitHub didn't send the list of issue files"
-                          + (f": {message}" if message else ""))
-    return [entry.get("name", "") for entry in entries
-            if isinstance(entry, dict) and entry.get("type") == "file"]
+        raise CheckFailed(f"The link {url!r} isn't an https link to a post on {POST_HOST}")
+    return urllib.parse.urlunsplit(("https", POST_HOST, parts.path.rstrip("/"), "", ""))
 
 
 def find_issue_number(word, filenames):
@@ -252,10 +309,10 @@ def find_issue_number(word, filenames):
     file names, which look like "009-verifidget.json".
 
     Returns the number as an int (9 for "009-verifidget.json").
-    Raises IssueFileMissing if no file matches the word yet: the post
-    can go out before its file is committed, and a later run will try
-    again. Raises CheckFailed if more than one file matches, because
-    then the number would be a guess."""
+    Raises CheckFailed if more than one file matches, because then the
+    number would be a guess. Raises IssueFileMissing if none does; since
+    the word now comes from a file name, that can't happen here, and the
+    call is the check that no other file claims the same word."""
     matches = []
     for name in filenames:
         m = ISSUE_FILE.fullmatch(name)
@@ -268,10 +325,86 @@ def find_issue_number(word, filenames):
     return int(ISSUE_FILE.fullmatch(matches[0]).group(1))
 
 
-def london_date(published):
-    """The date on the card is the day it was in London when the post
-    went out, not the day in UTC (the two differ just after midnight)."""
-    return published.astimezone(LONDON).date()
+def read_checked_issue(source, name, number, filenames, released):
+    """Read one issue file and check it against its own file name, field
+    by field, then build the card's link from the word. The file's
+    issueUrl, when it's filled in, must be a valid post link and the same
+    link: it was checked against Substack when the issue was written, and
+    the runner can't reach Substack to check it now. (promptwrought-site
+    allows it to be empty for a while; then the built link stands alone.)"""
+    fields = read_issue(source, name)
+    no, word = fields.get("no"), fields.get("word")
+    if isinstance(no, bool) or not isinstance(no, int) or no != number:
+        raise CheckFailed(f"{name} says it's Nº {no!r}, but its file name says {number:03d}")
+    if word != ISSUE_FILE.fullmatch(name).group(2):
+        raise CheckFailed(f"{name} holds the word {word!r}, which doesn't match its file name")
+    word = check_word(word)
+    definition = plain_text(fields.get("definition"), "definition", name)
+    if find_issue_number(word, filenames) != number:
+        raise CheckFailed(f"The word {word!r} belongs to a different issue file than {name}")
+
+    link = f"https://{POST_HOST}/p/{word}"   # word is already checked: letters, digits, hyphens
+    issue_url = fields.get("issueUrl")
+    if issue_url is None:
+        issue_url = ""
+    if not isinstance(issue_url, str):
+        raise CheckFailed(f"{name}'s issueUrl isn't text")
+    if issue_url.strip() and check_link(issue_url.strip()) != link:
+        raise CheckFailed(f"{name}'s issueUrl is {issue_url.strip()!r}, but the card's link "
+                          f"would be {link!r}; they must agree")
+    return {"number": number, "word": word, "definition": definition,
+            "link": link, "date": released.date()}
+
+
+def choose_issue(source, filenames, now):
+    """Pick the issue the card should show: the highest-numbered issue
+    file whose release moment has passed. A file that isn't out yet is
+    skipped with a warning: it shouldn't be on main before its release,
+    so promptwrought-site's publish guard was bypassed. Two files with
+    the same number stop the update."""
+    by_number = {}
+    for name in filenames:
+        m = ISSUE_FILE.fullmatch(name)
+        if not m:
+            continue
+        number = int(m.group(1))
+        if number in by_number:
+            raise CheckFailed(f"Two issue files both claim Nº {number:03d}: "
+                              f"{by_number[number]} and {name}")
+        by_number[number] = name
+    if not by_number:
+        raise CheckFailed("There are no issue files (named like 010-word.json) in the issues folder")
+
+    for number in sorted(by_number, reverse=True):
+        released = release_moment(number)
+        if released > now:
+            warn(f"{by_number[number]} is on promptwrought-site's main, but it isn't out until "
+                 f"{released:%a %d %b %H:%M} London time, so it was skipped. Its word may already "
+                 "be live on promptwrought.com: the publish guard must have been bypassed.")
+            continue
+        return read_checked_issue(source, by_number[number], number, filenames, released)
+    raise CheckFailed("None of the issue files has been released yet")
+
+
+def check_not_late(chosen, now):
+    """If the calendar says a newer issue than the chosen one went out
+    less than a day ago, its file should be on main by now: stop with
+    exit 75, so the workflow warns (and, on the last catch-up, fails).
+    After a day, carry on quietly with the newest file there is: that
+    week may have been skipped on purpose."""
+    expected = None
+    for number in range(1, LAST_ISSUE + 1):
+        if release_moment(number) > now:
+            break
+        expected = number
+    if expected is None or expected <= chosen:
+        return
+    due = release_moment(expected)
+    if now - due < LATE_WINDOW:
+        raise IssueFileMissing(f"Issue {expected:03d} was due at {due:%H:%M} London time on "
+                               f"{due:%a %d %b}, but its file isn't on promptwrought-site's main "
+                               "yet. (If that week was skipped on purpose, this stops a day "
+                               "after the due time.)")
 
 
 def format_card_date(day):
@@ -286,8 +419,8 @@ def build_card(issue, indent):
     the start marker. It's the markup the page's script used to build:
     the eyebrow, the word, its definition, "Issue 009 · 22 Sept 2026"
     with the date in a <time> element, and one external link whose
-    screen-reader name includes the word. Every value from the feed is
-    escaped, so text can never turn into HTML.
+    screen-reader name includes the word. Every value is escaped, so
+    text can never turn into HTML.
     The link follows the same pattern as makeCardLink() and
     makeArrowLink() in index.html's script: change both together."""
     def esc(value):
@@ -370,6 +503,7 @@ def main():
     args = parse_args()
     page_path = Path(args.page)
     try:
+        now = parse_now(args.now)
         try:
             with open(page_path, encoding="utf-8", newline="") as source:
                 page = source.read()
@@ -377,16 +511,16 @@ def main():
             raise CheckFailed(f"Couldn't read {page_path}: {error.strerror}")
         inner_start, inner_end, indent = find_card_region(page)
 
-        post = read_newest_post(fetch(args.feed, "feed"))
-        filenames = list_issue_files(fetch(args.issues, "list of issue files"))
-        number = find_issue_number(post["word"], filenames)
+        filenames = list_issue_files(args.issues)
+        issue = choose_issue(args.issues, filenames, now)
+        number = issue["number"]
 
         shown = shown_issue_number(page[inner_start:inner_end])
         if shown is not None and number < shown:
-            raise CheckFailed(f"The feed's newest post is Issue {number:03d}, older than "
-                              f"Issue {shown:03d} already on the page")
+            raise CheckFailed(f"The newest released issue file is Issue {number:03d}, older "
+                              f"than Issue {shown:03d} already on the page")
+        check_not_late(number, now)
 
-        issue = dict(post, number=number, date=london_date(post["published"]))
         card = build_card(issue, indent)
         new_page = page[:inner_start] + "\n" + card + "\n" + indent + page[inner_end:]
     except CheckFailed as problem:
