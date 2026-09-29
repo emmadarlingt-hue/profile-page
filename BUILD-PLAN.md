@@ -118,13 +118,15 @@ Deferred from the M10 review (#1, #3/#10, #12). The home page and the case page 
 - Done when mobile Performance is 90 or more; then tick M11's Lighthouse box.
 
 ## Latest-issue automation (after launch)
-- Decided 29 Sep: the Automate card is plain HTML between two marker comments, rewritten by `tools/update-latest-issue.py` from the Substack feed; the issue number comes from the file names in promptwrought-site/issues. `.github/workflows/latest-issue.yml` runs it on Tuesdays at 13:07 and 14:07 UTC, with catch-ups at 17:07, 20:07 and Wednesday 08:07, and opens a pull request into main when the card changes. The catch-ups exist because the issue file sometimes lands after the post (22 Sep: 14:46 UTC).
+- Decided 29 Sep: the Automate card is plain HTML between two marker comments, rewritten by `tools/update-latest-issue.py`. `.github/workflows/latest-issue.yml` runs it on Tuesdays at 13:07 and 14:07 UTC, with catch-ups at 17:07, 20:07 and Wednesday 08:07, and opens a pull request into main when the card changes. The catch-ups exist because an issue file lands on promptwrought-site's main only after the issue has gone out.
 - [x] Script, workflow and the plain-HTML card
+- Found on 29 Sep: the first manual dry run failed with "Couldn't read the feed (https://promptwrought.substack.com/feed): HTTP 403". Substack blocks GitHub's runner IPs; the same script reads the feed from the Mac. So the source switched to promptwrought-site's issue files: the highest-numbered issue whose release moment (13:31 London time, Tuesday of ISO week N + 30) has passed, with the link built from the word and checked against the file's issueUrl. The feed is gone, with no fallback.
+- [x] Source switched to promptwrought-site
 - [ ] After merging to main (Emma): Settings → Actions → General → turn on "Allow GitHub Actions to create and approve pull requests"
-- [ ] Then Actions → Latest issue card → Run workflow with "Dry run" ticked. Its log shows the card it would write and says "Dry run (would update)" if there's a newer issue than the page shows, or "Dry run (already current)". If the newest issue's file isn't in promptwrought-site yet, it says so as a warning instead. Any of those proves the runner can reach Substack and GitHub. (The card was committed showing Issue 010, ghostwrought, so until 6 Oct expect "already current".)
+- [ ] Then Actions → Latest issue card → Run workflow with "Dry run" ticked. Its log shows the card it would write and says "Dry run (would update)" if there's a newer issue than the page shows, or "Dry run (already current)". Either proves the runner can read promptwrought-site. (The card shows Issue 010, ghostwrought, so until 6 Oct expect "already current".)
 - Found on 29 Sep: ghostwrought went out at 12:32 UTC, but its issue file only reached GitHub after 13:21, though its commit is dated the evening before. A commit's date is when it was made, not when it was pushed, so issue files can arrive later than their history suggests. The catch-up runs cover that.
 - Worth knowing: GitHub switches off a public repo's scheduled workflows after 60 days without commits, and sends failure emails to whoever last edited the cron lines.
-- Commit: `feat: automate latest-issue card`
+- Commits: `feat: automate latest-issue card`, `fix: read latest issue from promptwrought-site`
 
 ---
 

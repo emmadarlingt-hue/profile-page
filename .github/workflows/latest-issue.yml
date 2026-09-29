@@ -1,8 +1,10 @@
 # Keeps the "Latest issue" card in index.html in step with the newsletter.
 #
-# On Tuesdays it runs tools/update-latest-issue.py against main. When the
-# card changes, it opens a pull request for Emma to merge; when nothing
-# is new, it does nothing. It never pushes to main itself.
+# On Tuesdays it runs tools/update-latest-issue.py against main. The script
+# reads promptwrought-site's issue files, not the Substack feed: Substack
+# answers GitHub's runners with HTTP 403 (found 29 Sep 2026). When the card
+# changes, it opens a pull request for Emma to merge; when nothing is new,
+# it does nothing. It never pushes to main itself.
 #
 # Needs one repository setting, switched on once: Settings → Actions →
 # General → "Allow GitHub Actions to create and approve pull requests".
@@ -13,12 +15,13 @@ name: Latest issue card
 
 on:
   schedule:
-    # All times UTC. Posts go out around 13:30 London time: 12:30 UTC in
-    # summer (BST), 13:30 UTC in winter (GMT). Runs sit at :07 because
+    # All times UTC. An issue goes out at 13:31 London time: 12:31 UTC in
+    # summer (BST), 13:31 UTC in winter (GMT), when the 13:07 run comes
+    # too early and simply finds nothing new. Runs sit at :07 because
     # GitHub delays or drops the most scheduled runs right on the hour.
-    # The issue file in promptwrought-site sometimes lands after the post
-    # (22 Sep: 14:46 UTC), so later runs catch up; a run with nothing new
-    # does nothing.
+    # promptwrought-site keeps an issue file off its main until the issue
+    # has gone out, so the file lands after the send (29 Sep: after 13:21
+    # UTC); later runs catch up. A run with nothing new does nothing.
     - cron: "7 13 * * 2"   # Tue 14:07 BST / 13:07 GMT
     - cron: "7 14 * * 2"   # Tue 15:07 BST / 14:07 GMT
     - cron: "7 17 * * 2"   # catch-up
@@ -52,12 +55,12 @@ jobs:
         with:
           ref: main
 
-      # Exit 0: updated or already current. Exit 75: the post is out but
-      # its issue file isn't there yet; that's a warning, except on the
-      # last catch-up or a real manual run, when it's a failure. Any other
-      # exit (1 for a failed check, or Python's own errors) fails the run,
-      # and GitHub emails.
-      - name: Update the card from the feed
+      # Exit 0: updated or already current. Exit 75: an issue went out less
+      # than a day ago but its file isn't on promptwrought-site's main yet;
+      # that's a warning, except on the last catch-up or a real manual run,
+      # when it's a failure. Any other exit (1 for a failed check, or
+      # Python's own errors) fails the run, and GitHub emails.
+      - name: Update the card from promptwrought-site
         id: card
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -72,10 +75,10 @@ jobs:
           set -e
           if [ "$code" -eq 75 ]; then
             if [ "$SCHEDULE" = "7 8 * * 3" ] || { [ -z "$SCHEDULE" ] && [ "$DRY_RUN" != "true" ]; }; then
-              echo "::error::The newest post's issue file still isn't in promptwrought-site/issues."
+              echo "::error::This week's issue was due at 13:31 London time, but its file still isn't on promptwrought-site's main. If the week was skipped on purpose, ignore this."
               exit 1
             fi
-            echo "::warning::The newest post's issue file isn't in promptwrought-site/issues yet. A later run will try again."
+            echo "::warning::This week's issue was due at 13:31 London time, but its file isn't on promptwrought-site's main yet. A later run will try again."
             exit 0
           fi
           exit "$code"
@@ -123,9 +126,11 @@ jobs:
           fi
 
           cat > "$RUNNER_TEMP/pr-body.md" <<EOF
-          The newest Promptwrought post is **${WORD}**, Issue ${NUMBER}: ${LINK}
+          The newest released Promptwrought issue is **${WORD}**, Issue ${NUMBER}: ${LINK}
 
-          This updates the Latest issue card in index.html from the Substack feed. Merging it puts the new card on the live site.
+          This updates the Latest issue card in index.html from the issue file in promptwrought-site. Merging it puts the new card on the live site.
+
+          Before merging, open the link above: the workflow can't reach Substack to check it (Substack blocks GitHub's runners).
 
           Opened by the latest-issue workflow (tools/update-latest-issue.py).
           EOF
